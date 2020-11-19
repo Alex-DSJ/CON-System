@@ -5,6 +5,7 @@ function login() {
     console.log('logging ...');
 }
 
+//logout a user
 function logout(){
     //TODO
     console.log('logout ...');
