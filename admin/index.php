@@ -14,6 +14,7 @@ if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
 <div class="wrapper">    
 
     <?php require_once "./nav.php" ?>
+    <?php require_once "./add_admin.php" ?>
 
     <section class="content">
         <div class="container-fluid">
