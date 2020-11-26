@@ -1,3 +1,4 @@
+<!-- This file is completed by shijun DENG-40084956 individually -->
 <?php require_once "../common/header.php";?>
 <script src="../static/auth.js"></script>
 
@@ -8,12 +9,36 @@ if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
     // header("Location:./login.php");
 }
 
+$buildings = getBuildingList();
+$buildingStr = '<option value="">please select</option>';
+
+foreach ($buildings as $building) {
+    $buildingStr .= "<option value='{$building['id']}'>{$building['building_name']}</option>";
+}
+
 ?>
 
 <!-- html content here -->
 <div class="wrapper">    
 
-    <?php require_once "./nav.php" ?>
+<nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
+<ul class="navbar-nav" id="my-nav">
+    <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
+    <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Admin</a></li>
+    <li class="nav-item d-none d-sm-inline-block"><a href="building.php" class="nav-link">Building</a></li>
+    <li class="nav-item d-none d-sm-inline-block"><a href="" class="nav-link">Contract</a></li>
+    <li class="nav-item d-none d-sm-inline-block"><a href="" class="nav-link">Finance</a></li>
+    <li class="nav-item d-none d-sm-inline-block"><a href="" class="nav-link">Notice</a></li>
+</ul>
+<ul class="navbar-nav ml-auto">
+    <li class="nav-item">
+        <a class="nav-link" data-toggle="dropdown" href="#">
+        <button class="btn" class="logout" onclick="logout()">Log Out <i class="fas fa-sign-out-alt"></i></button>
+               
+        </a>
+    </li>
+</ul>
+</nav>
     <?php require_once "./add_admin.php" ?>
 
     <section class="content">
