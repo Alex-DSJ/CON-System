@@ -1,7 +1,20 @@
-<?php require_once "../common/header.php";?>
+<!-- This file is completed by kimchhengheng-26809413 individually -->
+<!-- all required php files here -->
+<?php 
+    require_once "../common/header.php";
+    require_once "../func/posting_func.php";
+    require_once "../func/func.php";
+?>
+
+<!-- all required js here -->
+<script src="../static/auth.js"></script>
+<script src="../static/posting.js"></script>
+
+
 <?php
 // to check the login 
 
+$dataList = getPostingList();
 ?>
 <div class="wrapper">
 
@@ -19,7 +32,7 @@
 
                         <div class="card-body">
                             <div style="margin-bottom: 10px">
-                                <button class="btn btn-primary btn-sm" onclick="window.location.href='posting_template.php'">Add</button>
+                                <button class="btn btn-primary btn-sm" onclick="window.location.href='posting_template.php'"><i class="far fa-plus-square"></i></button>
                             </div>
 
                             <table class="table table-bordered">
@@ -39,9 +52,9 @@
                                         <td><?php echo $item['title'] ?></td>
                                         <td><?php echo $item['create_time'] ?></td>
                                         <td data-id="<?php echo $item['id'] ?>">
-                                            <button class="btn btn-danger btn-sm" onclick="delPosting($(this))">del</button>
-                                            <button class="btn btn-warning btn-sm" onclick="editPosting($(this))">edit</button>
-                                            <button class="btn btn-primary btn-sm" onclick="detailPosting($(this))">detail</button>
+                                            <button class="btn btn-danger btn-sm" onclick="delPosting($(this))"><i class="fas fa-trash-alt"></i></button>
+                                            <button class="btn btn-warning btn-sm" onclick="editPosting($(this))"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-primary btn-sm" onclick="detailPosting($(this))"><i class="fas fa-info-circle"></i></button>
                                         </td>
                                     </tr>
                                     <?php
