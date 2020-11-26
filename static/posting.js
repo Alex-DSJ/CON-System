@@ -59,10 +59,11 @@ function delPosting() {
 
 function editPosting(e) {
     let id = e.parent().data('id');
-    window.location.href = '../member/posting_tmpl.php?act=edit&id=' + id;
+    window.location.href = '../member/posting_template.php?act=edit&id=' + id;
 }
 
 function detailPosting(e) {
     let id = e.parent().data('id');
-    window.location.href = '../member/posting_tmpl.php?act=view&id=' + id;
+    window.location.href = '../member/posting_template.php?act=view&id=' + id;
 }
+
