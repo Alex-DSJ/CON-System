@@ -1,6 +1,11 @@
 <!-- This file is completed by shijun DENG-40084956 individually -->
-<?php require_once "../common/header.php";?>
-<?php require_once "../func/building_func.php";?>
+<!-- all required php files here -->
+<?php
+    require_once "../common/header.php";
+    require_once "../func/building_func.php";
+?>
+
+<!-- all required js file here -->
 <script src="../static/auth.js"></script>
 <script src="../static/admin.js"></script>
 
@@ -8,7 +13,7 @@
 <?php
 require_once "../func/func.php";
 if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
-    // header("Location:./login.php");
+    header("Location:./login.php");
 }
 
 $buildings = getBuildingList();
