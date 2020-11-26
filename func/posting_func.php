@@ -16,7 +16,7 @@ function getPostingInfo($id = 0)
 function delPostingHandler()
 {
     global $inputs;
-    $sql = "delete from `posting` where id = " . $inputs['id'];
+    $sql = "delete from `posting` where id = " . 7;
     execSql($sql);
     formatOutput(true, 'delete success');
 }
@@ -35,7 +35,7 @@ function addPostingHandler()
 
     insert('member_posting', [
         'posting_id' => $lastId,
-        'member_id' => getLogin()['mid']
+        'member_id' => 3
     ]);
 
     formatOutput(true, 'add success',$lastId);
@@ -50,7 +50,7 @@ function editPostingHandler()
         $lastId = updateDb('posting',[
             'pic' => $src,
             'title' => $inputs['title'],
-            'content' => $inputs['content'],
+            'content' => 3
         ], [
             "id" => $inputs['id']
         ]);
