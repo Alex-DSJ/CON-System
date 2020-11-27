@@ -2,7 +2,18 @@
 <link href="https://cdn.bootcss.com/bootstrap-select/1.13.10/css/bootstrap-select.min.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
 <script src="../static/auth.js"></script>
-
+<?php
+require_once "../func/func.php";
+if (checkUserLogin() == false) {
+    header("Location:./login.php");
+}
+$dataList = getMemberList();
+$condo = getCondoList();
+$condoStr = '';
+foreach ($condo as $item) {
+    $condoStr .= "<option value='{$item['id']}'>{$item['name']}</option>";
+}
+?>
 <div class="wrapper">
 
     <?php require_once "./nav.php" ?>
@@ -21,7 +32,7 @@
                         <div class="card-body">
 
                             <div style="margin-bottom: 10px">
-                                <button class="btn btn-primary btn-sm"><i class="far fa-plus-square"></i></button>
+                                <button class="btn btn-primary btn-sm" onclick="addMember()"><i class="far fa-plus-square"></i></button>
                             </div>
 
                             <table class="table table-bordered">
@@ -59,8 +70,8 @@
                                         <td><?php echo $item['create_time'] ?></td>
                                         <td><?php echo $item['last_update_time'] ?></td>
                                         <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
-                                            <button class="btn btn-danger btn-sm"><i class="fas fa-trash-alt"></button>
-                                            <button class="btn btn-warning btn-sm"><i class="fas fa-edit"></button>
+                                            <button class="btn btn-danger btn-sm" onclick="delMember($(this))"><i class="fas fa-trash-alt"></button>
+                                            <button class="btn btn-warning btn-sm" onclick="editMember($(this))"><i class="fas fa-edit"></button>
                                         </td>
                                     </tr>
                                 <?php
