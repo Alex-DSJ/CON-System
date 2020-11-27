@@ -7,7 +7,6 @@ if (checkMemberLogin() == false) {
 $info = getMemberInfo();
 $condoInfo = getMemberCondoInfo();
 $groupInfo = getMemberGroupInfo();
-$friendInfo = getMemberFriendInfo();
 ?>
 <div class="wrapper">
 
@@ -16,9 +15,7 @@ $friendInfo = getMemberFriendInfo();
             <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Home</a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="social.php" class="nav-link">Social</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="contract.php" class="nav-link">Contract</a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">My Posting</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="message.php" class="nav-link">Message</a></li>
             <li class="nav-item d-none d-sm-inline-block active"><a href="base_info.php" class="nav-link">Base Info</a></li>
         </ul>
         <ul class="navbar-nav ml-auto">
@@ -43,7 +40,6 @@ $friendInfo = getMemberFriendInfo();
                             <p>#:    <strong><?php echo $info['id'] ?></strong></p>
                             <p>name:    <strong><?php echo $info['name'] ?></strong></p>
                             <p>address: <strong><?php echo $info['address'] ?></strong></p>
-                            <p>email:   <strong><?php echo $info['email'] ?></strong></p>
                             <p>privilege:   <strong><?php echo $info['privilege'] ?></strong></p>
                             <p>status:  <strong><?php echo $info['status'] ?></strong></p>
                         </div>
@@ -104,13 +100,6 @@ $friendInfo = getMemberFriendInfo();
                                     <th>Friend Name</th>
                                     <th>Create Time</th>
                                 </tr>
-                                <?php foreach ($friendInfo as $item){
-                                    ?>
-                                    <tr>
-                                        <td><?php echo $item['name']?></td>
-                                        <td><?php echo $item['create_time']?></td>
-                                    </tr>
-                                    <?php
                                 } ?>
                             </table>
                         </div>

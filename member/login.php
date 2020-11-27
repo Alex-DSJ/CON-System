@@ -1,5 +1,4 @@
 <?php require_once "../common/header.php";?>
-<script src="../static/auth.js"></script>
 <div class="wrapper" style="margin-top: 5%">
     <section class="content">
         <div class="container-fluid">
@@ -7,7 +6,7 @@
                 <div class="m-auto">
                     <div class="card">
                         <div class="card-body ">
-                            <p class="login-box-msg">CON System Super Admin Login</p>
+                            <p class="login-box-msg">Login:-)</p>
 
                             <div action="" method="post">
                                 <div class="input-group mb-3">
@@ -28,7 +27,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button type="button" class="btn btn-primary btn-block" onclick="">Log In <i class="fas fa-sign-in-alt"></i></button>
+                                        <button type="button" class="btn btn-primary btn-block" onclick="member_login()">Login</button>
+                                        <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='../index.php'">Return Index</button>
                                     </div>
                                 </div>
                             </div>
