@@ -6,7 +6,7 @@ require_once "../func/func.php";
 if (checkMemberLogin() == false) {
     header("Location:/member/login.php");
 }
-$suggestPostingList = getFriendLastedPosting();
+$suggestPostingList = getFriendLastedPosting();//need work on
 ?>
     <div class="wrapper">
 
@@ -15,8 +15,8 @@ $suggestPostingList = getFriendLastedPosting();
                 <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
                 <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Home</a></li>
                 <li class="nav-item d-none d-sm-inline-block active"><a href="social.php" class="nav-link">Social</a></li>
+                <li class="nav-item d-none d-sm-inline-block"><a href="contract.php" class="nav-link">Contract</a></li>
                 <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">My Posting</a></li>
-                <li class="nav-item d-none d-sm-inline-block"><a href="message.php" class="nav-link">Message</a></li>
                 <li class="nav-item d-none d-sm-inline-block"><a href="base_info.php" class="nav-link">Base Info</a></li>
             </ul>
             <ul class="navbar-nav ml-auto">
