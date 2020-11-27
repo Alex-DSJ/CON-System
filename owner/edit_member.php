@@ -43,7 +43,7 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary">Save</button>
+                <button class="btn btn-primary" onclick="submitMemberEdit()">Save</button>
             </div>
         </div>
         <!-- /.modal-content -->

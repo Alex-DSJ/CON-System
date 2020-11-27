@@ -1,5 +1,13 @@
 <?php require_once "../common/header.php";?>
+<?php
+require_once "../func/func.php";
+if (checkUserLogin() == false) {
+    header("Location:/owner/login.php");
+}
+$dataList = getGroupList();
+$applyList = getGroupApplyList();
 
+?>
 <div class="wrapper">
 
     <?php require_once "./nav.php" ?>
