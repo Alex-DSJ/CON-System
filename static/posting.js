@@ -24,7 +24,7 @@ function savePosting(act = 'add_posting') {
             if (response.success == false) {
                 return false;
             } else {
-                window.location.href = '../member/posting_tmpl.php?act=view&id=' + response.data;
+                window.location.href = '../member/posting_template.php?act=view&id=' + response.data;
             }
         },
         error: function (data, status, e) {
