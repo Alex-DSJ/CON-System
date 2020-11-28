@@ -10,9 +10,22 @@ $buildingInfo = getBuildingInfo();
 ?>
 <div class="wrapper">
 
-    <?php require_once "./nav.php" ?>
-    <?php require_once "./add_condo.php" ?>
-    <?php require_once "./edit_condo.php" ?>
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
+        <ul class="navbar-nav" id="my-nav">
+            <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Member</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="group.php" class="nav-link">Group</a></li>
+            <li class="nav-item d-none d-sm-inline-block active"><a href="condo.php" class="nav-link">CONDO</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">Posting</a></li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-sign-out" class="logout" onclick="logout()">logout</i>
+                </a>
+            </li>
+        </ul>
+    </nav>
 
     <section class="content">
         <div class="container-fluid">
@@ -23,7 +36,7 @@ $buildingInfo = getBuildingInfo();
                         <div class="card-header">
                             <h3 class="card-title">Building Info</h3>
                             <div style="margin-bottom: 10px">
-                                <button class="btn btn-primary btn-sm" onclick="addCondo()"><i class="far fa-plus-square"></i></button>
+                                <button class="btn btn-primary btn-sm" onclick="addCondo()">Add</button>
                             </div>
                         </div>
                         <div class="card-body">
@@ -66,8 +79,8 @@ $buildingInfo = getBuildingInfo();
                                         <td><?php echo $item['create_time'] ?></td>
                                         <td><?php echo $item['last_update_time'] ?></td>
                                         <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
-                                            <button class="btn btn-danger btn-sm" onclick="delCondo($(this))"><i class="fas fa-trash-alt"></button>
-                                            <button class="btn btn-warning btn-sm" onclick="editCondo($(this))"><i class="fas fa-edit"></i></button>
+                                            <button class="btn btn-danger btn-sm" onclick="delCondo($(this))">del</button>
+                                            <button class="btn btn-warning btn-sm" onclick="editCondo($(this))">edit</button>
                                         </td>
                                     </tr>
                                 <?php
@@ -84,8 +97,65 @@ $buildingInfo = getBuildingInfo();
     </section>
 </div>
 
+<div class="modal fade" id="modal-add-condo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Add Condo
+                    <p style="font-size: 1rem;font-weight: normal" id="route-title"><?php echo $buildingInfo['building_name'] ?></strong></p>
+                </span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body" style="margin: 20px">
+                <div class="form-group row">
+                    <label for="">Condo Name</label>
+                    <input type="text" class="form-control" id="name">
+                    <label for="">Condo Area/m²</label>
+                    <input type="number" class="form-control" id="area">
+                    <label for="">Property Costs/m²</label>
+                    <input type="number" class="form-control" id="cost">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="submitCondo()">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 
-
-
+<div class="modal fade" id="modal-edit-condo">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Edit Condo
+                    <p style="font-size: 1rem;font-weight: normal" id="route-title"><?php echo $buildingInfo['building_name'] ?></p>
+                </span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body" style="margin: 20px">
+                <div class="modal-body" style="margin: 20px">
+                    <div class="form-group row">
+                        <input type="hidden" id="id_edit">
+                        <label for="">Condo Name</label>
+                        <input type="text" class="form-control" id="name_edit">
+                        <label for="">Condo Area/m²</label>
+                        <input type="number" class="form-control" id="area_edit">
+                        <label for="">Property Costs/m²</label>
+                        <input type="number" class="form-control" id="cost_edit">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="submitCondoEdit()">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
 
 <?php require_once "../common/footer.php";?>
