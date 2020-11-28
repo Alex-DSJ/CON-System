@@ -35,7 +35,7 @@ function addPostingHandler()
 
     insert('member_posting', [
         'posting_id' => $lastId,
-        'member_id' => 3
+        'member_id' => getLogin()['mid']
     ]);
 
     formatOutput(true, 'add success',$lastId);
@@ -64,5 +64,27 @@ function editPostingHandler()
     }
 
     formatOutput(true, 'update success',$inputs['id']);
+}
+function uploadFile()
+{
+    if (!empty($_FILES) && $_FILES['fileToUpload']['name']) {
+
+        $baseDir = dirname(dirname(__FILE__)).'/static/upload/';
+
+        $date = date ('Ymdhis').getLogin()['mid'];
+        $fileName = $_FILES['fileToUpload']['name'];
+        $name = explode('.',$fileName);
+        $newFileName = $date.'.'.$name[1];
+        $newPath = $baseDir . $newFileName;
+
+        $filename = iconv('UTF-8','gbk',basename($_FILES['fileToUpload']['name']));
+        $oldPath = $baseDir.$filename;
+
+        if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'],$oldPath)){
+            rename($oldPath,$newPath);
+            return $newFileName;
+        }
+    }
+    return 'default/demo-default.jpg';
 }
 ?>
