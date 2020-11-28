@@ -1,12 +1,12 @@
 <?php require_once "../common/header.php";?>
 <?php
 require_once "../func/func.php";
-if (checkMemberLogin() == false) {
-    header("Location:/member/login.php");
-}
-$info = getMemberInfo();
-$condoInfo = getMemberCondoInfo();
-$groupInfo = getMemberGroupInfo();
+// if (checkMemberLogin() == false) {
+//     header("Location:/member/login.php");
+// }
+// $info = getMemberInfo();
+// $condoInfo = getMemberCondoInfo();
+// $groupInfo = getMemberGroupInfo();
 ?>
 <div class="wrapper">
 
