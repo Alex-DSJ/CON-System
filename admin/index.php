@@ -4,6 +4,8 @@
     require_once "../common/header.php";
     require_once "../func/building_func.php";
     require_once "../func/func.php";
+    require_once "../func/admin_func.php";
+
 ?>
 
 <!-- all required js file here -->
@@ -12,6 +14,8 @@
 
 <!-- check if a user is logged in -->
 <?php
+$dataList = getAdminList();
+
 if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
     // header("Location:./login.php");
 }
@@ -61,6 +65,21 @@ foreach ($buildings as $building) {
                                 <tbody id="group-list">
 
                                 <!-- TODO group list -->
+                                <?php foreach ($dataList as $item) {
+                                    ?>
+                                    <tr>
+                                        <td><?php echo $item['id'] ?></td>
+                                        <td><?php echo $item['name'] ?></td>
+                                        <td><?php echo $item['building_name'] ?></td>
+                                        <td><?php echo $item['create_time'] ?></td>
+                                        <td><?php echo $item['last_update_time'] ?></td>
+                                        <td data-id="<?php echo $item['id'] ?>" data-name="<?php echo $item['name'] ?>" data-building="<?php echo $item['building_id'] ?>" data-pass="<?php echo $item['password'] ?>">
+                                            <button class="btn btn-danger btn-sm" onclick="delAdmin($(this))">del</button>
+                                            <button class="btn btn-warning btn-sm" onclick="editAdmin($(this))">edit</button>
+                                        </td>
+                                    </tr>
+                                <?php
+                                } ?>
 
                                 </tbody>
                             </table>
