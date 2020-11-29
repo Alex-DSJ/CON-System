@@ -1,47 +1,28 @@
 <!-- This file is completed by shijun DENG-40084956 individually -->
-<!-- all required php files here -->
-<?php 
-    require_once "../common/header.php";
-    require_once "../func/building_func.php";
-    require_once "../func/func.php";
-?>
 
-<!-- all required js here -->
+<!-- all required js files here -->
 <script src="../static/auth.js"></script>
 <script src="../static/building.js"></script>
 
+<!-- all required php files here -->
+<?php require_once "../common/header.php";
+require_once "../func/building_func.php";
+require_once "../func/func.php";
 
-<?php
 if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
     header("Location:/admin/login.php");
 }
-$dataList = getBuildingList();  // TODO
+$dataList = getBuildingList();
 ?>
+
 
 <div class="wrapper">
 
-    <!-- navbar code start here -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
-        <ul class="navbar-nav" id="my-nav">
-            <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Admin</a></li>
-            <li class="nav-item d-none d-sm-inline-block active"><a href="building.php" class="nav-link">Building</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="contract.php" class="nav-link">Contract</a></li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-sign-out" class="logout" onclick="logout()">logout</i>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <!-- navbar code end here -->
+<?php require_once "navbar.php";?>
 
-    <!-- building list code start here -->
+    <!-- main table of the building tab -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-12">
                     <div class="card">
@@ -49,12 +30,9 @@ $dataList = getBuildingList();  // TODO
                             <h3 class="card-title">Building List</h3>
                         </div>
                         <div class="card-body">
-
-                            <!-- add button -->
                             <div style="margin-bottom: 10px">
                                 <button class="btn btn-primary btn-sm" onclick="addBuilding()">Add</button>
                             </div>
-
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
@@ -68,7 +46,6 @@ $dataList = getBuildingList();  // TODO
                                 </tr>
                                 </thead>
                                 <tbody id="group-list">
-                                <!-- fill the table from the database -->
                                 <?php foreach ($dataList as $item) {
                                     ?>
                                     <tr>
@@ -95,10 +72,9 @@ $dataList = getBuildingList();  // TODO
             </div>
         </div>
     </section>
-    <!-- building list code end here -->
 </div>
 
-<!-- popup form for adding building code start here -->
+<!-- the popup form for add button -->
 <div class="modal fade" id="modal-add-building">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -125,13 +101,10 @@ $dataList = getBuildingList();  // TODO
                 <button class="btn btn-primary" onclick="submitBuilding()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- popup form for adding building code end here -->
 
-<!-- popup form for editBuilding button start here -->
+<!-- the popup form for edit button -->
 <div class="modal fade" id="modal-edit-building">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -160,6 +133,5 @@ $dataList = getBuildingList();  // TODO
         </div>
     </div>
 </div>
-<!-- popup form for editBuilding button end here -->
 
 <?php require_once "../common/footer.php";?>

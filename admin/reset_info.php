@@ -1,14 +1,10 @@
-<!-- This file is completed by shijun DENG-40084956 individually -->
-
-<!-- all required js files here -->
-<script src="../static/auth.js"></script>
-
-<!-- all required php files here -->
+<?php require_once "../common/header.php";?>
 <?php
-require_once "../common/header.php";
+    require_once "../func/func.php";
+    if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
+        header("Location:/admin/login.php");
+    }
 ?>
-
-<!-- login form -->
 <div class="wrapper" style="margin-top: 5%">
     <section class="content">
         <div class="container-fluid">
@@ -16,7 +12,7 @@ require_once "../common/header.php";
                 <div class="m-auto">
                     <div class="card">
                         <div class="card-body ">
-                            <p class="login-box-msg">Login:-)</p>
+                            <p class="login-box-msg">RESET LOGIN INFO:-)</p>
 
                             <div action="" method="post">
                                 <div class="input-group mb-3">
@@ -37,13 +33,10 @@ require_once "../common/header.php";
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button type="button" class="btn btn-primary btn-block" onclick="login()">Login</button>
-                                        <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='../index.php'">Return Index</button>
-
+                                        <button type="button" class="btn btn-primary btn-block" onclick="resetLoginInfo()">Save</button>
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
