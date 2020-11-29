@@ -5,19 +5,16 @@
     require_once "../func/building_func.php";
     require_once "../func/func.php";
     require_once "../func/admin_func.php";
-
 ?>
 
 <!-- all required js file here -->
 <script src="../static/auth.js"></script>
 <script src="../static/admin.js"></script>
 
-<!-- check if a user is logged in -->
 <?php
-$dataList = getAdminList();
-
+// check if the user is logged in
 if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
-    // header("Location:./login.php");
+    header("Location:login.php");
 }
 
 $buildings = getBuildingList();
@@ -26,6 +23,8 @@ $buildingStr = '<option value="">please select</option>';
 foreach ($buildings as $building) {
     $buildingStr .= "<option value='{$building['id']}'>{$building['building_name']}</option>";
 }
+
+$dataList = getAdminList();
 
 ?>
 

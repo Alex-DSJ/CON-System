@@ -1,10 +1,7 @@
-<!-- This file is completed by shijun DENG-40084956 individually -->
-
-<!-- all required php files here -->
 <?php require_once "../common/header.php";?>
 
-<!-- all required js here -->
 <script src="../static/auth.js"></script>
+
 
 <div class="wrapper" style="margin-top: 5%">
     <section class="content">
@@ -13,7 +10,7 @@
                 <div class="m-auto">
                     <div class="card">
                         <div class="card-body ">
-                            <p class="login-box-msg">CON System Super Admin Login</p>
+                            <p class="login-box-msg">Login:-)</p>
 
                             <div action="" method="post">
                                 <div class="input-group mb-3">
@@ -34,7 +31,9 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button type="button" class="btn btn-primary btn-block" onclick="login()">Log In <i class="fas fa-sign-in-alt"></i></button>
+                                        <button type="button" class="btn btn-primary btn-block" onclick="login()">Login</button>
+                                        <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='../index.php'">Return Index</button>
+
                                     </div>
                                 </div>
                             </div>
