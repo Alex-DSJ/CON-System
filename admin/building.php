@@ -1,57 +1,47 @@
 <!-- This file is completed by shijun DENG-40084956 individually -->
 
-<!-- all required php files here -->
-<?php 
-require_once "../common/header.php";
-require_once "../func/func.php";
-require_once "../func/admin_func.php";
-require_once "../func/building_func.php";
-?>
-
-<!-- all required js file here -->
+<!-- all required js files here -->
 <script src="../static/auth.js"></script>
-<script src="../static/admin.js"></script>
+<script src="../static/building.js"></script>
 
-<?php
+<!-- all required php files here -->
+<?php require_once "../common/header.php";
+require_once "../func/building_func.php";
+require_once "../func/func.php";
+
 if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
-    header("Location:login.php");
+    header("Location:/admin/login.php");
 }
-$dataList = getAdminList();
-$building = getBuildingList();
-$buildingStr = '<option value="">please select</option>';
-foreach ($building as $item) {
-    $buildingStr .= "<option value='{$item['id']}'>{$item['building_name']}</option>";
-}
+$dataList = getBuildingList();
 ?>
+
 
 <div class="wrapper">
 
-    <?php require_once "navbar.php";?>
+<?php require_once "navbar.php";?>
 
-    <!-- the main table of the admin tab -->
+    <!-- main table of the building tab -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
-                            <h3 class="card-title">Admin List</h3>
+                            <h3 class="card-title">Building List</h3>
                         </div>
                         <div class="card-body">
-
                             <div style="margin-bottom: 10px">
-                                <button class="btn btn-primary btn-sm" onclick="addAdmin()">Add</button>
+                                <button class="btn btn-primary btn-sm" onclick="addBuilding()">Add</button>
                             </div>
-
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
                                     <th>#</th>
-                                    <th>name</th>
-                                    <th>building Name</th>
+                                    <th>building name</th>
+                                    <th>description</th>
+                                    <th>area</th>
+                                    <th>address</th>
                                     <th>create time</th>
-                                    <th>update time</th>
                                     <th>option</th>
                                 </tr>
                                 </thead>
@@ -60,13 +50,14 @@ foreach ($building as $item) {
                                     ?>
                                     <tr>
                                         <td><?php echo $item['id'] ?></td>
-                                        <td><?php echo $item['name'] ?></td>
                                         <td><?php echo $item['building_name'] ?></td>
+                                        <td><?php echo $item['description'] ?></td>
+                                        <td><?php echo $item['area'] ?></td>
+                                        <td><?php echo $item['address'] ?></td>
                                         <td><?php echo $item['create_time'] ?></td>
-                                        <td><?php echo $item['last_update_time'] ?></td>
-                                        <td data-id="<?php echo $item['id'] ?>" data-name="<?php echo $item['name'] ?>" data-building="<?php echo $item['building_id'] ?>" data-pass="<?php echo $item['password'] ?>">
-                                            <button class="btn btn-danger btn-sm" onclick="delAdmin($(this))">del</button>
-                                            <button class="btn btn-warning btn-sm" onclick="editAdmin($(this))">edit</button>
+                                        <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
+                                            <button class="btn btn-danger btn-sm" onclick="delBuilding($(this))">del</button>
+                                            <button class="btn btn-warning btn-sm"  onclick="editBuilding($(this))">edit</button>
                                         </td>
                                     </tr>
                                 <?php
@@ -83,12 +74,12 @@ foreach ($building as $item) {
     </section>
 </div>
 
-<!-- the popup form for adding an admin -->
-<div class="modal fade" id="modal-add-admin">
+<!-- the popup form for add button -->
+<div class="modal fade" id="modal-add-building">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Add Admin
+                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Add Building
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -96,25 +87,25 @@ foreach ($building as $item) {
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
-                    <label for="">Admin User Name</label>
-                    <input type="text" class="form-control" id="admin_name">
-                    <label for="">Admin Password</label>
-                    <input type="password" class="form-control" id="admin_password">
-                    <label for="">Admin Building</label>
-                    <select name="" id="admin_building" class="form-control">
-                        <?php echo $buildingStr; ?>
-                    </select>
+                    <label for="">Building Name</label>
+                    <input type="text" class="form-control" id="name">
+                    <label for="">Description</label>
+                    <input type="text" class="form-control" id="desc">
+                    <label for="">Address</label>
+                    <input type="text" class="form-control" id="address">
+                    <label for="">Area</label>
+                    <input type="number" class="form-control" id="area">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="submitAdmin()">Save</button>
+                <button class="btn btn-primary" onclick="submitBuilding()">Save</button>
             </div>
         </div>
     </div>
 </div>
 
 <!-- the popup form for edit button -->
-<div class="modal fade" id="modal-edit-admin">
+<div class="modal fade" id="modal-edit-building">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -126,19 +117,18 @@ foreach ($building as $item) {
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
-                    <input type="hidden" id="id_edit">
-                    <label for="">Admin User Name</label>
-                    <input type="text" class="form-control" id="admin_name_edit">
-                    <label for="">Admin Password</label>
-                    <input type="password" class="form-control" id="admin_password_edit">
-                    <label for="">Admin Building</label>
-                    <select name="" id="admin_building_edit" class="form-control">
-                        <?php echo $buildingStr; ?>
-                    </select>
+                    <label for="">Building Name</label>
+                    <input type="text" class="form-control" id="name_edit">
+                    <label for="">Description</label>
+                    <input type="text" class="form-control" id="desc_edit">
+                    <label for="">Address</label>
+                    <input type="text" class="form-control" id="address_edit">
+                    <label for="">Area</label>
+                    <input type="number" class="form-control" id="area_edit">
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="submitAdminEdit()">Save</button>
+                <button class="btn btn-primary" onclick="submitBuildingEdit()">Save</button>
             </div>
         </div>
     </div>
