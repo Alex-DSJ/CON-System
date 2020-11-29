@@ -8,6 +8,7 @@
 require_once "../common/header.php";
 ?>
 
+<!-- login form -->
 <div class="wrapper" style="margin-top: 5%">
     <section class="content">
         <div class="container-fluid">

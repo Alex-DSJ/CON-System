@@ -20,9 +20,9 @@ $dataList = getBuildingList();
 
 <?php require_once "navbar.php";?>
 
+    <!-- main table of the building tab -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-12">
                     <div class="card">
@@ -30,11 +30,9 @@ $dataList = getBuildingList();
                             <h3 class="card-title">Building List</h3>
                         </div>
                         <div class="card-body">
-
                             <div style="margin-bottom: 10px">
                                 <button class="btn btn-primary btn-sm" onclick="addBuilding()">Add</button>
                             </div>
-
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
@@ -76,6 +74,7 @@ $dataList = getBuildingList();
     </section>
 </div>
 
+<!-- the popup form for add button -->
 <div class="modal fade" id="modal-add-building">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -102,11 +101,10 @@ $dataList = getBuildingList();
                 <button class="btn btn-primary" onclick="submitBuilding()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
+<!-- the popup form for edit button -->
 <div class="modal fade" id="modal-edit-building">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -133,8 +131,7 @@ $dataList = getBuildingList();
                 <button class="btn btn-primary" onclick="submitBuildingEdit()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
+
 <?php require_once "../common/footer.php";?>

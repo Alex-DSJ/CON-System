@@ -21,14 +21,14 @@ $dataList = getContractList();
 
     <?php require_once "navbar.php";?>
 
+        <!-- the main table for the contract tab -->
         <section class="content">
             <div class="container-fluid">
-
                 <div class="row" style="margin-top: 20px">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">Contract Message</h3>
+                                <h3 class="card-title">Contract</h3>
                             </div>
 
                             <div class="card-body">
@@ -56,9 +56,7 @@ $dataList = getContractList();
                                             <td><?php echo $item['content'] ?></td>
                                             <td><?php echo $item['status'] ?></td>
                                             <td><?php echo $item['create_time'] ?></td>
-                                            <!-- property of the button TO ADD -->
                                             <td><button class="btn btn-primary edit-contract" data-id="<?php echo $item['id'] ?>" data-status="<?php echo $item['status'] ?>">Edit</button></td>
-                                            <!-- property of the button TO ADD -->
                                             </tr>
                                         <?php
                                     } ?>
@@ -73,11 +71,12 @@ $dataList = getContractList();
         </section>
     </div>
 
+    <!-- the popup form for adding a contract -->
     <div class="modal fade" id="modal-add-message">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Add Message
+                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Add Contract
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">

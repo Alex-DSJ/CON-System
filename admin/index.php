@@ -28,6 +28,7 @@ foreach ($building as $item) {
 
     <?php require_once "navbar.php";?>
 
+    <!-- the main table of the admin tab -->
     <section class="content">
         <div class="container-fluid">
 
@@ -55,7 +56,6 @@ foreach ($building as $item) {
                                 </tr>
                                 </thead>
                                 <tbody id="group-list">
-                                <!-- TO ADD -->
                                 <?php foreach ($dataList as $item) {
                                     ?>
                                     <tr>
@@ -71,7 +71,6 @@ foreach ($building as $item) {
                                     </tr>
                                 <?php
                                 } ?>
-                                <!-- TO ADD -->
                                 </tbody>
                             </table>
                         </div>
@@ -84,6 +83,7 @@ foreach ($building as $item) {
     </section>
 </div>
 
+<!-- the popup form for adding an admin -->
 <div class="modal fade" id="modal-add-admin">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -110,12 +110,10 @@ foreach ($building as $item) {
                 <button class="btn btn-primary" onclick="submitAdmin()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
-<!-- TO ADD -->
+<!-- the popup form for edit button -->
 <div class="modal fade" id="modal-edit-admin">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -143,10 +141,7 @@ foreach ($building as $item) {
                 <button class="btn btn-primary" onclick="submitAdminEdit()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
-<!-- TO ADD -->
 
 <?php require_once "../common/footer.php";?>
