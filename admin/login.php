@@ -1,5 +1,11 @@
+<!-- This file is completed by shijun DENG-40084956 individually -->
+
+<!-- all required php files here -->
 <?php require_once "../common/header.php";?>
+
+<!-- all required js here -->
 <script src="../static/auth.js"></script>
+
 <div class="wrapper" style="margin-top: 5%">
     <section class="content">
         <div class="container-fluid">

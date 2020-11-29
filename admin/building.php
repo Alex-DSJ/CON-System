@@ -21,21 +21,7 @@ $dataList = getBuildingList();  // TODO
 <div class="wrapper">
 
     <!-- navbar code start here -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
-        <ul class="navbar-nav" id="my-nav">
-            <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Admin</a></li>
-            <li class="nav-item d-none d-sm-inline-block active"><a href="building.php" class="nav-link">Building</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="contract.php" class="nav-link">Contract</a></li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-sign-out" class="logout" onclick="logout()">logout</i>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <?php require_once "navbar.php" ?>
     <!-- navbar code end here -->
 
     <!-- building list code start here -->

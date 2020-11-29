@@ -3,6 +3,7 @@
 <?php
     require_once "../common/header.php";
     require_once "../func/building_func.php";
+    require_once "../func/func.php";
 ?>
 
 <!-- all required js file here -->
@@ -11,7 +12,6 @@
 
 <!-- check if a user is logged in -->
 <?php
-require_once "../func/func.php";
 if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
     // header("Location:./login.php");
 }
@@ -28,21 +28,7 @@ foreach ($buildings as $building) {
 <!-- html content here -->
 <div class="wrapper">    
     <!-- HTML for the navbar start -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
-        <ul class="navbar-nav" id="my-nav">
-            <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Admin</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="building.php" class="nav-link">Building</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="contract.php" class="nav-link">Contract</a></li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                <button class="btn" class="logout" onclick="logout()">Log Out <i class="fas fa-sign-out-alt"></i></button>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <?php require_once "navbar.php" ?>
     <!-- HTML for the navbar end -->
 
     <!-- main table of the page start here -->
