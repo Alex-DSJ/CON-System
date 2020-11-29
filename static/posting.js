@@ -24,7 +24,7 @@ function savePosting(act = 'add_posting') {
             if (response.success == false) {
                 return false;
             } else {
-                window.location.href = '../member/posting_template.php?act=view&id=' + response.data;
+                window.location.href = '../member/posting_templ.php?act=view&id=' + response.data;
             }
         },
         error: function (data, status, e) {
@@ -59,11 +59,11 @@ function delPosting() {
 
 function editPosting(e) {
     let id = e.parent().data('id');
-    window.location.href = '../member/posting_template.php?act=edit&id=' + id;
+    window.location.href = '../member/posting_templ.php?act=edit&id=' + id;
 }
 
 function detailPosting(e) {
     let id = e.parent().data('id');
-    window.location.href = '../member/posting_template.php?act=view&id=' + id;
+    window.location.href = '../member/posting_templ.php?act=view&id=' + id;
 }
 

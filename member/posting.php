@@ -32,7 +32,7 @@ $dataList = getPostingList();
 
                         <div class="card-body">
                             <div style="margin-bottom: 10px">
-                                <button class="btn btn-primary btn-sm" onclick="window.location.href='posting_template.php'"><i class="far fa-plus-square"></i></button>
+                                <button class="btn btn-primary btn-sm" onclick="window.location.href='posting_templ.php'"><i class="far fa-plus-square"></i></button>
                             </div>
 
                             <table class="table table-bordered">
