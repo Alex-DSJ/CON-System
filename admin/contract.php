@@ -1,29 +1,26 @@
 <!-- This file is completed by shijun DENG-40084956 individually -->
+
 <!-- all required php files here -->
 <?php
-    require_once "../common/header.php";
-    require_once "../func/func.php";
-    require_once "../func/contract_func.php";
+require_once "../common/header.php";
+require_once "../func/func.php";
+require_once "../func/contract_func.php"
 ?>
 
-<!-- all required js file here -->
+<!-- all required js files here -->
 <script src="../static/contract.js"></script>
 
 <?php
-
 if (checkUserLogin() == false) {
-    // header("Location:/admin/login.php");
+    header("Location:/admin/login.php");
 }
 $dataList = getContractList();
 
 ?>
     <div class="wrapper">
 
-        <!-- navbar start here -->
-        <?php require_once "navbar.php" ?>
-        <!-- navbar end here -->
+    <?php require_once "navbar.php";?>
 
-        <!-- main table of the page strat here -->
         <section class="content">
             <div class="container-fluid">
 
@@ -49,19 +46,22 @@ $dataList = getContractList();
                                         <th>Create time</th>
                                         <th>Option</th>
                                     </tr>
-                                    <tr>
-                                        <td>hardcode data</td>
-                                        <td>hardcode data</td>
-                                        <td>hardcode data</td>
-                                        <td>hardcode data</td>
-                                        <td>hardcode data</td>
-                                        <td><button class="btn btn-primary edit-contract">Edit</button></td>
-                                    </tr>
                                     </thead>
                                     <tbody id="group-list">
-                                    
-                                    <!-- TODO get the contract list -->
-
+                                    <?php foreach ($dataList as $item) {
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $item['id'] ?></td>
+                                            <td><?php echo $item['title'] ?></td>
+                                            <td><?php echo $item['content'] ?></td>
+                                            <td><?php echo $item['status'] ?></td>
+                                            <td><?php echo $item['create_time'] ?></td>
+                                            <!-- property of the button TO ADD -->
+                                            <td><button class="btn btn-primary edit-contract" data-id="<?php echo $item['id'] ?>" data-status="<?php echo $item['status'] ?>">Edit</button></td>
+                                            <!-- property of the button TO ADD -->
+                                            </tr>
+                                        <?php
+                                    } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -71,10 +71,8 @@ $dataList = getContractList();
                 </div>
             </div>
         </section>
-        <!-- main table of the page end here -->
     </div>
 
-    <!-- popup form for adding a contract -->
     <div class="modal fade" id="modal-add-message">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -98,8 +96,19 @@ $dataList = getContractList();
                     <button class="btn btn-primary" onclick="updateContract()">Save</button>
                 </div>
             </div>
+            <!-- /.modal-content -->
         </div>
+        <!-- /.modal-dialog -->
     </div>
-    <!-- popup form for adding a contract -->
 
 <?php require_once "../common/footer.php";?>
+<script>
+    $('body').on('click','.edit-contract',function () {
+        let id = $(this).data('id');
+        let status = $(this).data('status');
+        console.log(status)
+        $('#status').val(status)
+        $('#edit_id').val(id)
+        $('#modal-add-message').modal('show')
+    })
+</script>

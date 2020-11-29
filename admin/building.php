@@ -1,30 +1,25 @@
 <!-- This file is completed by shijun DENG-40084956 individually -->
-<!-- all required php files here -->
-<?php 
-    require_once "../common/header.php";
-    require_once "../func/building_func.php";
-    require_once "../func/func.php";
-?>
 
-<!-- all required js here -->
+<!-- all required js files here -->
 <script src="../static/auth.js"></script>
 <script src="../static/building.js"></script>
 
+<!-- all required php files here -->
+<?php require_once "../common/header.php";
+require_once "../func/building_func.php";
+require_once "../func/func.php";
 
-<?php
 if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
     header("Location:/admin/login.php");
 }
-$dataList = getBuildingList();  // TODO
+$dataList = getBuildingList();
 ?>
+
 
 <div class="wrapper">
 
-    <!-- navbar code start here -->
-    <?php require_once "navbar.php" ?>
-    <!-- navbar code end here -->
+<?php require_once "navbar.php";?>
 
-    <!-- building list code start here -->
     <section class="content">
         <div class="container-fluid">
 
@@ -36,7 +31,6 @@ $dataList = getBuildingList();  // TODO
                         </div>
                         <div class="card-body">
 
-                            <!-- add button -->
                             <div style="margin-bottom: 10px">
                                 <button class="btn btn-primary btn-sm" onclick="addBuilding()">Add</button>
                             </div>
@@ -54,7 +48,6 @@ $dataList = getBuildingList();  // TODO
                                 </tr>
                                 </thead>
                                 <tbody id="group-list">
-                                <!-- fill the table from the database -->
                                 <?php foreach ($dataList as $item) {
                                     ?>
                                     <tr>
@@ -81,10 +74,8 @@ $dataList = getBuildingList();  // TODO
             </div>
         </div>
     </section>
-    <!-- building list code end here -->
 </div>
 
-<!-- popup form for adding building code start here -->
 <div class="modal fade" id="modal-add-building">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -115,9 +106,7 @@ $dataList = getBuildingList();  // TODO
     </div>
     <!-- /.modal-dialog -->
 </div>
-<!-- popup form for adding building code end here -->
 
-<!-- popup form for editBuilding button start here -->
 <div class="modal fade" id="modal-edit-building">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -144,8 +133,8 @@ $dataList = getBuildingList();  // TODO
                 <button class="btn btn-primary" onclick="submitBuildingEdit()">Save</button>
             </div>
         </div>
+        <!-- /.modal-content -->
     </div>
+    <!-- /.modal-dialog -->
 </div>
-<!-- popup form for editBuilding button end here -->
-
 <?php require_once "../common/footer.php";?>

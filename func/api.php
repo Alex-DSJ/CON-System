@@ -3,6 +3,9 @@ require_once "./func.php";
 require_once "./dbQuerry.php";
 require_once "./posting_func.php";
 require_once "./condo_func.php";
+require_once "./admin_func.php";
+require_once "./building_func.php";
+require_once "./contract_func.php";
 
 // call all other php func need 
 
@@ -23,6 +26,16 @@ if (isset($inputs['act'])) {
         case 'add_group' : addGroupHandler();break;
         case 'del_group' : delGroupHandler();break;
         case 'edit_group' : editGroupHandler();break;
+
+        // super admin related APIs
+        case 'admin_login' : loginHandler($inputs);break;
+        case 'logout' : logoutHandler($inputs);break;
+        case 'reset' : resetHandler($inputs);break;
+        case 'add_building' : addBuildingHandler();break;
+        case 'del_building' : delBuildingHandler();break;
+        case 'edit_building' : editBuildingHandler();break;
+        case 'add_contract' : addContractHandler();break;
+        case 'update_contract' : updateContractHandler();break;
         
         default :
             formatOutput(false, 'unknown action');

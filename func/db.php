@@ -2,13 +2,13 @@
 
 
 try {
-    // it is was git ignore
+
     $user = 'root';
     $pass = 'Alex112524';
-    $host = '127.0.0.1:3306';
+    $host = '127.0.0.1';
     $dbname = 'condo_system';
 
-    global $db; 
+    global $db;
     $db = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", $user, $pass);
 
 
@@ -16,4 +16,3 @@ try {
     print "Error!: " . $e->getMessage() . "<br/>";
     die();
 };
-?>

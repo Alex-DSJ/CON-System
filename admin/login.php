@@ -1,7 +1,12 @@
-<?php require_once "../common/header.php";?>
+<!-- This file is completed by shijun DENG-40084956 individually -->
 
+<!-- all required js files here -->
 <script src="../static/auth.js"></script>
 
+<!-- all required php files here -->
+<?php
+require_once "../common/header.php";
+?>
 
 <div class="wrapper" style="margin-top: 5%">
     <section class="content">

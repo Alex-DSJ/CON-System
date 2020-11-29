@@ -6,6 +6,65 @@ function addContract() {
 }
 
 // TODO update the contract into the databse
-function updateContract(){
 
+function updateContract() {
+    let status = $("#status option:selected").val()
+    if (status == '') {
+        return false;
+    }
+
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "update_contract",
+            id: $('#edit_id').val(),
+            status: status,
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+
+function submitContract()
+{
+    let content = $('#content').val()
+    let title = $('#title').val()
+    let status = $("#status option:selected").val()
+    if (content == '' || title == '' || status == '') {
+        return false;
+    }
+
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "add_contract",
+            content: content,
+            title: title,
+            status: status,
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
 }
