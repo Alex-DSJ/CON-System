@@ -24,6 +24,7 @@ if (isset($inputs['act'])) {
         case 'del_group' : delGroupHandler();break;
         case 'edit_group' : editGroupHandler();break;
         
+        
         default :
             formatOutput(false, 'unknown action');
     }
