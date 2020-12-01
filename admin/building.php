@@ -1,8 +1,7 @@
 <!-- This file is completed by shijun DENG-40084956 individually -->
 
 <!-- all required js files here -->
-<script src="../static/auth.js"></script>
-<script src="../static/building.js"></script>
+<script src="../static/functions.js"></script>
 
 <!-- all required php files here -->
 <?php require_once "../common/header.php";
