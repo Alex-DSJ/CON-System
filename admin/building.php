@@ -5,7 +5,6 @@
 
 <!-- all required php files here -->
 <?php require_once "../common/header.php";
-require_once "../func/building_func.php";
 require_once "../func/func.php";
 
 if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {

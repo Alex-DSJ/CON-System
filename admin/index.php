@@ -4,8 +4,6 @@
 <?php 
 require_once "../common/header.php";
 require_once "../func/func.php";
-require_once "../func/admin_func.php";
-require_once "../func/building_func.php";
 ?>
 
 <!-- all required js file here -->

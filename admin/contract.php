@@ -4,7 +4,6 @@
 <?php
 require_once "../common/header.php";
 require_once "../func/func.php";
-require_once "../func/contract_func.php"
 ?>
 
 <!-- all required js files here -->
