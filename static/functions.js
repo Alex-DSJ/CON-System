@@ -178,8 +178,8 @@ function submitAdmin() {
                 return false;
             }
         },
-        error:function () {
-            alert('server error')
+        error:function (jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
         }
     })
 }
@@ -205,8 +205,8 @@ function delAdmin(e) {
                 return false;
             }
         },
-        error:function () {
-            alert('server error')
+        error:function (jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
         }
     })
 }

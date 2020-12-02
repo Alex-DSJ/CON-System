@@ -34,13 +34,13 @@ $dataList = getBuildingList();
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>building name</th>
-                                    <th>description</th>
-                                    <th>area</th>
-                                    <th>address</th>
-                                    <th>create time</th>
-                                    <th>option</th>
+                                    <th>ID</th>
+                                    <th>Building Name</th>
+                                    <th>Description</th>
+                                    <th>Area</th>
+                                    <th>Address</th>
+                                    <th>Create Time</th>
+                                    <th>Option</th>
                                 </tr>
                                 </thead>
                                 <tbody id="group-list">
@@ -54,8 +54,8 @@ $dataList = getBuildingList();
                                         <td><?php echo $item['address'] ?></td>
                                         <td><?php echo $item['create_time'] ?></td>
                                         <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
-                                            <button class="btn btn-danger btn-sm" onclick="delBuilding($(this))">del</button>
-                                            <button class="btn btn-warning btn-sm"  onclick="editBuilding($(this))">edit</button>
+                                            <button class="btn btn-danger btn-sm" onclick="delBuilding($(this))">Del</button>
+                                            <button class="btn btn-warning btn-sm"  onclick="editBuilding($(this))">Edit</button>
                                         </td>
                                     </tr>
                                 <?php

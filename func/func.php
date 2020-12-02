@@ -94,21 +94,34 @@ function setLogin($uid = 0, $bid = 0) {
 // check the username incase of dulplicate
 function addAdminHandler() {
     global $inputs;
+    global $db;
 
-    if (getOne("SELECT count(1) FROM admin WHERE name = ?",[$inputs['admin_username']]) > 1) {
-        formatOutput(false, 'username repeat');
+    $sql = "SELECT count(1) FROM admin WHERE name = " . $inputs['admin_username'];
+    $count = getOne("SELECT count(1) FROM admin WHERE name = ?", [$inputs['admin_username']]);
+    if ($count['count(1)'] > 0) {
+        formatOutput(false, 'The username exists, please change another one');
     }
 
     $adminId = insert('admin',[
         'name' => $inputs['admin_username'],
-        'password' => $inputs['admin_password'],
+        'password' => $inputs['admin_password']
     ]);
-    insert('admin_building', [
+
+    $admin_buildingId = insert('admin_building', [
        'admin_id' => $adminId,
        'building_id' => $inputs['admin_building'],
     ]);
+    formatOutput(true, $adminId . "  **  " . $admin_buildingId);
+}
 
-    formatOutput(true, 'add success');
+function adminExists($inputs){
+    $isOccupied = execSql($sql);
+    if($isOccupied > 0){
+        return true;
+    }
+    else{
+        return false;
+    }
 }
 
 // delete a certain admin from the database
@@ -157,7 +170,7 @@ function getBuildingList() {
 // add a new building to the database
 function addBuildingHandler() {
     global $inputs;
-    $adminId = insert('building',[
+    $buildingId = insert('building',[
         'building_name' => $inputs['name'],
         'address' => $inputs['address'],
         'description' => $inputs['desc'],

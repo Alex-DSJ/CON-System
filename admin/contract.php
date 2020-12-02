@@ -38,11 +38,11 @@ $dataList = getContractList();
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
+                                        <th>ID</th>
                                         <th>Title</th>
                                         <th>Message</th>
                                         <th>Status</th>
-                                        <th>Create time</th>
+                                        <th>Create Time</th>
                                         <th>Option</th>
                                     </tr>
                                     </thead>
@@ -85,8 +85,8 @@ $dataList = getContractList();
                     <div class="form-group row">
                         <input type="hidden" id="edit_id">
                         <select name="" id="status" class="form-control">
-                            <option value="normal">normal</option>
-                            <option value="urgent">urgent</option>
+                            <option value="normal">Normal</option>
+                            <option value="urgent">Urgent</option>
                         </select>
                     </div>
                 </div>

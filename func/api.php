@@ -28,6 +28,9 @@ if (isset($inputs['act'])) {
         case 'admin_login' : loginHandler($inputs);break;
         case 'logout' : logoutHandler($inputs);break;
         case 'reset' : resetHandler($inputs);break;
+        case 'add_admin' : addAdminHandler();break;
+        case 'del_admin' : delAdminHandler();break;
+        case 'edit_admin' : editAdminHandler();break;
         case 'add_building' : addBuildingHandler();break;
         case 'del_building' : delBuildingHandler();break;
         case 'edit_building' : editBuildingHandler();break;

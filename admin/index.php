@@ -44,12 +44,12 @@ foreach ($building as $item) {
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>name</th>
-                                    <th>building Name</th>
-                                    <th>create time</th>
-                                    <th>update time</th>
-                                    <th>option</th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Building Name</th>
+                                    <th>Create Time</th>
+                                    <th>Update Time</th>
+                                    <th>Option</th>
                                 </tr>
                                 </thead>
                                 <tbody id="group-list">
