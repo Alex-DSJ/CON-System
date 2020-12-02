@@ -285,7 +285,7 @@ function submitBuilding() {
     $.ajax({
         url:COMMON_API,
         data:{
-            act:"edit_building",
+            act:"add_building",
             id: id,
             name:name,
             desc:desc,
@@ -302,8 +302,8 @@ function submitBuilding() {
                 return false;
             }
         },
-        error:function () {
-            alert('server error')
+        error:function (jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
         }
     })
 }
