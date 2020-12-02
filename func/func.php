@@ -8,7 +8,7 @@
 session_start();
 
 require_once dirname(__FILE__).'./db.php';
-require_once "dbQuerry.php";
+require_once dirname(__FILE__)."/dbQuerry.php";
 
 define('ADMIN_ID', '1');
 
@@ -193,9 +193,9 @@ function getBuildingInfo() {
 
 // get all contract from the database
 function getContractList() {
-    $sql = <<<sql
+    $sql = "sql
             SELECT * FROM contract ORDER BY id DESC
-            sql;
+            sql";
     return getAll($sql);
 }
 
@@ -241,4 +241,253 @@ function addContractHandler() {
 // author: Shijun Deng (40084956)
 // --------********--------********--------********--------********--------********
 
+
+// --------********--------********--------********--------********--------********
+// Functions for the Member ends here
+// author:
+// --------********--------********--------********--------********--------********
+
+function checkMemberLogin()
+{
+    if (!isset($_SESSION['mid'])) {
+        return false;
+    }
+    return true;
+}
+
+function getMemberList()
+{
+    return getAll("select * from member ");
+}
+
+
+function editMemberHandler()
+{
+    global $inputs;
+
+    $sql = "delete from `member_condo` where member_id = " . $inputs['id'];
+    execSql($sql);
+
+    foreach ($inputs['condos'] as $condoId) {
+        insert('member_condo', [
+            'member_id' => $inputs['id'],
+            'condo_id' => $condoId
+        ]);
+    }
+
+    updateDb('member',[
+        'name' => $inputs['name'],
+        'password' => $inputs['password'],
+        'address' => $inputs['address'],
+        'email' => $inputs['email'],
+        'family' => $inputs['family'],
+        'colleagues' => $inputs['colleagues'],
+        'privilege' => $inputs['privilege'],
+        'status' => $inputs['status'],
+    ],[
+        'id' => $inputs['id']
+    ]);
+    formatOutput(true, 'update success');
+
+}
+
+function delMemberHandler()
+{
+    global $inputs;
+    $sql = "delete from `member` where id = " . $inputs['id'];
+    execSql($sql);
+    formatOutput(true, 'delete success');
+}
+
+function addMemberHandler()
+{
+    global $inputs;
+
+    $condos = $inputs['condos'];
+
+    $lastId = insert('member', [
+        'name' => $inputs['name'],
+        'password' => $inputs['password'],
+        'address' => $inputs['address'],
+        'email' => $inputs['email'],
+        'family' => $inputs['family'],
+        'colleagues' => $inputs['colleagues'],
+        'privilege' => $inputs['privilege'],
+        'status' => $inputs['status'],
+    ]);
+
+    foreach ($condos as $condoId) {
+        insert('member_condo', [
+            'member_id' => $lastId,
+            'condo_id' => $condoId
+        ]);
+    }
+
+    formatOutput(true, 'add success');
+}
+
+
+function getMemberGroupList()
+{
+    return getAll("select b.group_name,b.id from member_group a inner join `group` b on a.group_id = b.id where a.member_id =?", [getLogin()['mid']]);
+}
+
+function getMailList()
+{
+    return getAll("select id,`email` from `member` where id != ?", [getLogin()['mid']]);
+
+}
+
+function getInboxMessage()
+{
+    $sql = "select * from `mail` where receiver_id = ?";
+    // to change with member id
+    return getAll($sql, 2);
+}
+
+function getSentboxMessage()
+{
+    $sql = "select * from `mail` where sender_id = ?";
+    // to change with member id
+    return getAll($sql, 2);
+}
+
+function getPostingList()
+{
+    // dynamic member id after [getLogin()['mid']]
+    return getAll("select b.* from member_posting a inner join posting b on a.posting_id = b.id  where a.member_id = ?", [3]);
+}
+
+function getPostingInfo($id = 0)
+{
+    // dynamic posting id after
+    return getOne("select b.* from member_posting a inner join posting b on a.posting_id = b.id  where a.posting_id = ?", [7]);
+}
+
+
+function delPostingHandler()
+{
+    global $inputs;
+    $sql = "delete from `posting` where id = " . 7;
+    execSql($sql);
+    formatOutput(true, 'delete success');
+}
+
+function addPostingHandler()
+{
+    global $inputs;
+
+    $src = uploadFile();
+
+    $lastId = insert('posting',[
+        'pic' => $src,
+        'title' => $inputs['title'],
+        'content' => $inputs['content'],
+    ]);
+
+    insert('member_posting', [
+        'posting_id' => $lastId,
+        'member_id' => getLogin()['mid']
+    ]);
+
+    formatOutput(true, 'add success',$lastId);
+}
+
+function editPostingHandler()
+{
+    global $inputs;
+
+    if (!empty($_FILES) && $_FILES['fileToUpload']['name']) {
+        $src = uploadFile();
+        $lastId = updateDb('posting',[
+            'pic' => $src,
+            'title' => $inputs['title'],
+            'content' => 3
+        ], [
+            "id" => $inputs['id']
+        ]);
+    } else {
+        $lastId = updateDb('posting',[
+            'title' => $inputs['title'],
+            'content' => $inputs['content'],
+        ], [
+            "id" => $inputs['id']
+        ]);
+    }
+
+    formatOutput(true, 'update success',$inputs['id']);
+}
+function uploadFile()
+{
+    if (!empty($_FILES) && $_FILES['fileToUpload']['name']) {
+
+        $baseDir = dirname(dirname(__FILE__)).'/static/upload/';
+
+        $date = date ('Ymdhis').getLogin()['mid'];
+        $fileName = $_FILES['fileToUpload']['name'];
+        $name = explode('.',$fileName);
+        $newFileName = $date.'.'.$name[1];
+        $newPath = $baseDir . $newFileName;
+
+        $filename = iconv('UTF-8','gbk',basename($_FILES['fileToUpload']['name']));
+        $oldPath = $baseDir.$filename;
+
+        if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'],$oldPath)){
+            rename($oldPath,$newPath);
+            return $newFileName;
+        }
+    }
+    return 'default/demo-default.jpg';
+}
+
+
+function getSuggestFriend()
+{
+    return getAll("select a.name,a.email from member a 
+where a.id != ? and a.id not in (select apply_member_id from member_friend_apply where status = 0)
+limit 5",
+        [getLogin()['mid']]
+    );
+}
+function getSuggestPosting()
+{
+    return getAll("select a.*,c.name from posting a 
+inner join member_posting b on a.id = b.posting_id
+inner join member c on c.id = b.member_id
+limit 5");
+}
+
+
+function friendSearchHandler()
+{
+    global $inputs;
+    $keyword = $inputs['keyword'];
+    $res = getAll("select a.name,a.email from member a 
+where a.name like '%$keyword%' and a.id not in (select apply_member_id from member_friend_apply where status = 0)"
+    );
+    formatOutput(true, 'success',$res);
+}
+
+function postingSearchHandler()
+{
+    global $inputs;
+    $keyword = $inputs['keyword'];
+    $res = getAll("select a.*,c.name from posting a 
+inner join member_posting b on a.id = b.posting_id
+inner join member c on c.id = b.member_id where a.title like '%$keyword%' or a.content like '%$keyword%'");
+    formatOutput(true, 'success',$res);
+}
+
+function groupSearchHandler()
+{
+    global $inputs;
+    $keyword = $inputs['keyword'];
+    $res = getAll("select * from `group` where group_name like '%$keyword%' or description like '%$keyword%'");
+    formatOutput(true, 'success',$res);
+}
+
+// --------********--------********--------********--------********--------********
+// Functions for the Member ends here
+// author:
+// --------********--------********--------********--------********--------********
 ?>

@@ -472,3 +472,209 @@ function submitContract()
 Functions for the SUPER ADMIN ends here
 author: Shijun Deng (40084956)
 --------********--------********--------********--------********--------******** */
+
+/* --------********--------********--------********--------********--------********
+Functions for the member start here
+author:
+--------********--------********--------********--------********--------******** */
+
+//social
+//posting
+function searchFriend()
+{
+    let friend_keyword = $('#friend_keyword').val()
+    if (friend_keyword == '' ) {
+        return false;
+    }
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "friend_search",
+            keyword: friend_keyword
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            console.log(res)
+            var t = ''
+            $.each(res.data,function (k,item) {
+                t += `<tr><td>${ item.id }</td><td>${ item.name }</td><td>${ item.email }</td><td data-id="${ item.id }"><button class="btn btn-primary apply-friend btn-sm">apply</button></td></tr>`
+            })
+            $('#friend-search-container').empty().append(t)
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+function searchPosting()
+{
+    let posting_keyword = $('#posting_keyword').val()
+    if (posting_keyword == '' ) {
+        return false;
+    }
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "posting_search",
+            keyword: posting_keyword
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            var t = ''
+            $.each(res.data,function (k,item) {
+                t += `  <tr><td>${ item.id }</td><td>${ item.title }</td><td>${ item.name }</td><td>${ item.create_time }</td><td data-id="${ item.id }"><button class="btn btn-primary btn-sm" onclick="detailPosting($(this))">detail</button></td></tr>`
+            })
+            $('#posting-search-container').empty().append(t)
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+function searchGroup() {
+    let group_keyword = $('#group_keyword').val()
+    if (group_keyword == '' ) {
+        return false;
+    }
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "group_search",
+            keyword: group_keyword
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            console.log(res)
+            var t = ''
+            $.each(res.data,function (k,item) {
+                t += `<tr><td>${ item.id }</td><td>${ item.group_name }</td><td>${ item.description }</td><td data-id="${ item.id }"><button class="btn btn-primary apply-group btn-sm">apply</button></td></tr>`
+            })
+            $('#group-search-container').empty().append(t)
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+
+function detailPosting(e) {
+    let id = e.parent().data('id');
+    window.location.href = '../member/posting_template.php?act=view&id=' + id;
+}
+//social
+function savePosting(act = 'add_posting') {
+    let title = $('#title').val();
+    let content = $('#content').val()
+
+    if (title == '' || content == '') {
+        alert('params err')
+        return false;
+    }
+
+    $.ajaxFileUpload({
+        url: COMMON_API,
+        secureuri: false,
+        data: {
+            act: act,
+            id: $('#id_edit').val(),
+            title: title,
+            content: content
+        },
+        fileElementId: 'fileToUpload',
+        dataType: 'json',
+        success: function (response) {
+            console.log(response)
+
+            if (response.success == false) {
+                return false;
+            } else {
+                window.location.href = '../member/posting_templ.php?act=view&id=' + response.data;
+            }
+        },
+        error: function (data, status, e) {
+            alert(e);
+        }
+    })
+}
+
+function delPosting() {
+    let id = e.parent().data('id');
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "del_posting",
+            id: id
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+
+function editPosting(e) {
+    let id = e.parent().data('id');
+    window.location.href = '../member/posting_templ.php?act=edit&id=' + id;
+}
+
+function detailPosting(e) {
+    let id = e.parent().data('id');
+    window.location.href = '../member/posting_templ.php?act=view&id=' + id;
+}
+//posting
+//message
+function addMessage()
+{
+    $('#modal-add-message').modal('show')
+    $(".selectpicker").selectpicker();
+}
+function submitMessage()
+{
+    let content = $('#content').val()
+    let title = $('#title').val()
+    let receiver = $('#receiver').val()
+    if (content == '' || title == '' || receiver == '') {
+        return false;
+    }
+
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "add_message",
+            id: $('#id').val(),
+            content: content,
+            title: title,
+            receiver: receiver,
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+//message
+
+/* --------********--------********--------********--------********--------********
+Functions for the Member End Here
+--------********--------********--------********--------********--------******** */

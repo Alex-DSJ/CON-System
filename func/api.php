@@ -1,7 +1,6 @@
 <?php
 require_once "./func.php";
 require_once "./dbQuerry.php";
-require_once "./posting_func.php";
 require_once "./condo_func.php";
 
 // call all other php func need 
