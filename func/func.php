@@ -241,4 +241,299 @@ function addContractHandler() {
 // author: Shijun Deng (40084956)
 // --------********--------********--------********--------********--------********
 
+// --------********--------********--------********--------********--------********
+// Functions for the CONDO starts here
+// author: saebom SHIN(40054234) / kimchhengheng(26809413)
+// --------********--------********--------********--------********--------********
+
+function getCondoList()
+{
+    $sql = "select a.*,c.building_name from condo a 
+left join condo_building b on a.id = b.condo_id
+left join building c on c.id = b.building_id
+where b.building_id = ?";
+    return getAll($sql, [getLogin()['bid']]);
+}
+
+function editCondoHandler()
+{
+    global $inputs;
+    updateDb('condo',[
+        'name' => $inputs['name'],
+        'area' => $inputs['area'],
+        'cost' => $inputs['cost'],
+    ], [
+        'id' => $inputs['id']
+    ]);
+    formatOutput(true, 'update success');
+}
+
+function delCondoHandler()
+{
+    global $inputs;
+    $sql = "delete from condo where id = " . $inputs['id'];
+    execSql($sql);
+    formatOutput(true, 'delete success');
+}
+function addCondoHandler()
+{
+    global $inputs;
+
+    $lastId = insert('condo',[
+        'name' => $inputs['name'],
+        'area' => $inputs['area'],
+        'cost' => $inputs['cost'],
+    ]);
+    insert('condo_building', [
+        'condo_id' => $lastId,
+        'building_id' => getLogin()['bid'],
+    ]);
+
+    formatOutput(true, 'add success');
+}
+
+// --------********--------********--------********--------********--------********
+// Functions for the CONDO ends here
+// author: saebom SHIN(40054234) / kimchhengheng(26809413)
+// --------********--------********--------********--------********--------********
+
+// --------********--------********--------********--------********--------********
+// Functions for the GROUP starts here
+// author: saebom SHIN(40054234) / kimchhengheng(26809413)
+// --------********--------********--------********--------********--------********
+function getGroupList()
+{
+    return getAll("select * from `group` where admin_id = ?", [getLogin()['uid']]);
+}
+
+function getGroupApplyList()
+{
+    return getAll("select 
+b.name as member_name ,c.group_name,a.create_time,a.id,ifnull(a.handle_time,'-')  as handle_time,a.status
+from `member_group_apply` a 
+inner join member b on a.member_id = b.id
+inner join `group` c on a.group_id = c.id
+where c.admin_id = ?
+", [getLogin()['uid']]);
+}
+
+function editGroupHandler()
+{
+    global $inputs;
+    updateDb('group',[
+        'group_name' => $inputs['name'],
+        'description' => $inputs['desc'],
+    ], [
+        'id' => $inputs['id'],
+        'admin_id' => getLogin()['uid']
+    ]);
+    formatOutput(true, 'update success');
+}
+
+function delGroupHandler()
+{
+    global $inputs;
+    $sql = "delete from `group` where id = " . $inputs['id'];
+    execSql($sql);
+    formatOutput(true, 'delete success');
+}
+
+function addGroupHandler()
+{
+    global $inputs;
+
+    $lastId = insert('group',[
+        'admin_id' => getLogin()['uid'],
+        'group_name' => $inputs['name'],
+        'description' => $inputs['desc'],
+    ]);
+
+    formatOutput(true, 'add success');
+}
+
+// --------********--------********--------********--------********--------********
+// Functions for the GROUP ends here
+// author: saebom SHIN(40054234) / kimchhengheng(26809413)
+// --------********--------********--------********--------********--------********
+
+// --------********--------********--------********--------********--------********
+// Functions for the MEMBER starts here
+// author: saebom SHIN(40054234) / kimchhengheng(26809413)
+// --------********--------********--------********--------********--------********
+function getMemberList()
+{
+    return getAll("select * from member ");
+}
+
+function editMemberHandler()
+{
+    global $inputs;
+
+    $sql = "delete from `member_condo` where member_id = " . $inputs['id'];
+    execSql($sql);
+
+    foreach ($inputs['condos'] as $condoId) {
+        insert('member_condo', [
+            'member_id' => $inputs['id'],
+            'condo_id' => $condoId
+        ]);
+    }
+
+    updateDb('member',[
+        'name' => $inputs['name'],
+        'password' => $inputs['password'],
+        'address' => $inputs['address'],
+        'email' => $inputs['email'],
+        'family' => $inputs['family'],
+        'colleagues' => $inputs['colleagues'],
+        'privilege' => $inputs['privilege'],
+        'status' => $inputs['status'],
+    ],[
+        'id' => $inputs['id']
+    ]);
+    formatOutput(true, 'update success');
+
+}
+
+function delMemberHandler()
+{
+    global $inputs;
+    $sql = "delete from `member` where id = " . $inputs['id'];
+    execSql($sql);
+    formatOutput(true, 'delete success');
+}
+
+function addMemberHandler()
+{
+    global $inputs;
+
+    $condos = $inputs['condos'];
+
+    $lastId = insert('member',[
+        'name' => $inputs['name'],
+        'password' => $inputs['password'],
+        'address' => $inputs['address'],
+        'email' => $inputs['email'],
+        'family' => $inputs['family'],
+        'colleagues' => $inputs['colleagues'],
+        'privilege' => $inputs['privilege'],
+        'status' => $inputs['status'],
+    ]);
+
+    foreach ($condos as $condoId) {
+        insert('member_condo', [
+            'member_id' => $lastId,
+            'condo_id' => $condoId
+        ]);
+    }
+
+    formatOutput(true, 'add success');
+
+}
+
+// --------********--------********--------********--------********--------********
+// Functions for the MEMBER ends here
+// author: saebom SHIN(40054234) / kimchhengheng(26809413)
+// --------********--------********--------********--------********--------********
+
+// --------********--------********--------********--------********--------********
+// Functions for the POSTING starts here
+// author: saebom SHIN(40054234) / kimchhengheng(26809413)
+// --------********--------********--------********--------********--------********
+function getPostingList()
+{
+    // dynamic member id after [getLogin()['mid']]
+    return getAll("select b.* from member_posting a inner join posting b on a.posting_id = b.id  where a.member_id = ?", [3]);
+}
+
+function getPostingInfo($id = 0)
+{
+    // dynamic posting id after 
+    return getOne("select b.* from member_posting a inner join posting b on a.posting_id = b.id  where a.posting_id = ?", [7]);
+}
+
+function getPostingAll()
+{
+    return getAll("select b.* from member_posting a inner join posting b on a.posting_id = b.id ");
+}
+
+function delPostingHandler()
+{
+    global $inputs;
+    $sql = "delete from `posting` where id = " . 7;
+    execSql($sql);
+    formatOutput(true, 'delete success');
+}
+
+function addPostingHandler()
+{
+    global $inputs;
+
+    $src = uploadFile();
+
+    $lastId = insert('posting',[
+        'pic' => $src,
+        'title' => $inputs['title'],
+        'content' => $inputs['content'],
+    ]);
+
+    insert('member_posting', [
+        'posting_id' => $lastId,
+        'member_id' => getLogin()['mid']
+    ]);
+
+    formatOutput(true, 'add success',$lastId);
+}
+
+function editPostingHandler()
+{
+    global $inputs;
+
+    if (!empty($_FILES) && $_FILES['fileToUpload']['name']) {
+        $src = uploadFile();
+        $lastId = updateDb('posting',[
+            'pic' => $src,
+            'title' => $inputs['title'],
+            'content' => 3
+        ], [
+            "id" => $inputs['id']
+        ]);
+    } else {
+        $lastId = updateDb('posting',[
+            'title' => $inputs['title'],
+            'content' => $inputs['content'],
+        ], [
+            "id" => $inputs['id']
+        ]);
+    }
+
+    formatOutput(true, 'update success',$inputs['id']);
+}
+function uploadFile()
+{
+    if (!empty($_FILES) && $_FILES['fileToUpload']['name']) {
+
+        $baseDir = dirname(dirname(__FILE__)).'/static/upload/';
+
+        $date = date ('Ymdhis').getLogin()['mid'];
+        $fileName = $_FILES['fileToUpload']['name'];
+        $name = explode('.',$fileName);
+        $newFileName = $date.'.'.$name[1];
+        $newPath = $baseDir . $newFileName;
+
+        $filename = iconv('UTF-8','gbk',basename($_FILES['fileToUpload']['name']));
+        $oldPath = $baseDir.$filename;
+
+        if (move_uploaded_file($_FILES['fileToUpload']['tmp_name'],$oldPath)){
+            rename($oldPath,$newPath);
+            return $newFileName;
+        }
+    }
+    return 'default/demo-default.jpg';
+}
+
+// --------********--------********--------********--------********--------********
+// Functions for the POSTING ends here
+// author: saebom SHIN(40054234) / kimchhengheng(26809413)
+// --------********--------********--------********--------********--------********
 ?>
