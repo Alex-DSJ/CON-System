@@ -2,24 +2,36 @@
 <!-- all required php files here -->
 <?php 
     require_once "../common/header.php";
-    require_once "../func/posting_func.php";
     require_once "../func/func.php";
 ?>
-
-<!-- all required js here -->
-<script src="../static/auth.js"></script>
-<script src="../static/posting.js"></script>
-
-
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
 <?php
-// to check the login 
-
+if (checkMemberLogin() == false) {
+    header("Location:./login.php");
+}
 $dataList = getPostingList();
 ?>
 <div class="wrapper">
 
-    <?php require_once "./nav.php"?>
-
+    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
+        <ul class="navbar-nav" id="my-nav">
+            <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Home</a></li>
+            <li class="nav-item d-none d-sm-inline-block active"><a href="social.php" class="nav-link">Social</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="contract.php" class="nav-link">Contract</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">My Posting</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="message.php" class="nav-link">Message</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="base_info.php" class="nav-link">Base Info</a></li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+            <li class="nav-item">
+                <a class="nav-link" data-toggle="dropdown" href="#">
+                    <i class="far fa-sign-out" class="logout" onclick="logout()">logout</i>
+                </a>
+            </li>
+        </ul>
+    </nav>
     <section class="content">
         <div class="container-fluid">
 

@@ -1,4 +1,6 @@
 <?php require_once "../common/header.php";?>
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
 <div class="wrapper" style="margin-top: 5%">
     <section class="content">
         <div class="container-fluid">

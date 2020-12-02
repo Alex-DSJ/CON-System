@@ -1,17 +1,33 @@
 <?php require_once "../common/header.php";?>
     <link href="https://cdn.bootcss.com/bootstrap-select/1.13.10/css/bootstrap-select.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
+    <script src="../static/functions.js"></script>
 <?php
 require_once "../func/func.php";
 if (checkMemberLogin() == false) {
-    header("Location:/member/login.php");
+    header("Location:./login.php");
 }
 $suggestPostingList = getFriendLastedPosting();//need work on
 ?>
     <div class="wrapper">
-
-        <?php require_once "./nav.php"?>
-
+        <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
+            <ul class="navbar-nav" id="my-nav">
+                <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
+                <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Home</a></li>
+                <li class="nav-item d-none d-sm-inline-block active"><a href="social.php" class="nav-link">Social</a></li>
+                <li class="nav-item d-none d-sm-inline-block"><a href="contract.php" class="nav-link">Contract</a></li>
+                <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">My Posting</a></li>
+                <li class="nav-item d-none d-sm-inline-block"><a href="message.php" class="nav-link">Message</a></li>
+                <li class="nav-item d-none d-sm-inline-block"><a href="base_info.php" class="nav-link">Base Info</a></li>
+            </ul>
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="dropdown" href="#">
+                        <i class="far fa-sign-out" class="logout" onclick="logout()">logout</i>
+                    </a>
+                </li>
+            </ul>
+        </nav>
         <section class="content">
             <div class="container-fluid">
 
