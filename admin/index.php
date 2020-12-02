@@ -4,13 +4,10 @@
 <?php 
 require_once "../common/header.php";
 require_once "../func/func.php";
-require_once "../func/admin_func.php";
-require_once "../func/building_func.php";
 ?>
 
 <!-- all required js file here -->
-<script src="../static/auth.js"></script>
-<script src="../static/admin.js"></script>
+<script src="../static/functions.js"></script>
 
 <?php
 if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
