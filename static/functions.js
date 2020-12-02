@@ -229,6 +229,14 @@ function addBuilding(){
     $('#modal-add-building').modal('show')
 }
 
+//assign an admin to a building
+function assignAdmin(e){
+    let info = e.parent().data('info')
+    info = JSON.parse(decodeURIComponent(info))
+    console.log(info)
+    $('#modal-assign-admin').modal('show')
+}
+
 // update the information of a building in the database
 // e should include the information of the building's id
 function editBuilding(e) {
