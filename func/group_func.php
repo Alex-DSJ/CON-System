@@ -1,18 +1,18 @@
 <?php
-session_start();
+// session_start();
 require_once dirname(__FILE__).'./db.php';
 
 
-function formatOutput($success = true, $msg = 'option success', $data = [])
-{
-    header('Content-Type:application/json');
-    echo json_encode([
-        'success' => $success,
-        'msg' => $msg,
-        'data' => $data
-    ]);
-    exit;
-}
+// function formatOutput($success = true, $msg = 'option success', $data = [])
+// {
+//     header('Content-Type:application/json');
+//     echo json_encode([
+//         'success' => $success,
+//         'msg' => $msg,
+//         'data' => $data
+//     ]);
+//     exit;
+// }
 
 
 function editGroupHandler()

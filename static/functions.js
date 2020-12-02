@@ -4,10 +4,6 @@
 // --------********--------********--------********--------********--------********
 
 // path to the filter
-var COMMON_API = '../func/api.php';
-
-// This file is completed by shijun DENG-40084956 individually
-
 var COMMON_API = '../func/api.php'
 
 // get the username and password
@@ -239,6 +235,7 @@ function editBuilding(e) {
     let info = e.parent().data('info')
     info = JSON.parse(decodeURIComponent(info))
     console.log(info)
+    $('#id_edit').val(info.id)
     $('#name_edit').val(info.building_name)
     $('#desc_edit').val(info.description)
     $('#address_edit').val(info.address)
@@ -274,6 +271,7 @@ function delBuilding(e) {
 
 // submit the form to add a building to the database
 function submitBuilding() {
+    let id = $('#id').val();
     let name = $('#name').val();
     let desc = $('#desc').val();
     let address = $('#address').val();
@@ -287,7 +285,8 @@ function submitBuilding() {
     $.ajax({
         url:COMMON_API,
         data:{
-            act:"add_building",
+            act:"edit_building",
+            id: id,
             name:name,
             desc:desc,
             address:address,
@@ -313,6 +312,7 @@ function submitBuilding() {
 // route to api.php and invoke editBuildingHandler() to update a bulding's info
 // go back to the previous page with the updated info
 function submitBuildingEdit() {
+    let id = $('#id_edit').val();
     let name = $('#name_edit').val();
     let desc = $('#desc_edit').val();
     let address = $('#address_edit').val();
@@ -324,9 +324,10 @@ function submitBuildingEdit() {
     }
 
     $.ajax({
-        url:COMMON_API,
+        url: COMMON_API,
         data:{
             act:"edit_building",
+            id: id,
             name:name,
             desc:desc,
             address:address,
@@ -342,13 +343,61 @@ function submitBuildingEdit() {
                 return false;
             }
         },
-        error:function () {
-            alert('server error')
+        error:function (jqXHR, textStatus, errorThrown) {
+            // error detail
+            alert(jqXHR.responseText);
+            // alert(jqXHR.status);
+            // alert(jqXHR.readyState);
+            // alert(jqXHR.statusText);
+            // alert(textStatus);
+            // alert(errorThrown);
         }
     })
 }
 
-// This file is completed by shijun DENG-40084956 individually
+function submitBuildingEdit1() {
+    let id = $('#id_edit').val();;
+    let name = $('#name_edit').val();
+    let desc = $('#desc_edit').val();
+    let address = $('#address_edit').val();
+    let area = $('#area_edit').val();
+
+    if (name == '' || desc == '' || address == ''||area == '') {
+        alert('params err');
+        return false;
+    }
+
+    $.ajax({
+        url: COMMON_API,
+        data:{
+            act:"edit_building",
+            id: id,
+            name:name,
+            desc:desc,
+            address:address,
+            area:area,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            // error detail
+            alert(jqXHR.responseText);
+            // alert(jqXHR.status);
+            // alert(jqXHR.readyState);
+            // alert(jqXHR.statusText);
+            // alert(textStatus);
+            // alert(errorThrown);
+        }
+    })
+}
 
 // display the popup form for adding contract
 function addContract() {

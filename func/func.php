@@ -169,13 +169,13 @@ function addBuildingHandler() {
 // update a building to the database
 function editBuildingHandler() {
     global $inputs;
-    insert('building',[
-        'building_name' => $inputs['name'],
+    $res = updateDb('building', [
+        'building_name' => $inputs['name'], 
         'address' => $inputs['address'],
         'description' => $inputs['desc'],
-        'area' => $inputs['area'],
-    ]);
-    formatOutput(true, 'add success');
+        'area' => $inputs['area']],
+        ['id' => $inputs['id']]);
+    formatOutput(true, 'update success', $res);
 }
 
 // delete a building from the databse
@@ -202,11 +202,9 @@ function getContractList() {
 // update a contract to the database
 function updateContractHandler() {
     global $inputs;
-    $res = updateDb('contract',[
-        'status' => $inputs['status'],
-    ], [
-        'id' => $inputs['id']
-    ]);
+    $res = updateDb('contract',
+                    ['status' => $inputs['status'],],
+                    ['id' => $inputs['id']]);
     formatOutput(true, 'update success', $res);
 }
 

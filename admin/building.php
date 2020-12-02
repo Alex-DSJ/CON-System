@@ -107,7 +107,7 @@ $dataList = getBuildingList();
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Edit Admin
+                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Edit Building
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -115,6 +115,8 @@ $dataList = getBuildingList();
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
+                    <label for="">ID</label><br>
+                    <input type="text" class="form-control" id="id_edit">
                     <label for="">Building Name</label>
                     <input type="text" class="form-control" id="name_edit">
                     <label for="">Description</label>
