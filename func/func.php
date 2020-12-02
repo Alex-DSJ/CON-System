@@ -241,12 +241,49 @@ function addContractHandler() {
 // author: Shijun Deng (40084956)
 // --------********--------********--------********--------********--------********
 
+// --------********--------********--------********--------********--------********
+// Functions for the OWNER/ADMIN starts here
+// author: saebom SHIN (40054234)
+// --------********--------********--------********--------********--------********
+
+function getCondoList()
+{
+    $sql = "select a.*,c.building_name from condo a 
+left join condo_building b on a.id = b.condo_id
+left join building c on c.id = b.building_id
+where b.building_id = ?";
+    return getAll($sql, [getLogin()['bid']]);
+}
+
+function getGroupList()
+{
+    return getAll("select * from `group` where admin_id = ?", [getLogin()['uid']]);
+}
+
+function getGroupApplyList()
+{
+    return getAll("select 
+b.name as member_name ,c.group_name,a.create_time,a.id,ifnull(a.handle_time,'-')  as handle_time,a.status
+from `member_group_apply` a 
+inner join member b on a.member_id = b.id
+inner join `group` c on a.group_id = c.id
+where c.admin_id = ?
+", [getLogin()['uid']]);
+}
+
+function getPostingAll()
+{
+    return getAll("select b.* from member_posting a inner join posting b on a.posting_id = b.id ");
+}
+// --------********--------********--------********--------********--------********
+// Functions for the OWNER/ADMIN ends here
+// author: saebom SHIN (40054234)
+// --------********--------********--------********--------********--------********
 
 // --------********--------********--------********--------********--------********
 // Functions for the Member ends here
 // author:
 // --------********--------********--------********--------********--------********
-
 function checkMemberLogin()
 {
     if (!isset($_SESSION['mid'])) {
