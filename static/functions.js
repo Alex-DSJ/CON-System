@@ -474,97 +474,409 @@ author: Shijun Deng (40084956)
 --------********--------********--------********--------********--------******** */
 
 /* --------********--------********--------********--------********--------********
-Functions for the member start here
-author:
+Functions for the CONDO starts here
+author: saebom SHIN (40054234)
+--------********--------********--------********--------********--------******** */
+function addCondo() {
+    $('#modal-add-condo').modal('show')
+}
+
+function delCondo(e) {
+    let id = e.parent().data('id');
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"del_condo",
+            id:id
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+}
+
+function editCondo(e) {
+    let info = e.parent().data('info')
+    info = JSON.parse(decodeURIComponent(info))
+    console.log(info)
+    $('#id_edit').val(info.id)
+    $('#name_edit').val(info.name)
+    $('#area_edit').val(info.area)
+    $('#cost_edit').val(info.cost)
+    $('#modal-edit-condo').modal('show')
+}
+
+function submitCondo() {
+    let name = $('#name').val();
+    let area = $('#area').val();
+    let cost = $('#cost').val();
+
+    if (name == '' || area == '' || cost == '') {
+        alert('params err');
+        return false;
+    }
+
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"add_condo",
+            name:name,
+            cost:cost,
+            area:area,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+}
+
+function submitCondoEdit() {
+    let name = $('#name_edit').val();
+    let area = $('#area_edit').val();
+    let cost = $('#cost_edit').val();
+
+    if (name == '' || area == '' || cost == '') {
+        alert('params err');
+        return false;
+    }
+
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"edit_condo",
+            id:$('#id_edit').val(),
+            name:name,
+            cost:cost,
+            area:area,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+}
+
+/* --------********--------********--------********--------********--------********
+Functions for the CONDO ends here
+author: saebom SHIN (40054234)
 --------********--------********--------********--------********--------******** */
 
-//social
-//posting
-function searchFriend()
-{
-    let friend_keyword = $('#friend_keyword').val()
-    if (friend_keyword == '' ) {
-        return false;
-    }
-    $.ajax({
-        url: COMMON_API,
-        data: {
-            act: "friend_search",
-            keyword: friend_keyword
-        },
-        dataType: 'json',
-        type: 'post',
-        success: function (res) {
-            console.log(res)
-            var t = ''
-            $.each(res.data,function (k,item) {
-                t += `<tr><td>${ item.id }</td><td>${ item.name }</td><td>${ item.email }</td><td data-id="${ item.id }"><button class="btn btn-primary apply-friend btn-sm">apply</button></td></tr>`
-            })
-            $('#friend-search-container').empty().append(t)
-        },
-        error: function () {
-            alert('server error')
-        }
-    })
+/* --------********--------********--------********--------********--------********
+Functions for the GROUP start here
+author: saebom SHIN (40054234)
+--------********--------********--------********--------********--------******** */
+function addGroup() {
+    $('#modal-add-group').modal('show')
 }
-function searchPosting()
-{
-    let posting_keyword = $('#posting_keyword').val()
-    if (posting_keyword == '' ) {
-        return false;
-    }
+
+function delGroup(e) {
+    let id = e.parent().data('id');
     $.ajax({
-        url: COMMON_API,
-        data: {
-            act: "posting_search",
-            keyword: posting_keyword
+        url:COMMON_API,
+        data:{
+            act:"del_group",
+            id:id
         },
-        dataType: 'json',
-        type: 'post',
-        success: function (res) {
-            var t = ''
-            $.each(res.data,function (k,item) {
-                t += `  <tr><td>${ item.id }</td><td>${ item.title }</td><td>${ item.name }</td><td>${ item.create_time }</td><td data-id="${ item.id }"><button class="btn btn-primary btn-sm" onclick="detailPosting($(this))">detail</button></td></tr>`
-            })
-            $('#posting-search-container').empty().append(t)
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
         },
-        error: function () {
-            alert('server error')
-        }
-    })
-}
-function searchGroup() {
-    let group_keyword = $('#group_keyword').val()
-    if (group_keyword == '' ) {
-        return false;
-    }
-    $.ajax({
-        url: COMMON_API,
-        data: {
-            act: "group_search",
-            keyword: group_keyword
-        },
-        dataType: 'json',
-        type: 'post',
-        success: function (res) {
-            console.log(res)
-            var t = ''
-            $.each(res.data,function (k,item) {
-                t += `<tr><td>${ item.id }</td><td>${ item.group_name }</td><td>${ item.description }</td><td data-id="${ item.id }"><button class="btn btn-primary apply-group btn-sm">apply</button></td></tr>`
-            })
-            $('#group-search-container').empty().append(t)
-        },
-        error: function () {
+        error:function () {
             alert('server error')
         }
     })
 }
 
-function detailPosting(e) {
-    let id = e.parent().data('id');
-    window.location.href = '../member/posting_template.php?act=view&id=' + id;
+function editGroup(e) {
+    let info = e.parent().data('info')
+    info = JSON.parse(decodeURIComponent(info))
+    console.log(info)
+    $('#name_edit').val(info.group_name)
+    $('#desc_edit').val(info.description)
+    $('#id_edit').val(info.id)
+    $('#modal-edit-group').modal('show')
 }
-//social
+
+function submitGroup() {
+    let name = $('#name').val();
+    let desc = $('#desc').val();
+
+    if (name == '' || desc == '') {
+        alert('params err');
+        return false;
+    }
+
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"add_group",
+            name:name,
+            desc:desc,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+}
+
+function submitGroupEdit() {
+    let name = $('#name_edit').val();
+    let desc = $('#desc_edit').val();
+
+    if (name == '' || desc == '') {
+        alert('params err');
+        return false;
+    }
+
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"edit_group",
+            id: $('#id_edit').val(),
+            name:name,
+            desc:desc,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+}
+
+/* --------********--------********--------********--------********--------********
+Functions for the GROUP ends here
+author: saebom SHIN (40054234)
+--------********--------********--------********--------********--------******** */
+
+/* --------********--------********--------********--------********--------********
+Functions for the MEMBER starts here
+author: saebom SHIN (40054234)
+--------********--------********--------********--------********--------******** */
+
+function addMember() {
+    $('#modal-add-member').modal('show')
+}
+
+function delMember(e) {
+    let id = e.parent().data('id');
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"del_member",
+            id:id
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+}
+
+function submitMember() {
+    let name = $('#name').val();
+    let password = $('#password').val();
+    let address = $('#address').val();
+    let email = $('#email').val();
+    let family = $('#family').val();
+    let colleagues = $('#colleagues').val();
+    let privilege = $('#privilege').val();
+    let status = $('#status').val();
+    let condos = $('#condos').val();
+
+    if (name == '' || password == '' || address == '' || email == '' || !condos) {
+        alert('params err');
+        return false;
+    }
+
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"add_member",
+            name:name,
+            password:password,
+            address:address,
+            email:email,
+            family:family,
+            colleagues:colleagues,
+            privilege:privilege,
+            status:status,
+            condos:condos,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+}
+
+function submitMemberEdit() {
+    let name = $('#name_edit').val();
+    let password = $('#password_edit').val();
+    let address = $('#address_edit').val();
+    let email = $('#email_edit').val();
+    let family = $('#family_edit').val();
+    let colleagues = $('#colleagues_edit').val();
+    let privilege = $('#privilege_edit').val();
+    let status = $('#status_edit').val();
+    let condos = $('#condos_edit').val();
+
+    if (name == '' || password == '' || address == '' || email == '' ) {
+        alert('params err');
+        return false;
+    }
+
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"edit_member",
+            id:$('#id_edit').val(),
+            password:password,
+            name:name,
+            address:address,
+            email:email,
+            family:family,
+            colleagues:colleagues,
+            privilege:privilege,
+            status:status,
+            condos:condos,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+}
+
+/* --------********--------********--------********--------********--------********
+Functions for the MEMBER ends here
+author: saebom SHIN (40054234)
+--------********--------********--------********--------********--------******** */
+
+/* --------********--------********--------********--------********--------********
+Functions for the OWNER/LOGIN starts here
+author: saebom SHIN (40054234)
+--------********--------********--------********--------********--------******** */
+function admin_login() {
+    console.log('admin_login')
+    let username = $('#username').val();
+    let password = $('#password').val();
+    if(username == '' || password == '') {
+        alert('input username and password first')
+        return false;
+    }
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            "act": "admin_login",
+            "username": username,
+            "password" :password,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.href = 'index.php'
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+}
+
+/* --------********--------********--------********--------********--------********
+Functions for the OWNER/LOGIN ends here
+author: saebom SHIN (40054234)
+--------********--------********--------********--------********--------******** */
+
+/* --------********--------********--------********--------********--------********
+Functions for the POSTING starts here
+author: kimchhengheng (26809413)_saebom SHIN (40054234)
+--------********--------********--------********--------********--------******** */
 function savePosting(act = 'add_posting') {
     let title = $('#title').val();
     let content = $('#content').val()
@@ -633,7 +945,120 @@ function detailPosting(e) {
     let id = e.parent().data('id');
     window.location.href = '../member/posting_templ.php?act=view&id=' + id;
 }
+
+function submitComment()
+{
+    let content = $('#comment_content').val();
+    let posting_id = $('#id_comment_edit').val();
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "add_comment",
+            content: content,
+            id: posting_id,
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+           alert(res.msg)
+            window.location.reload()
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+
+/* --------********--------********--------********--------********--------********
+Functions for the POSTING ends here
+author: kimchhengheng (26809413)_saebom SHIN (40054234)
+--------********--------********--------********--------********--------******** */
+
+//social
 //posting
+function searchFriend()
+{
+    let friend_keyword = $('#friend_keyword').val()
+    if (friend_keyword == '' ) {
+        return false;
+    }
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "friend_search",
+            keyword: friend_keyword
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            console.log(res)
+            var t = ''
+            $.each(res.data,function (k,item) {
+                t += `<tr><td>${ item.id }</td><td>${ item.name }</td><td>${ item.email }</td><td data-id="${ item.id }"><button class="btn btn-primary apply-friend btn-sm">apply</button></td></tr>`
+            })
+            $('#friend-search-container').empty().append(t)
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+
+function searchPosting()
+{
+    let posting_keyword = $('#posting_keyword').val()
+    if (posting_keyword == '' ) {
+        return false;
+    }
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "posting_search",
+            keyword: posting_keyword
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            var t = ''
+            $.each(res.data,function (k,item) {
+                t += `  <tr><td>${ item.id }</td><td>${ item.title }</td><td>${ item.name }</td><td>${ item.create_time }</td><td data-id="${ item.id }"><button class="btn btn-primary btn-sm" onclick="detailPosting($(this))">detail</button></td></tr>`
+            })
+            $('#posting-search-container').empty().append(t)
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+function searchGroup() {
+    let group_keyword = $('#group_keyword').val()
+    if (group_keyword == '' ) {
+        return false;
+    }
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "group_search",
+            keyword: group_keyword
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            console.log(res)
+            var t = ''
+            $.each(res.data,function (k,item) {
+                t += `<tr><td>${ item.id }</td><td>${ item.group_name }</td><td>${ item.description }</td><td data-id="${ item.id }"><button class="btn btn-primary apply-group btn-sm">apply</button></td></tr>`
+            })
+            $('#group-search-container').empty().append(t)
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+
+//social
+
 //message
 function addMessage()
 {
