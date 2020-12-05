@@ -2,7 +2,7 @@
 <!-- all required php files here -->
 <?php 
     require_once "../common/header.php";
-    require_once "../func/message_func.php";
+    require_once "../func/func.php";
 
 ?>
 <!-- all required js files here -->

@@ -16,13 +16,7 @@ if (checkMemberLogin() == false) {
     header("Location:./login.php");
 }
 $memberGroupList = getMemberGroupList();
-$memberGroupList = getMailList();
-$memberGroupStr = '';
-foreach ($memberGroupList as $item) {
-    $key = $item['id'];
-    $v = $item['email'];
-    $memberGroupStr .= "<option value='$key'>$v</option>";
-}
+$mailList = getMailList();
 ?>
 <div class="wrapper">
 
@@ -56,7 +50,7 @@ foreach ($memberGroupList as $item) {
 
                         <div class="card-body">
                             <div style="margin-bottom: 10px">
-                                <button class="btn btn-primary btn-sm" onclick="addMessage()"><i class="far fa-plus-square"></i></button>
+                                <button class="btn btn-primary btn-sm" onclick="addMessage()">Add</button>
                                 <button class="btn btn-primary btn-sm" onclick="window.location.href='inbox.php'">Inbox <i class="fas fa-inbox"></i></button>
                                 <button class="btn btn-primary btn-sm" onclick="window.location.href='sentbox.php'">SendBox <i class="fas fa-paper-plane"></i></button>
                             </div>
@@ -70,36 +64,45 @@ foreach ($memberGroupList as $item) {
     </section>
 </div>
 
-    <div class="modal fade" id="modal-add-message">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
+<div class="modal fade" id="modal-add-message">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
                 <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Add Message
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span></button>
-                </div>
-                <div class="modal-body" style="margin: 20px">
-                    <div class="form-group row">
-                        <input type="hidden" id="id_comment_edit">
-                        <label for="">Title</label>
-                        <input type="text" class="form-control" id="title">
-                        <label for="">Message</label>
-                        <textarea name="" id="content" cols="30" rows="10" class="form-control"></textarea>
-                        <label for="">Receiver</label>
-                        <select class="form-control search-focus selectpicker" id="receiver" multiple data-live-search="true" data-actions-box="true" name="receiver[]" title="please select receiver">
-                            <?php echo $memberGroupStr; ?>
-                        </select>
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="submitMessage()">Save</button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body" style="margin: 20px">
+                <div class="form-group row">
+                    <input type="hidden" id="id_comment_edit">
+                    <label for="">Title</label>
+                    <input type="text" class="form-control" id="title">
+                    <label for="">Message</label>
+                    <textarea name="" id="content" cols="30" rows="10" class="form-control"></textarea>
+                    <label for="">Receiver</label>
+                    <select class="form-control" id="receiver" title="please select receiver" required>
+                        <option> </option>
+                        <?php
+                        foreach ($mailList as $item) {
+                            ?>
+                            <option value="<?php echo $item['id'].":".$item['email']?>">
+                                <?php echo $item['email']?>
+                            </option>
+                            <?php
+                        }
+                        ?>
+                    </select>
                 </div>
             </div>
-            <!-- /.modal-content -->
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="submitMessage()">Save</button>
+            </div>
         </div>
-        <!-- /.modal-dialog -->
+        <!-- /.modal-content -->
     </div>
+    <!-- /.modal-dialog -->
+</div>
 
 <?php require_once "../common/footer.php";?>

@@ -2,22 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fb7ddaad-6967-4886-ad4f-23174da57990" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/posting_tmpl.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/func/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/func/api.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/func/func.php" beforeDir="false" afterPath="$PROJECT_DIR$/func/func.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/guest.php" beforeDir="false" afterPath="$PROJECT_DIR$/guest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/member/base_info.php" beforeDir="false" afterPath="$PROJECT_DIR$/member/base_info.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/member/contract.php" beforeDir="false" afterPath="$PROJECT_DIR$/member/contract.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/member/hot_posts.php" beforeDir="false" afterPath="$PROJECT_DIR$/member/hot_posts.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/member/inbox.php" beforeDir="false" afterPath="$PROJECT_DIR$/member/inbox.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/member/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/member/index.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/member/message.php" beforeDir="false" afterPath="$PROJECT_DIR$/member/message.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/member/posting.php" beforeDir="false" afterPath="$PROJECT_DIR$/member/posting.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/member/posting_templ.php" beforeDir="false" afterPath="$PROJECT_DIR$/member/posting_templ.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/member/sentbox.php" beforeDir="false" afterPath="$PROJECT_DIR$/member/sentbox.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/member/social.php" beforeDir="false" afterPath="$PROJECT_DIR$/member/social.php" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/functions.js" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -39,12 +31,13 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/member" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\dashboard\CON-System\member" />
       <recent name="C:\xampp\htdocs\dashboard\CON-System" />
     </key>
   </component>
@@ -61,6 +54,8 @@
       <workItem from="1607188069122" duration="73000" />
       <workItem from="1607188152022" duration="323000" />
       <workItem from="1607188490453" duration="3244000" />
+      <workItem from="1607191958919" duration="1299000" />
+      <workItem from="1607193510335" duration="3044000" />
     </task>
     <servers />
   </component>

@@ -947,7 +947,8 @@ author: kimchhengheng (26809413)_saebom SHIN (40054234)
 --------********--------********--------********--------********--------******** */
 function savePosting(act = 'add_posting') {
     let title = $('#title').val();
-    let content = $('#content').val()
+    let content = $('#content').val();
+    let status = $('#status').val();
 
     if (title == '' || content == '') {
         alert('params err')
@@ -961,7 +962,8 @@ function savePosting(act = 'add_posting') {
             act: act,
             id: $('#id_edit').val(),
             title: title,
-            content: content
+            content: content,
+            status: status
         },
         fileElementId: 'fileToUpload',
         dataType: 'json',
@@ -980,7 +982,7 @@ function savePosting(act = 'add_posting') {
     })
 }
 
-function delPosting() {
+function delPosting(e) {
     let id = e.parent().data('id');
     $.ajax({
         url: COMMON_API,
@@ -998,8 +1000,8 @@ function delPosting() {
                 return false;
             }
         },
-        error: function () {
-            alert('server error')
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
         }
     })
 }
@@ -1031,7 +1033,7 @@ function submitComment()
         dataType: 'json',
         type: 'post',
         success: function (res) {
-           alert(res.msg)
+            alert(res.msg)
             window.location.reload()
         },
         error: function () {
@@ -1169,9 +1171,12 @@ function addMessage()
 }
 function submitMessage()
 {
-    let content = $('#content').val()
-    let title = $('#title').val()
-    let receiver = $('#receiver').val()
+    let content = $('#content').val();
+    let title = $('#title').val();
+    let receiver = $('#receiver').val().split(":");
+    let receiverId=receiver[0];
+    let receiverEmail = receiver[1];
+    alert(receiverId+"\t"+receiverEmail);
     if (content == '' || title == '' || receiver == '') {
         return false;
     }
@@ -1183,7 +1188,8 @@ function submitMessage()
             id: $('#id').val(),
             content: content,
             title: title,
-            receiver: receiver,
+            receiverId: receiverId,
+            receiverEmail:receiverEmail
         },
         dataType: 'json',
         type: 'post',
@@ -1205,3 +1211,173 @@ function submitMessage()
 /* --------********--------********--------********--------********--------********
 Functions for the Member End Here
 --------********--------********--------********--------********--------******** */
+
+function withdraw(e) {
+    let id = e.parent().data('id')
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "withdraw_group",
+            id: id
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+function unfriend(e) {
+    let id = e.parent().data('id');
+    alert("unfriend");
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "unfriend",
+            id: id
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+
+$(function () {
+    $('body').on('click', '.show-condos', function () {
+        let id = $(this).data('id')
+        console.log(id)
+        var res = getCondos(id)
+        var t = ''
+        $.each(res, function (k, item) {
+            t += `<tr><td>${item.name}</td></tr>`
+        })
+        $('#condos-contanier').empty().append(t)
+        $('#modal-condos').modal('show')
+    })
+
+    $('body').on('click', '.show-groups', function () {
+        let id = $(this).data('id')
+        console.log(id)
+        var res = getGroups(id)
+        var t = ''
+        $.each(res, function (k, item) {
+            t += `<tr><td>${item.group_name}</td></tr>`
+        })
+        $('#condos-contanier').empty().append(t)
+        $('#modal-condos').modal('show')
+    })
+
+    $('body').on('click', '.apply-friend', function () {
+        let id = $(this).parent().data('id')
+        console.log(id)
+        $.ajax({
+            url: COMMON_API,
+            data: {
+                act: "apply_friend",
+                id: id
+            },
+            dataType: 'json',
+            type: 'post',
+            success: function (res) {
+                alert(res.msg)
+                if (res.success == true) {
+                    window.location.reload()
+                } else {
+                    return false;
+                }
+            },
+            error: function () {
+                alert('server error')
+            }
+        })
+    })
+
+    $('body').on('click', '.apply-group',function () {
+        let id = $(this).parent().data('id')
+        $.ajax({
+            url: COMMON_API,
+            data: {
+                act: "apply_group",
+                id: id
+            },
+            dataType: 'json',
+            type: 'post',
+            success: function (res) {
+                alert(res.msg)
+                if (res.success == true) {
+                    window.location.reload()
+                } else {
+                    return false;
+                }
+            },
+            error: function () {
+                alert('server error')
+            }
+        })
+    })
+
+    $('body').on('click','.comment',function () {
+        let id = $(this).data('id')
+        $('#id_comment_edit').val(id)
+        $('#modal-add-comment').modal('show')
+    })
+
+    $('body').on('click','.disagree-friend',function () {
+        let id = $(this).parent().data('id')
+        $.ajax({
+            url: COMMON_API,
+            data: {
+                act: "disagree_friend_apply",
+                id: id,
+            },
+            dataType: 'json',
+            type: 'post',
+            success: function (res) {
+                alert(res.msg)
+                window.location.reload()
+            },
+            error: function () {
+                alert('server error')
+            }
+        })
+    })
+
+    $('body').on('click','.agree-friend',function () {
+        let id = $(this).parent().data('id');
+        $.ajax({
+            url: COMMON_API,
+            data: {
+                act: "agree_friend_apply",
+                id: id,
+            },
+            dataType: 'json',
+            type: 'post',
+            success: function (res) {
+                alert(res.msg)
+                window.location.reload()
+            },
+            error: function () {
+                alert('server error')
+            }
+        })
+    })
+
+})

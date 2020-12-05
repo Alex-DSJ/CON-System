@@ -2,6 +2,7 @@
 <!-- all required php files here -->
 <?php 
     require_once "../common/header.php";
+    require_once "../func/func.php";
 ?>
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
@@ -10,6 +11,7 @@
 if (checkMemberLogin() == false) {
     header("Location:./login.php");
 }
+
 if (isset($_GET['id'])) {
     $info = getPostingInfo($_GET['id']);
     $comment = getPostingComment($_GET['id']);
@@ -186,4 +188,3 @@ $groupInfo = getMemberGroupInfo();
         }
     })
 </script>
-

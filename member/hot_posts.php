@@ -7,7 +7,7 @@ require_once "../func/func.php";
 if (checkMemberLogin() == false) {
     header("Location:./login.php");
 }
-$suggestPostingList = getFriendLastedPosting();//need work on
+$suggestPostingList = getFriendLastedPosting();
 ?>
     <div class="wrapper">
         <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">

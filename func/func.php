@@ -517,14 +517,12 @@ function addMemberHandler()
 // --------********--------********--------********--------********--------********
 function getPostingList()
 {
-    // dynamic member id after [getLogin()['mid']]
-    return getAll("select b.* from member_posting a inner join posting b on a.posting_id = b.id  where a.member_id = ?", [3]);
+    return getAll("select b.* from member_posting a inner join posting b on a.posting_id = b.id  where a.member_id = ?", [getLogin()['mid']]);
 }
 
 function getPostingInfo($id = 0)
 {
-    // dynamic posting id after 
-    return getOne("select b.* from member_posting a inner join posting b on a.posting_id = b.id  where a.posting_id = ?", [7]);
+    return getOne("select b.* from member_posting a inner join posting b on a.posting_id = b.id  where a.posting_id = ?", [$id]);
 }
 function getPublicPost(){
     return getAll("select * from posting where status= 'public'");
@@ -538,7 +536,7 @@ function getPostingAll()
 function delPostingHandler()
 {
     global $inputs;
-    $sql = "delete from `posting` where id = " . 7;
+    $sql = "delete from `posting` where id = " . $inputs['id'];
     execSql($sql);
     formatOutput(true, 'delete success');
 }
@@ -572,7 +570,8 @@ function editPostingHandler()
         $lastId = updateDb('posting',[
             'pic' => $src,
             'title' => $inputs['title'],
-            'content' => 3
+            'content' => $inputs['content'],
+            'status' => $inputs['status']
         ], [
             "id" => $inputs['id']
         ]);
@@ -580,6 +579,7 @@ function editPostingHandler()
         $lastId = updateDb('posting',[
             'title' => $inputs['title'],
             'content' => $inputs['content'],
+            'status' => $inputs['status']
         ], [
             "id" => $inputs['id']
         ]);
@@ -623,6 +623,27 @@ inner join reply r on pr.reply_id = r.id where p.id = $id
 ");
 }
 
+function addCommentHandler()
+{
+    global $inputs;
+    $content = $inputs['content'];
+    $id = $inputs['id'];
+    $replyId = insert('reply',[
+        'content' => $content
+    ]);
+
+    insert('posting_reply',[
+        'posting_id' => $id,
+        'reply_id' => $replyId
+    ]);
+
+    insert('member_reply',[
+        'member_id' => getLogin()['mid'],
+        'posting_id' => $id
+    ]);
+    formatOutput(true, 'success');
+}
+
 // --------********--------********--------********--------********--------********
 // Functions for the POSTING ends here
 // author: saebom SHIN(40054234) / kimchhengheng(26809413)
@@ -644,28 +665,39 @@ function getMailList()
     return getAll("select id,`email` from `member` where id != ?", [getLogin()['mid']]);
 
 }
-
 function getInboxMessage()
 {
     $sql = "select * from `mail` where receiver_id = ?";
-    // to change with member id
-    return getAll($sql, 2);
+    return getAll($sql, [getLogin()['mid']]);
 }
 
 function getSentboxMessage()
 {
     $sql = "select * from `mail` where sender_id = ?";
-    // to change with member id
-    return getAll($sql, 2);
+    return getAll($sql, [getLogin()['mid']]);
+}
+
+function addMessageHandler()
+{
+    global $inputs;
+    $lastId = insert('mail',[
+        'title' => $inputs['title'],
+        'content' => $inputs['content'],
+        'sender_id' => getLogin()['mid'],
+        'sender' => getMemberInfo()['email'],
+        'receiver' => $inputs['receiverEmail'],
+        'receiver_id' => $inputs['receiverId'],
+    ]);
+    formatOutput(true, 'add success');
 }
 
 
 function getSuggestFriend()
 {
-    return getAll("select a.name,a.email from member a 
-where a.id != ? and a.id not in (select apply_member_id from member_friend_apply where status = 0)
+    return getAll("select a.id, a.name,a.email from member a 
+where a.id != ?and a.id not in (select friend_id from member_friend where member_id =?) and a.id not in (select apply_member_id from member_friend_apply where status = \"\" and member_id = ?)
 limit 5",
-        [getLogin()['mid']]
+        [getLogin()['mid'],getLogin()['mid'],getLogin()['mid']]
     );
 }
 function getSuggestPosting()
@@ -679,9 +711,12 @@ function getSuggestGroup(){
     return getAll("select * from `group` a where id not in (select group_id from member_group where member_id=?)
 and a.id not in (select group_id from member_group_apply where status = \"\")
  limit 5",[getLogin()['mid']]);
-
 }
-
+function getMemberFriendInfo()
+{
+    return getAll("
+    select a.id, b.name from member_friend a inner join member b on a.friend_id = b.id where a.member_id=?", [getLogin()['mid']]);
+}
 
 function friendSearchHandler()
 {
@@ -709,6 +744,85 @@ function groupSearchHandler()
     $keyword = $inputs['keyword'];
     $res = getAll("select * from `group` where group_name like '%$keyword%' or description like '%$keyword%'");
     formatOutput(true, 'success',$res);
+}
+function withdrawGroupHandler()
+{
+    global $inputs;
+    $sql = "delete from `member_group` where id = " . $inputs['id'];
+    execSql($sql);
+    formatOutput(true, 'delete success');
+}
+function unfriendHandle()
+{
+    global $inputs;
+    $sql = "delete from `member_friend` where id = " . $inputs['id'];
+    execSql($sql);
+    formatOutput(true, 'delete success');
+}
+function friendApplyHandler()
+{
+    global $inputs;
+
+    insert('member_friend_apply',[
+        'member_id' => getLogin()['mid'],
+        'apply_member_id' => $inputs['id']
+    ]);
+
+    formatOutput(true, 'apply success');
+}
+
+function friendGroupHandler()
+{
+    global $inputs;
+
+    insert('member_group_apply',[
+        'member_id' => getLogin()['mid'],
+        'group_id' => $inputs['id']
+    ]);
+
+    formatOutput(true, 'apply success');
+}
+
+function getFriendLastedPosting()
+{
+    $sql = "select b.*,c.name from member_posting a
+inner join posting b on b.id = a.posting_id
+inner join member c on c.id = a.member_id
+where a.member_id in (select friend_id from member_friend where member_id = ?)  order by b.last_update_time DESC limit 10";
+    return getAll($sql, [getLogin()['mid']]);
+}
+
+function getNewFriendApply()
+{
+  return getAll("select a.id,b.name as applier_name , a.member_id as applier_id ,a.create_time
+from member_friend_apply a , `member` b
+where a.apply_member_id = ? and a.member_id = b.id and a.status = \"\"", [getLogin()['mid']]);
+
+}
+
+function disAgreeFriendHandler()
+{
+    global $inputs;
+    $sql = "delete from `member_friend_apply` where id = " . $inputs['id'];
+    execSql($sql);
+    formatOutput(true, 'option success');
+}
+
+function agreeFriendHandler()
+{
+    global $inputs;
+    $res = getOne('select * from member_friend_apply where id = ?',[$inputs['id']]);
+    insert('member_friend',[
+        'member_id' => getLogin()['mid'],
+        'friend_id' => $res['member_id']
+    ]);
+    insert('member_friend',[
+        'member_id' =>  $res['member_id'],
+        'friend_id' =>getLogin()['mid']
+    ]);
+    $sql = "delete from `member_friend_apply` where id = " . $inputs['id'];
+    execSql($sql);
+    formatOutput(true, 'option success');
 }
 
 // --------********--------********--------********--------********--------********

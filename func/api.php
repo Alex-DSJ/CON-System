@@ -16,6 +16,7 @@ if (isset($inputs['act'])) {
         case 'add_admin' : addAdminHandler();break;
         case 'del_admin' : delAdminHandler();break;
         case 'edit_admin' : editAdminHandler();break;
+
         case 'apply_friend' : friendApplyHandler();break;
         case 'apply_group' : friendGroupHandler();break;
         case 'friend_search' : friendSearchHandler();break;
@@ -37,7 +38,7 @@ if (isset($inputs['act'])) {
         case 'add_posting' : addPostingHandler();break;
         case 'del_posting' : delPostingHandler();break;
         case 'edit_posting' : editPostingHandler();break;
-        case 'detail_posting' : groupApplyHandler();break;
+//        case 'detail_posting' : groupApplyHandler();break;
         case 'add_comment' : addCommentHandler();break;
 
         // owner(admin) related APIs
