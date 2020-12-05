@@ -255,6 +255,53 @@ where b.building_id = ?";
     return getAll($sql, [getLogin()['bid']]);
 }
 
+function editCondoHandler()
+{
+    global $inputs;
+    updateDb('condo',[
+        'name' => $inputs['name'],
+        'area' => $inputs['area'],
+        'cost' => $inputs['cost'],
+    ], [
+        'id' => $inputs['id']
+    ]);
+    formatOutput(true, 'update success');
+}
+
+function delCondoHandler()
+{
+    global $inputs;
+    $sql = "delete from condo where id = " . $inputs['id'];
+    execSql($sql);
+    formatOutput(true, 'delete success');
+}
+function addCondoHandler()
+{
+    global $inputs;
+
+    $lastId = insert('condo',[
+        'name' => $inputs['name'],
+        'area' => $inputs['area'],
+        'cost' => $inputs['cost'],
+    ]);
+    insert('condo_building', [
+        'condo_id' => $lastId,
+        'building_id' => getLogin()['bid'],
+    ]);
+
+    formatOutput(true, 'add success');
+}
+
+// --------********--------********--------********--------********--------********
+// Functions for the OWNER/ADMIN ends here
+// author: saebom SHIN (40054234)
+// --------********--------********--------********--------********--------********
+
+
+// --------********--------********--------********--------********--------********
+// Functions for the GROUP starts here
+// author: saebom SHIN(40054234)
+// --------********--------********--------********--------********--------********
 function getGroupList()
 {
     return getAll("select * from `group` where admin_id = ?", [getLogin()['uid']]);
@@ -271,18 +318,48 @@ where c.admin_id = ?
 ", [getLogin()['uid']]);
 }
 
-function getPostingAll()
+function editGroupHandler()
 {
-    return getAll("select b.* from member_posting a inner join posting b on a.posting_id = b.id ");
+    global $inputs;
+    updateDb('group',[
+        'group_name' => $inputs['name'],
+        'description' => $inputs['desc'],
+    ], [
+        'id' => $inputs['id'],
+        'admin_id' => getLogin()['uid']
+    ]);
+    formatOutput(true, 'update success');
 }
+
+function delGroupHandler()
+{
+    global $inputs;
+    $sql = "delete from `group` where id = " . $inputs['id'];
+    execSql($sql);
+    formatOutput(true, 'delete success');
+}
+
+function addGroupHandler()
+{
+    global $inputs;
+
+    $lastId = insert('group',[
+        'admin_id' => getLogin()['uid'],
+        'group_name' => $inputs['name'],
+        'description' => $inputs['desc'],
+    ]);
+
+    formatOutput(true, 'add success');
+}
+
 // --------********--------********--------********--------********--------********
-// Functions for the OWNER/ADMIN ends here
-// author: saebom SHIN (40054234)
+// Functions for the GROUP ends here
+// author: saebom SHIN(40054234)
 // --------********--------********--------********--------********--------********
 
 // --------********--------********--------********--------********--------********
-// Functions for the Member ends here
-// author:
+// Functions for the MEMBER starts here
+// author: kimchhengheng(26809413) / saebom SHIN(40054234)
 // --------********--------********--------********--------********--------********
 function checkMemberLogin()
 {
@@ -296,7 +373,6 @@ function getMemberList()
 {
     return getAll("select * from member ");
 }
-
 
 function editMemberHandler()
 {
@@ -342,7 +418,7 @@ function addMemberHandler()
 
     $condos = $inputs['condos'];
 
-    $lastId = insert('member', [
+    $lastId = insert('member',[
         'name' => $inputs['name'],
         'password' => $inputs['password'],
         'address' => $inputs['address'],
@@ -361,34 +437,18 @@ function addMemberHandler()
     }
 
     formatOutput(true, 'add success');
-}
-
-
-function getMemberGroupList()
-{
-    return getAll("select b.group_name,b.id from member_group a inner join `group` b on a.group_id = b.id where a.member_id =?", [getLogin()['mid']]);
-}
-
-function getMailList()
-{
-    return getAll("select id,`email` from `member` where id != ?", [getLogin()['mid']]);
 
 }
 
-function getInboxMessage()
-{
-    $sql = "select * from `mail` where receiver_id = ?";
-    // to change with member id
-    return getAll($sql, 2);
-}
+// --------********--------********--------********--------********--------********
+// Functions for the MEMBER ends here
+// author: kimchhengheng(26809413) / saebom SHIN(40054234)
+// --------********--------********--------********--------********--------********
 
-function getSentboxMessage()
-{
-    $sql = "select * from `mail` where sender_id = ?";
-    // to change with member id
-    return getAll($sql, 2);
-}
-
+// --------********--------********--------********--------********--------********
+// Functions for the POSTING starts here
+// author: kimchhengheng(26809413) / saebom SHIN(40054234)
+// --------********--------********--------********--------********--------********
 function getPostingList()
 {
     // dynamic member id after [getLogin()['mid']]
@@ -397,10 +457,14 @@ function getPostingList()
 
 function getPostingInfo($id = 0)
 {
-    // dynamic posting id after
+    // dynamic posting id after 
     return getOne("select b.* from member_posting a inner join posting b on a.posting_id = b.id  where a.posting_id = ?", [7]);
 }
 
+function getPostingAll()
+{
+    return getAll("select b.* from member_posting a inner join posting b on a.posting_id = b.id ");
+}
 
 function delPostingHandler()
 {
@@ -475,6 +539,42 @@ function uploadFile()
         }
     }
     return 'default/demo-default.jpg';
+}
+
+// --------********--------********--------********--------********--------********
+// Functions for the POSTING ends here
+// author: saebom SHIN(40054234) / kimchhengheng(26809413)
+// --------********--------********--------********--------********--------********
+
+// --------********--------********--------********--------********--------********
+// Functions for the Member ends here
+// author:
+// --------********--------********--------********--------********--------********
+
+
+function getMemberGroupList()
+{
+    return getAll("select b.group_name,b.id from member_group a inner join `group` b on a.group_id = b.id where a.member_id =?", [getLogin()['mid']]);
+}
+
+function getMailList()
+{
+    return getAll("select id,`email` from `member` where id != ?", [getLogin()['mid']]);
+
+}
+
+function getInboxMessage()
+{
+    $sql = "select * from `mail` where receiver_id = ?";
+    // to change with member id
+    return getAll($sql, 2);
+}
+
+function getSentboxMessage()
+{
+    $sql = "select * from `mail` where sender_id = ?";
+    // to change with member id
+    return getAll($sql, 2);
 }
 
 
