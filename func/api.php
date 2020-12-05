@@ -1,7 +1,6 @@
 <?php
 require_once "./func.php";
 require_once "./dbQuerry.php";
-require_once "./condo_func.php";
 
 // call all other php func need 
 
@@ -56,10 +55,14 @@ if (isset($inputs['act'])) {
         case 'add_building' : addBuildingHandler();break;
         case 'del_building' : delBuildingHandler();break;
         case 'edit_building' : editBuildingHandler();break;
+
         case 'add_contract' : addContractHandler();break;
         case 'update_contract' : updateContractHandler();break;
-        
-        
+        case 'del_contract' : delContractHandler();break;
+        case 'edit_contract' : editContractHandler();break;
+
+        case 'withdraw_group': withdrawGroupHandler();break;
+        case 'unfriend': unfriendHandle();break;
         default :
             formatOutput(false, 'unknown action');
     }

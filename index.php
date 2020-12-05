@@ -12,7 +12,7 @@
                             <br>
                             <button class="btn btn-primary" onclick="window.location.href='./member/index.php'" style="margin-top: 5px">Member</button>
                             <br>
-                            <button class="btn btn-primary" style="margin-top: 5px" onclick="window.location.href='#'">Guest</button>
+                            <button class="btn btn-primary" style="margin-top: 5px" onclick="window.location.href='./guest.php'">Guest</button>
                         </div>
                     </div>
                 </div>

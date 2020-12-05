@@ -199,6 +199,10 @@ function getContractList() {
     return getAll($sql);
 }
 
+
+//contract both admin and member
+
+
 // update a contract to the database
 function updateContractHandler() {
     global $inputs;
@@ -234,6 +238,19 @@ function addContractHandler() {
     ]);
 
     formatOutput(true, 'add success');
+}
+function getMemberContractList()
+{
+    $sql = "select  b.* from user_contract a inner join contract b on a.contract_id = b.id where a.user_type = 'member' and a.uid = ? order by b.id desc
+";
+    return getAll($sql, [getLogin()['mid']]);
+}
+function delContractHandler()
+{
+    global $inputs;
+    $sql = "delete from contract where id = " . $inputs['id'];
+    execSql($sql);
+    formatOutput(true, 'delete success');
 }
 
 // --------********--------********--------********--------********--------********
@@ -373,6 +390,55 @@ function getMemberList()
 {
     return getAll("select * from member ");
 }
+function memberLoginHandler()
+{
+    global $inputs;
+    $username = $inputs['username'];
+    $password = $inputs['password'];
+    $sql = 'select * from `member` where name = ? and password = ?';
+    $res = getOne($sql, [$username, $password]);
+    if (!$res) {
+        formatOutput(false, 'username or password error');
+    } else {
+        setMemberLogin($res['id']);
+        formatOutput(true, 'login success', $res);
+    }
+}
+function setMemberLogin($uid)
+{
+    $_SESSION['mid'] = $uid;
+}
+function getMemberInfo($id = 0)
+{
+    if ($id == 0) {
+        $id = getLogin()['mid'];
+    }
+    return getOne("select * from member where id = ?", [$id]);
+}
+function getMemberCondoInfo()
+{
+    return getAll("select 
+b.name,b.area,b.cost 
+from member_condo a 
+inner join condo b on a.condo_id = b.id
+where a.member_id = ?",
+        [getLogin()['mid']]);
+}
+function getMemberGroupInfo()
+{
+    global $inputs;
+    if (empty($inputs)) {
+        $mid = getLogin()['mid'];
+    } else {
+        $mid = $inputs['id'];
+    }
+    $res = getAll("select b.*,a.id as union_id from member_group a inner join `group` b on a.group_id = b.id where a.member_id = ?", [$mid]);
+    if (empty($inputs)) {
+        return $res;
+    } else {
+        formatOutput(true, 'success', $res);
+    }
+}
 
 function editMemberHandler()
 {
@@ -460,6 +526,9 @@ function getPostingInfo($id = 0)
     // dynamic posting id after 
     return getOne("select b.* from member_posting a inner join posting b on a.posting_id = b.id  where a.posting_id = ?", [7]);
 }
+function getPublicPost(){
+    return getAll("select * from posting where status= 'public'");
+}
 
 function getPostingAll()
 {
@@ -540,6 +609,19 @@ function uploadFile()
     }
     return 'default/demo-default.jpg';
 }
+function getPublicPostingInfo($id = 0)
+{
+    return getOne("select * from posting where id = ?", [$id]);
+}
+
+
+function getPostingComment($id = 0) {
+
+    return getAll("select r.content from posting_reply pr 
+inner join  posting p on pr.posting_id = p.id 
+inner join reply r on pr.reply_id = r.id where p.id = $id
+");
+}
 
 // --------********--------********--------********--------********--------********
 // Functions for the POSTING ends here
@@ -592,6 +674,12 @@ function getSuggestPosting()
 inner join member_posting b on a.id = b.posting_id
 inner join member c on c.id = b.member_id
 limit 5");
+}
+function getSuggestGroup(){
+    return getAll("select * from `group` a where id not in (select group_id from member_group where member_id=?)
+and a.id not in (select group_id from member_group_apply where status = \"\")
+ limit 5",[getLogin()['mid']]);
+
 }
 
 

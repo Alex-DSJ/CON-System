@@ -467,6 +467,74 @@ function submitContract()
         }
     })
 }
+function submitContractEdit() {
+    let status = $("#status_edit option:selected").val()
+    let title = $('#title_edit').val();
+    let content = $('#content_edit').val();
+    if (status == '') {
+        return false;
+    }
+
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "update_contract",
+            id: $('#id_edit').val(),
+            title: title,
+            content: content,
+            status: status,
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+function delContract(e) {
+    let id = e.parent().data('id');
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"del_contract",
+            id:id
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+}
+function editContract(e) {
+
+    let info = e.parent().data('info')
+    info = JSON.parse(decodeURIComponent(info))
+    console.log(info)
+    $('#id_edit').val(info.id)
+    $('#title_edit').val(info.title)
+    $('#status_edit').val(info.status)
+    $('#content_edit').val(info.content)
+
+    $('#modal-edit-message').modal('show')
+
+}
 
 /* --------********--------********--------********--------********--------********
 Functions for the SUPER ADMIN ends here
@@ -945,7 +1013,10 @@ function detailPosting(e) {
     let id = e.parent().data('id');
     window.location.href = '../member/posting_templ.php?act=view&id=' + id;
 }
-
+function detailPostingGuest(e) {
+    let id = e.parent().data('id');
+    window.location.href = './posting_tmpl.php?act=view&id=' + id;
+}
 function submitComment()
 {
     let content = $('#comment_content').val();
@@ -974,8 +1045,39 @@ Functions for the POSTING ends here
 author: kimchhengheng (26809413)_saebom SHIN (40054234)
 --------********--------********--------********--------********--------******** */
 
+//member
+function member_login() {
+    console.log('member_login')
+    let username = $('#username').val();
+    let password = $('#password').val();
+    if(username == '' || password == '') {
+        alert('input username and password first')
+        return false;
+    }
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            "act": "member_login",
+            "username": username,
+            "password" :password,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.href = 'index.php'
+            } else {
+                return false;
+            }
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
+        }
+    })
+}
+
 //social
-//posting
 function searchFriend()
 {
     let friend_keyword = $('#friend_keyword').val()

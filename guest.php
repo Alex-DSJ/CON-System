@@ -1,20 +1,21 @@
 <!-- This file is completed by saebom SHIN-40054234 individually -->
 
 <!-- all required js files here -->
-<script src="../static/functions.js"></script>
+<script src="./static/functions.js"></script>
 
 <!-- all required php files here -->
-<?php require_once "../common/header.php";
-require_once "../func/func.php";
-require_once "../func/posting_func.php";
+<?php require_once "./common/header.php";
+require_once "./func/func.php";
 
-$dataList = getPostingAll();
+$dataList =getPublicPost();
 ?>
     <div class="wrapper">
         <!-- main table of the guest tab -->
         <section class="content">
             <div class="container-fluid">
-
+                <nav>
+                    <a href="index.php">Main Page</a>
+                </nav>
                 <div class="row" style="margin-top: 20px">
                     <div class="col-md-12">
                         <div class="card">
@@ -41,10 +42,8 @@ $dataList = getPostingAll();
                                             <td><?php echo $item['title'] ?></td>
                                             <td><?php echo $item['create_time'] ?></td>
                                             <td data-id="<?php echo $item['id'] ?>">
-<!--                                                <button class="btn btn-danger btn-sm" onclick="delPosting($(this))">del</button>-->
-<!--                                                <button class="btn btn-warning btn-sm" onclick="editPosting($(this))">edit</button>-->
                                                 <!-- check the detailPosting .js and .php for guest -->
-                                                <button class="btn btn-primary btn-sm" onclick="detailPosting($(this))">detail</button>
+                                                <button class="btn btn-primary btn-sm" onclick="detailPostingGuest($(this))">detail</button>
                                             </td>
                                         </tr>
                                         <?php
