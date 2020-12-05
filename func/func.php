@@ -179,6 +179,23 @@ function addBuildingHandler() {
     formatOutput(true, 'add success');
 }
 
+function assignAdminHandler(){
+    global $inputs;
+
+    //delete the exist admin-building assignment
+    $sql = "DELETE FROM admin_building WHERE building_id = " . $inputs['building'];
+    execSql($sql);
+    // TODO error process for no such tuple
+
+    //insert new tuple
+    $res = insert('admin_building', [
+        'building_id' => $inputs['building'],
+        'admin_id' => $inputs['admin']
+    ]);
+
+    formatOutput(true, 'assigned successfully.');
+}
+
 // update a building to the database
 function editBuildingHandler() {
     global $inputs;

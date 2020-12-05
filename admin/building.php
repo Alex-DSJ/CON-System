@@ -121,6 +121,10 @@ foreach ($adminList as $admin) {
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
+                    <label for="">ID: </label>
+                    <input type="text" class="form-control" id="id_asg" disabled>
+                    <label for="">Building Name: </label>
+                    <input type="text" class="form-control" id="name_asg" disabled>
                     <label for="">Admin Name</label><br>
                     <select name="" id="admin_building" class="form-control">
                         <?php echo $adminName; ?>
@@ -128,7 +132,7 @@ foreach ($adminList as $admin) {
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="">Save</button>
+                <button class="btn btn-primary" onclick="submitAdminAssignment($(this))">Save</button>
             </div>
         </div>
     </div>

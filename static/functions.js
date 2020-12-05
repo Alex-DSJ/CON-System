@@ -224,25 +224,26 @@ function editAdmin(e) {
 
 var COMMON_API = '../func/api.php'
 
-// invole the popup form for adding a building
+// invoke the popup form for adding a building
 function addBuilding(){
     $('#modal-add-building').modal('show')
 }
 
-//assign an admin to a building
+//invoke the popup form for assign an admin
 function assignAdmin(e){
     let info = e.parent().data('info')
     info = JSON.parse(decodeURIComponent(info))
-    console.log(info)
+    $('#id_asg').val(info.id)
+    $('#name_asg').val(info.building_name)    
     $('#modal-assign-admin').modal('show')
 }
+
 
 // update the information of a building in the database
 // e should include the information of the building's id
 function editBuilding(e) {
     let info = e.parent().data('info')
     info = JSON.parse(decodeURIComponent(info))
-    console.log(info)
     $('#id_edit').val(info.id)
     $('#name_edit').val(info.building_name)
     $('#desc_edit').val(info.description)
@@ -254,6 +255,7 @@ function editBuilding(e) {
 // delete a building from the database
 // e should include the information of the building's id
 function delBuilding(e) {
+    console.log(e);
     let id = e.parent().data('id');
     $.ajax({
         url:COMMON_API,
@@ -316,30 +318,25 @@ function submitBuilding() {
     })
 }
 
-// update a building's information
-// route to api.php and invoke editBuildingHandler() to update a bulding's info
-// go back to the previous page with the updated info
-function submitBuildingEdit() {
-    let id = $('#id_edit').val();
-    let name = $('#name_edit').val();
-    let desc = $('#desc_edit').val();
-    let address = $('#address_edit').val();
-    let area = $('#area_edit').val();
 
-    if (name == '' || desc == '' || address == ''||area == '') {
-        alert('params err');
+function submitAdminAssignment(e){
+
+    let selectTag = document.getElementsByClassName('form-control')[6];
+    let selectedIndex = document.getElementsByClassName('form-control')[6].selectedIndex;
+    let admin_id = selectTag.options[selectedIndex].value;
+    let building_id = $('#id_asg').val();
+
+    if (admin_id == ''){
+        alert('No admin is selected, operation cancelled.');
         return false;
     }
 
     $.ajax({
-        url: COMMON_API,
+        url:COMMON_API,
         data:{
-            act:"edit_building",
-            id: id,
-            name:name,
-            desc:desc,
-            address:address,
-            area:area,
+            act:"asg_admin",
+            building: building_id,
+            admin : admin_id
         },
         dataType:'json',
         type:'post',
@@ -352,19 +349,16 @@ function submitBuildingEdit() {
             }
         },
         error:function (jqXHR, textStatus, errorThrown) {
-            // error detail
             alert(jqXHR.responseText);
-            // alert(jqXHR.status);
-            // alert(jqXHR.readyState);
-            // alert(jqXHR.statusText);
-            // alert(textStatus);
-            // alert(errorThrown);
         }
     })
 }
 
-function submitBuildingEdit1() {
-    let id = $('#id_edit').val();;
+// update a building's information
+// route to api.php and invoke editBuildingHandler() to update a bulding's info
+// go back to the previous page with the updated info
+function submitBuildingEdit() {
+    let id = $('#id_edit').val();
     let name = $('#name_edit').val();
     let desc = $('#desc_edit').val();
     let address = $('#address_edit').val();
