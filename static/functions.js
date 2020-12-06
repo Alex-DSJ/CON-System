@@ -1099,15 +1099,11 @@ function detailPosting(e) {
   let id = e.parent().data("id");
   window.location.href = "../member/posting_templ.php?act=view&id=" + id;
 }
-//show all the information of the public posting from guest.php
-function detailPostingGuest(e) {
-  let id = e.parent().data("id");
-  window.location.href = "./posting_tmpl.php?act=view&id=" + id;
-}
+
 // show all the information of posting of the member
 function detailPostingOwner(e) {
   let id = e.parent().data("id");
-  window.location.href = "../owner/posting_tmpl.php?act=view&id=" + id;
+  window.location.href = "../owner/posting_templ.php?act=view&id=" + id;
 }
 // submit the comment
 function submitComment() {
