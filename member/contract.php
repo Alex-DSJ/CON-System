@@ -10,24 +10,7 @@ $dataList = getMemberContractList();
 
 ?>
     <div class="wrapper">
-        <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
-            <ul class="navbar-nav" id="my-nav">
-                <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
-                <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Home</a></li>
-                <li class="nav-item d-none d-sm-inline-block"><a href="social.php" class="nav-link">Social</a></li>
-                <li class="nav-item d-none d-sm-inline-block active"><a href="contract.php" class="nav-link">Contract</a></li>
-                <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">My Posting</a></li>
-                <li class="nav-item d-none d-sm-inline-block"><a href="message.php" class="nav-link">Message</a></li>
-                <li class="nav-item d-none d-sm-inline-block"><a href="base_info.php" class="nav-link">Base Info</a></li>
-            </ul>
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" data-toggle="dropdown" href="#">
-                        <i class="far fa-sign-out" class="logout" onclick="logout()">logout</i>
-                    </a>
-                </li>
-            </ul>
-        </nav>
+        <?php require_once "nav.php"?>
         <section class="content">
             <div class="container-fluid">
 

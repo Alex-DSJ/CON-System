@@ -431,82 +431,15 @@ function addGroupHandler()
 
 // --------********--------********--------********--------********--------********
 // Functions for the MEMBER starts here
-// author: kimchhengheng(26809413) / saebom SHIN(40054234)
+// author: saebom SHIN(40054234)
 // --------********--------********--------********--------********--------********
 
-// check the session of the member id is set or not
-function checkMemberLogin()
-{
-    if (!isset($_SESSION['mid'])) {
-        return false;
-    }
-    return true;
-}
-
-// handle the login of the member
-function memberLoginHandler()
-{
-    global $inputs;
-    $username = $inputs['username'];
-    $password = $inputs['password'];
-    $sql = 'select * from `member` where name = ? and password = ?';
-    $res = getOne($sql, [$username, $password]);
-    if (!$res) {
-        formatOutput(false, 'username or password error');
-    } else {
-        setMemberLogin($res['id']);
-        formatOutput(true, 'login success', $res);
-    }
-}
-// set the session of the mid to the current login member id
-function setMemberLogin($uid)
-{
-    $_SESSION['mid'] = $uid;
-}
-// get full information of the member by using their id
-function getMemberInfo($id = 0)
-{
-    if ($id == 0) {
-        $id = getLogin()['mid'];
-    }
-    return getOne("select * from member where id = ?", [$id]);
-}
-// get the information of condo who own by the logged member
-function getMemberCondoInfo()
-{
-    return getAll("select b.name,b.area,b.cost 
-                        from member_condo a 
-                        inner join condo b on a.condo_id = b.id
-                        where a.member_id = ?",
-        [getLogin()['mid']]);
-}
 function memberCondosHandler()
 {
     global $inputs;
     $res = getAll('select a.*,b.name from member_condo a inner join condo b on a.condo_id = b.id where a.member_id = ?', [$inputs['id']]);
     formatOutput(true, 'success', $res);
 }
-// get the group that the logged member be part of
-function getMemberGroupInfo()
-{
-    global $inputs;
-    if (empty($inputs)) {
-        $mid = getLogin()['mid'];
-    } else {
-        $mid = $inputs['id'];
-    }
-    $res = getAll("select b.*,a.id as union_id 
-                       from member_group a inner join `group` b on a.group_id = b.id 
-                       where a.member_id = ?", [$mid]);
-    if (empty($inputs)) {
-        return $res;
-    } else {
-        formatOutput(true, 'success', $res);
-    }
-}
-
-
-
 
 // member (owner)
 function editMemberHandler()
@@ -574,10 +507,9 @@ function addMemberHandler()
     formatOutput(true, 'add success');
 
 }
-
 // --------********--------********--------********--------********--------********
-// Functions for the MEMBER ends here
-// author: kimchhengheng(26809413) / saebom SHIN(40054234)
+// Functions for the OWNER ends here
+// author: saebom SHIN(40054234)
 // --------********--------********--------********--------********--------********
 
 // --------********--------********--------********--------********--------********
@@ -727,8 +659,82 @@ function addCommentHandler()
 // Functions for the POSTING ends here
 // author: saebom SHIN(40054234) / kimchhengheng(26809413)
 // --------********--------********--------********--------********--------********
+// --------********--------********--------********--------********--------********
+// Functions for the MEMBER start  here
+// author: yuxin kimchhengheng(26809413)
+// --------********--------********--------********--------********--------********
+// check the session of the member id is set or not
+function checkMemberLogin()
+{
+    if (!isset($_SESSION['mid'])) {
+        return false;
+    }
+    return true;
+}
 
-
+// handle the login of the member
+function memberLoginHandler()
+{
+    global $inputs;
+    $username = $inputs['username'];
+    $password = $inputs['password'];
+    $sql = 'select * from `member` where name = ? and password = ?';
+    $res = getOne($sql, [$username, $password]);
+    if (!$res) {
+        formatOutput(false, 'username or password error');
+    } else {
+        setMemberLogin($res['id']);
+        formatOutput(true, 'login success', $res);
+    }
+}
+// set the session of the mid to the current login member id
+function setMemberLogin($uid)
+{
+    $_SESSION['mid'] = $uid;
+}
+// get full information of the member by using their id
+function getMemberInfo($id = 0)
+{
+    if ($id == 0) {
+        $id = getLogin()['mid'];
+    }
+    return getOne("select * from member where id = ?", [$id]);
+}
+// get the group that the logged member be part of
+function getMemberGroupInfo()
+{
+    global $inputs;
+    if (empty($inputs)) {
+        $mid = getLogin()['mid'];
+    } else {
+        $mid = $inputs['id'];
+    }
+    $res = getAll("select b.*,a.id as union_id 
+                       from member_group a inner join `group` b on a.group_id = b.id 
+                       where a.member_id = ?", [$mid]);
+    if (empty($inputs)) {
+        return $res;
+    } else {
+        formatOutput(true, 'success', $res);
+    }
+}
+// get the information of condo who own by the logged member
+function getMemberCondoInfo()
+{
+    return getAll("select b.name,b.area,b.cost 
+                        from member_condo a 
+                        inner join condo b on a.condo_id = b.id
+                        where a.member_id = ?",
+        [getLogin()['mid']]);
+}
+// --------********--------********--------********--------********--------********
+// Functions for the MEMBER end  here
+// author: yuxin kimchhengheng(26809413)
+// --------********--------********--------********--------********--------********
+// --------********--------********--------********--------********--------********
+// Functions for the Message start  here
+// author: kimchhengheng(26809413)
+// --------********--------********--------********--------********--------********
 // get email of all the member
 function getMailList()
 {
@@ -879,8 +885,6 @@ function friendGroupHandler()
 // author: kimchheng heng(26809413)
 // --------********--------********--------********--------********--------********
 
-
-
 // --------********--------********--------********--------********--------********
 // Functions for the BASE_INFO page start here
 // author:
@@ -909,13 +913,16 @@ function unfriendHandle()
     execSql($sql);
     formatOutput(true, 'delete success');
 }
+
+// --------********--------********--------********--------********--------********
+// Functions for the BASE_INFO page start here
+// author:
+// --------********--------********--------********--------********--------********
+
 // --------********--------********--------********--------********--------********
 // Functions for the Member(Index) start here
 // author:
 // --------********--------********--------********--------********--------********
-
-
-
 function getFriendLastedPosting()
 {
     $sql = "select b.*,c.name from member_posting a
@@ -957,7 +964,6 @@ function agreeFriendHandler()
     execSql($sql);
     formatOutput(true, 'option success');
 }
-
 // --------********--------********--------********--------********--------********
 // Functions for the Index ends here
 // author:

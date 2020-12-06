@@ -1,8 +1,5 @@
 <!-- This file is completed by saebom SHIN-40054234 individually -->
 
-<!-- all required js files here -->
-<script src="./static/functions.js"></script>
-
 <!-- all required php files here -->
 <?php require_once "./common/header.php";
 require_once "./func/func.php";
@@ -60,3 +57,10 @@ $dataList =getPublicPost();
     </div>
 
 <?php require_once "./common/footer.php";?>
+<script>
+    //show all the information of the public posting from guest.php
+    function detailPostingGuest(e) {
+        let id = e.parent().data("id");
+        window.location.href = "./posting_tmpl.php?act=view&id=" + id;
+    }
+</script>
