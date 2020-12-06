@@ -40,7 +40,7 @@ $dataList = getMemberContractList();
 
                             <div class="card-body">
                                 <div style="margin-bottom: 10px">
-                                    <button class="btn btn-primary btn-sm" onclick="addContract()">Add</button>
+                                    <button class="btn btn-primary btn-sm" onclick="addContract()"><i class="far fa-plus-square"></i></button>
                                 </div>
 
                                 <table class="table table-bordered">
@@ -62,8 +62,8 @@ $dataList = getMemberContractList();
                                             <td><?php echo $item['status'] ?></td>
                                             <td><?php echo $item['create_time'] ?></td>
                                             <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
-                                                <button class="btn btn-danger btn-sm" onclick="delContract($(this))">del</button>
-                                                <button class="btn btn-warning btn-sm"  onclick="editContract($(this))">edit</button>
+                                                <button class="btn btn-danger btn-sm" onclick="delContract($(this))"><i class="fas fa-trash-alt"></i></button>
+                                                <button class="btn btn-warning btn-sm"  onclick="editContract($(this))"><i class="fas fa-edit"></i></button>
                                             </td>
                                         </tr>
                                         <?php
