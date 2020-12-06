@@ -1,3 +1,5 @@
+<!-- This file is completed by YuxinWang-40024855 individually -->
+<!-- all required php files here -->
 <?php require_once "../common/header.php";?>
 <script src="../static/functions.js"></script>
 <?php
@@ -8,7 +10,7 @@ if (checkMemberLogin() == false) {
 $info = getNewFriendApply();
 ?>
 <div class="wrapper">
-
+    <!-- header for the Member-->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
         <ul class="navbar-nav" id="my-nav">
             <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
@@ -27,7 +29,7 @@ $info = getNewFriendApply();
             </li>
         </ul>
     </nav>
-
+    <!-- content of the Friend Apply Page-->
     <section class="content">
         <div class="container-fluid">
 

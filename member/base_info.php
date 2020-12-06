@@ -1,6 +1,13 @@
-<?php require_once "../common/header.php";?>
+<!-- This file is completed by YuxinWang-40024855 individually -->
+
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
+
+<!-- all required php files here -->
+<?php require_once "../common/header.php";?>
+
+
+
 <?php
 require_once "../func/func.php";
 
@@ -14,7 +21,7 @@ $friendInfo = getMemberFriendInfo();
 
 ?>
 <div class="wrapper">
-
+    <!-- header for the Member-->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
         <ul class="navbar-nav" id="my-nav">
             <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
@@ -33,7 +40,7 @@ $friendInfo = getMemberFriendInfo();
             </li>
         </ul>
     </nav>
-
+    <!-- content of base_info page-->
     <section class="content">
         <div class="container-fluid">
 
@@ -52,6 +59,7 @@ $friendInfo = getMemberFriendInfo();
                             <p>status:  <strong><?php echo $info['status'] ?></strong></p>
                         </div>
                     </div>
+                    <!-- condo_info of the Member-->
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Condo Info</h3>
@@ -75,6 +83,7 @@ $friendInfo = getMemberFriendInfo();
                             </table>
                         </div>
                     </div>
+                    <!-- group_info of the Member-->
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Group Info</h3>
@@ -98,6 +107,7 @@ $friendInfo = getMemberFriendInfo();
                             </table>
                         </div>
                     </div>
+                    <!-- friend_info of the Member-->
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Friend Info</h3>

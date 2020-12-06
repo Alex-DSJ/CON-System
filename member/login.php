@@ -1,3 +1,5 @@
+<!-- This file is completed by YuxinWang-40024855 individually -->
+<!-- all required php files here -->
 <?php require_once "../common/header.php";?>
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>

@@ -1,3 +1,5 @@
+<!-- This file is completed by YuxinWang-40024855 individually -->
+<!-- all required php files here -->
 <?php require_once "../common/header.php";?>
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
@@ -10,6 +12,7 @@ $dataList = getMemberContractList();
 
 ?>
     <div class="wrapper">
+        <!-- header for the Member-->
         <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
             <ul class="navbar-nav" id="my-nav">
                 <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
@@ -28,6 +31,7 @@ $dataList = getMemberContractList();
                 </li>
             </ul>
         </nav>
+        <!-- content of the Contract Page -->
         <section class="content">
             <div class="container-fluid">
 
@@ -39,6 +43,7 @@ $dataList = getMemberContractList();
                             </div>
 
                             <div class="card-body">
+                                <!-- add contract button -->
                                 <div style="margin-bottom: 10px">
                                     <button class="btn btn-primary btn-sm" onclick="addContract()"><i class="far fa-plus-square"></i></button>
                                 </div>
@@ -62,6 +67,7 @@ $dataList = getMemberContractList();
                                             <td><?php echo $item['status'] ?></td>
                                             <td><?php echo $item['create_time'] ?></td>
                                             <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
+                                                <!-- delete and edit contract buttons -->
                                                 <button class="btn btn-danger btn-sm" onclick="delContract($(this))"><i class="fas fa-trash-alt"></i></button>
                                                 <button class="btn btn-warning btn-sm"  onclick="editContract($(this))"><i class="fas fa-edit"></i></button>
                                             </td>
@@ -78,7 +84,7 @@ $dataList = getMemberContractList();
             </div>
         </section>
     </div>
-
+    <!-- pop up windows -->
     <div class="modal fade" id="modal-add-message">
         <div class="modal-dialog">
             <div class="modal-content">

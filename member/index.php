@@ -1,3 +1,5 @@
+<!-- This file is completed by YuxinWang-40024855 individually -->
+<!-- all required php files here -->
 <?php require_once "../common/header.php";?>
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
@@ -11,7 +13,7 @@ require_once "../func/func.php";
  $groupInfo = getMemberGroupInfo();
 ?>
 <div class="wrapper">
-
+    <!-- header for the Member-->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
         <ul class="navbar-nav" id="my-nav">
             <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
@@ -30,6 +32,7 @@ require_once "../func/func.php";
             </li>
         </ul>
     </nav>
+    <!-- content of the Home Page-->
     <section class="content">
         <div class="container-fluid">
 
@@ -53,12 +56,14 @@ require_once "../func/func.php";
                             <div class="row">
                                 <div style="width: 50px;height: 50px">
                                     <img src="../static/upload/default/new.png" alt="" style="width: 100%">
+                                    <!-- Friend Apply Button -->
                                 </div>
                                 <button class="btn btn-info btn-sm" onclick="window.open('./friend_apply.php')">New Friend Apply+</button>
                             </div>
                             <div class="row m-t-10">
                                 <div style="width: 50px;height: 50px">
                                     <img src="../static/upload/default/hot.png" alt="" style="width: 100%">
+                                    <!-- Friend Hot Posts Button -->
                                 </div>
                                 <button class="btn btn-success btn-sm" onclick="window.open('./hot_posts.php')">Friend Hot Posts</button>
                             </div>
