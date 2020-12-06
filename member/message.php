@@ -15,7 +15,7 @@
 if (checkMemberLogin() == false) {
     header("Location:./login.php");
 }
-$memberGroupList = getMemberGroupList();
+//$memberGroupList = getMemberGroupList();
 $mailList = getMailList();
 ?>
 <div class="wrapper">

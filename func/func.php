@@ -190,7 +190,17 @@ function delBuildingHandler() {
 function getBuildingInfo() {
     return getOne("SELECT * FROM building WHERE id = ?",[getLogin()['bid']]);
 }
+// --------********--------********--------********--------********--------********
+// Functions for the SUPER ADMIN ends here
+// author: Shijun Deng (40084956)
+// --------********--------********--------********--------********--------********
 
+// --------********--------********--------********--------********--------********
+// Functions for the Contract page start here
+// author: Shijun Deng (40084956)
+// --------********--------********--------********--------********--------********
+
+//contract both admin and member
 // get all contract from the database
 function getContractList() {
     $sql = "sql
@@ -198,10 +208,6 @@ function getContractList() {
             sql";
     return getAll($sql);
 }
-
-
-//contract both admin and member
-
 
 // update a contract to the database
 function updateContractHandler() {
@@ -239,12 +245,18 @@ function addContractHandler() {
 
     formatOutput(true, 'add success');
 }
+
+// get contract created by the member
 function getMemberContractList()
 {
-    $sql = "select  b.* from user_contract a inner join contract b on a.contract_id = b.id where a.user_type = 'member' and a.uid = ? order by b.id desc
-";
+    $sql = "select  b.* 
+            from user_contract a inner join contract b on a.contract_id = b.id 
+            where a.user_type = 'member' and a.uid = ? 
+            order by b.id desc";
     return getAll($sql, [getLogin()['mid']]);
 }
+
+// delete the contract
 function delContractHandler()
 {
     global $inputs;
@@ -254,15 +266,19 @@ function delContractHandler()
 }
 
 // --------********--------********--------********--------********--------********
-// Functions for the SUPER ADMIN ends here
+// Functions for the Contract page ends here
 // author: Shijun Deng (40084956)
 // --------********--------********--------********--------********--------********
+
 
 // --------********--------********--------********--------********--------********
 // Functions for the OWNER/ADMIN starts here
 // author: saebom SHIN (40054234)
 // --------********--------********--------********--------********--------********
-
+function getMemberList()
+{
+    return getAll("select * from member ");
+}
 function getCondoList()
 {
     $sql = "select a.*,c.building_name from condo a 
@@ -378,6 +394,8 @@ function addGroupHandler()
 // Functions for the MEMBER starts here
 // author: kimchhengheng(26809413) / saebom SHIN(40054234)
 // --------********--------********--------********--------********--------********
+
+// check the session of the member id is set or not
 function checkMemberLogin()
 {
     if (!isset($_SESSION['mid'])) {
@@ -386,10 +404,7 @@ function checkMemberLogin()
     return true;
 }
 
-function getMemberList()
-{
-    return getAll("select * from member ");
-}
+// handle the login of the member
 function memberLoginHandler()
 {
     global $inputs;
@@ -404,10 +419,12 @@ function memberLoginHandler()
         formatOutput(true, 'login success', $res);
     }
 }
+// set the session of the mid to the current login member id
 function setMemberLogin($uid)
 {
     $_SESSION['mid'] = $uid;
 }
+// get full information of the member by using their id
 function getMemberInfo($id = 0)
 {
     if ($id == 0) {
@@ -415,15 +432,16 @@ function getMemberInfo($id = 0)
     }
     return getOne("select * from member where id = ?", [$id]);
 }
+// get the information of condo who own by the logged member
 function getMemberCondoInfo()
 {
-    return getAll("select 
-b.name,b.area,b.cost 
-from member_condo a 
-inner join condo b on a.condo_id = b.id
-where a.member_id = ?",
+    return getAll("select b.name,b.area,b.cost 
+                        from member_condo a 
+                        inner join condo b on a.condo_id = b.id
+                        where a.member_id = ?",
         [getLogin()['mid']]);
 }
+// get the group that the logged member be part of
 function getMemberGroupInfo()
 {
     global $inputs;
@@ -432,7 +450,9 @@ function getMemberGroupInfo()
     } else {
         $mid = $inputs['id'];
     }
-    $res = getAll("select b.*,a.id as union_id from member_group a inner join `group` b on a.group_id = b.id where a.member_id = ?", [$mid]);
+    $res = getAll("select b.*,a.id as union_id 
+                       from member_group a inner join `group` b on a.group_id = b.id 
+                       where a.member_id = ?", [$mid]);
     if (empty($inputs)) {
         return $res;
     } else {
@@ -440,6 +460,10 @@ function getMemberGroupInfo()
     }
 }
 
+
+
+
+// member (owner)
 function editMemberHandler()
 {
     global $inputs;
@@ -515,24 +539,34 @@ function addMemberHandler()
 // Functions for the POSTING starts here
 // author: kimchhengheng(26809413) / saebom SHIN(40054234)
 // --------********--------********--------********--------********--------********
+// get all the posting by the logged member
 function getPostingList()
 {
-    return getAll("select b.* from member_posting a inner join posting b on a.posting_id = b.id  where a.member_id = ?", [getLogin()['mid']]);
+    return getAll("select b.* 
+                        from member_posting a inner join posting b on a.posting_id = b.id  
+                        where a.member_id = ?"
+        , [getLogin()['mid']]);
 }
-
+// get detail information of the posting by the specific id
 function getPostingInfo($id = 0)
 {
-    return getOne("select b.* from member_posting a inner join posting b on a.posting_id = b.id  where a.posting_id = ?", [$id]);
+    return getOne("select b.* 
+                        from member_posting a inner join posting b on a.posting_id = b.id  
+                        where a.posting_id = ?"
+        , [$id]);
 }
+// get all the posting which have status public
 function getPublicPost(){
-    return getAll("select * from posting where status= 'public'");
+    return getAll("select * 
+                        from posting 
+                        where status= 'public'");
 }
-
+//
 function getPostingAll()
 {
     return getAll("select b.* from member_posting a inner join posting b on a.posting_id = b.id ");
 }
-
+// handle the delete post by specific id
 function delPostingHandler()
 {
     global $inputs;
@@ -540,7 +574,7 @@ function delPostingHandler()
     execSql($sql);
     formatOutput(true, 'delete success');
 }
-
+// add new row to the posting table, member posting(will keep track who post the posting)
 function addPostingHandler()
 {
     global $inputs;
@@ -560,7 +594,7 @@ function addPostingHandler()
 
     formatOutput(true, 'add success',$lastId);
 }
-
+// edit the posting
 function editPostingHandler()
 {
     global $inputs;
@@ -587,6 +621,7 @@ function editPostingHandler()
 
     formatOutput(true, 'update success',$inputs['id']);
 }
+// upload the image to folder static/upload
 function uploadFile()
 {
     if (!empty($_FILES) && $_FILES['fileToUpload']['name']) {
@@ -609,20 +644,19 @@ function uploadFile()
     }
     return 'default/demo-default.jpg';
 }
+// to provide the detail information of the public posting by the id
 function getPublicPostingInfo($id = 0)
 {
     return getOne("select * from posting where id = ?", [$id]);
 }
-
-
+// the comment of the posting
 function getPostingComment($id = 0) {
 
     return getAll("select r.content from posting_reply pr 
-inner join  posting p on pr.posting_id = p.id 
-inner join reply r on pr.reply_id = r.id where p.id = $id
-");
+                        inner join  posting p on pr.posting_id = p.id 
+                        inner join reply r on pr.reply_id = r.id where p.id = $id");
 }
-
+// handle the comment that is add the posting
 function addCommentHandler()
 {
     global $inputs;
@@ -649,34 +683,32 @@ function addCommentHandler()
 // author: saebom SHIN(40054234) / kimchhengheng(26809413)
 // --------********--------********--------********--------********--------********
 
-// --------********--------********--------********--------********--------********
-// Functions for the Member ends here
-// author:
-// --------********--------********--------********--------********--------********
 
 
-function getMemberGroupList()
-{
-    return getAll("select b.group_name,b.id from member_group a inner join `group` b on a.group_id = b.id where a.member_id =?", [getLogin()['mid']]);
-}
-
+//function getMemberGroupList()
+//{
+//    return getAll("select b.group_name,b.id from member_group a inner join `group` b on a.group_id = b.id where a.member_id =?", [getLogin()['mid']]);
+//}
+// get email of all the member
 function getMailList()
 {
-    return getAll("select id,`email` from `member` where id != ?", [getLogin()['mid']]);
-
+    return getAll("select id,`email` 
+                        from `member` where id != ?"
+        , [getLogin()['mid']]);
 }
+// get the inbox message
 function getInboxMessage()
 {
     $sql = "select * from `mail` where receiver_id = ?";
     return getAll($sql, [getLogin()['mid']]);
 }
-
+//get the sent box message
 function getSentboxMessage()
 {
     $sql = "select * from `mail` where sender_id = ?";
     return getAll($sql, [getLogin()['mid']]);
 }
-
+// handle when message is add
 function addMessageHandler()
 {
     global $inputs;
@@ -690,61 +722,136 @@ function addMessageHandler()
     ]);
     formatOutput(true, 'add success');
 }
+// --------********--------********--------********--------********--------********
+// Functions for the MESSAGE start here
+// author: kimchheng heng(26809413)
+// --------********--------********--------********--------********--------********
 
-
+// --------********--------********--------********--------********--------********
+// Functions for the SOCIAL start here
+// author: kimchheng heng(26809413)
+// --------********--------********--------********--------********--------********
+// get the suggest friend that the member is not friend with and not apply for friend
 function getSuggestFriend()
 {
-    return getAll("select a.id, a.name,a.email from member a 
-where a.id != ?and a.id not in (select friend_id from member_friend where member_id =?) and a.id not in (select apply_member_id from member_friend_apply where status = \"\" and member_id = ?)
-limit 5",
+    return getAll("select a.id, a.name,a.email 
+                        from member a 
+                        where a.id != ?and a.id 
+                            not in (
+                                select friend_id 
+                                from member_friend 
+                                where member_id =?) 
+                            and a.id not in (
+                                select apply_member_id 
+                                from member_friend_apply 
+                                where status = \"\" 
+                            and member_id = ?) limit 5",
         [getLogin()['mid'],getLogin()['mid'],getLogin()['mid']]
     );
 }
+// get the suggest posting to display in the social page
 function getSuggestPosting()
 {
-    return getAll("select a.*,c.name from posting a 
-inner join member_posting b on a.id = b.posting_id
-inner join member c on c.id = b.member_id
-limit 5");
+    return getAll("select a.*,c.name 
+                        from posting a 
+                        inner join member_posting b on a.id = b.posting_id
+                        inner join member c on c.id = b.member_id
+                        limit 5");
 }
+// get the suggest group that member can apply( member not member of the group and not apply to group yet)
 function getSuggestGroup(){
-    return getAll("select * from `group` a where id not in (select group_id from member_group where member_id=?)
-and a.id not in (select group_id from member_group_apply where status = \"\")
- limit 5",[getLogin()['mid']]);
+    return getAll("select * from `group` a 
+            where id not in (
+                select group_id 
+                from member_group 
+                where member_id=?)
+            and a.id not in (
+                select group_id 
+                from member_group_apply 
+                where status = \"\") limit 5"
+        ,[getLogin()['mid']]);
 }
+// search friend from the whole table with keyword from input user(search by member name)
+function friendSearchHandler()
+{
+    global $inputs;
+    $keyword = $inputs['keyword'];
+    $res = getAll("select a.name,a.email 
+                        from member a 
+                        where a.name like '%$keyword%' 
+                        and a.id not in (
+                            select apply_member_id 
+                            from member_friend_apply 
+                            where status = 0)"
+    );
+    formatOutput(true, 'success',$res);
+}
+// search posting from the whole table with keyword from input user(either title or content search)
+function postingSearchHandler()
+{
+    global $inputs;
+    $keyword = $inputs['keyword'];
+    $res = getAll("select a.*,c.name 
+                        from posting a 
+                            inner join member_posting b 
+                                on a.id = b.posting_id
+                            inner join member c 
+                                on c.id = b.member_id 
+                        where a.title like '%$keyword%' or a.content like '%$keyword%'");
+    formatOutput(true, 'success',$res);
+}
+// search group from whole table with keyword from input user(search by group name or description of group)
+function groupSearchHandler()
+{
+    global $inputs;
+    $keyword = $inputs['keyword'];
+    $res = getAll("select * 
+                        from `group` 
+                        where group_name like '%$keyword%' or description like '%$keyword%'");
+    formatOutput(true, 'success',$res);
+}
+// handle action when the logged member apply friend to other member
+function friendApplyHandler()
+{
+    global $inputs;
+
+    insert('member_friend_apply',[
+        'member_id' => getLogin()['mid'],
+        'apply_member_id' => $inputs['id']
+    ]);
+
+    formatOutput(true, 'apply success');
+}
+// handle action when logged member apply group
+function friendGroupHandler()
+{
+    global $inputs;
+
+    insert('member_group_apply',[
+        'member_id' => getLogin()['mid'],
+        'group_id' => $inputs['id']
+    ]);
+
+    formatOutput(true, 'apply success');
+}
+// --------********--------********--------********--------********--------********
+// Functions for the SOCIAL start here
+// author: kimchheng heng(26809413)
+// --------********--------********--------********--------********--------********
+
+
+
+// --------********--------********--------********--------********--------********
+// Functions for the BASE_INFO page start here
+// author:
+// --------********--------********--------********--------********--------********
+
 function getMemberFriendInfo()
 {
     return getAll("
     select a.id, b.name from member_friend a inner join member b on a.friend_id = b.id where a.member_id=?", [getLogin()['mid']]);
 }
 
-function friendSearchHandler()
-{
-    global $inputs;
-    $keyword = $inputs['keyword'];
-    $res = getAll("select a.name,a.email from member a 
-where a.name like '%$keyword%' and a.id not in (select apply_member_id from member_friend_apply where status = 0)"
-    );
-    formatOutput(true, 'success',$res);
-}
-
-function postingSearchHandler()
-{
-    global $inputs;
-    $keyword = $inputs['keyword'];
-    $res = getAll("select a.*,c.name from posting a 
-inner join member_posting b on a.id = b.posting_id
-inner join member c on c.id = b.member_id where a.title like '%$keyword%' or a.content like '%$keyword%'");
-    formatOutput(true, 'success',$res);
-}
-
-function groupSearchHandler()
-{
-    global $inputs;
-    $keyword = $inputs['keyword'];
-    $res = getAll("select * from `group` where group_name like '%$keyword%' or description like '%$keyword%'");
-    formatOutput(true, 'success',$res);
-}
 function withdrawGroupHandler()
 {
     global $inputs;
@@ -759,29 +866,12 @@ function unfriendHandle()
     execSql($sql);
     formatOutput(true, 'delete success');
 }
-function friendApplyHandler()
-{
-    global $inputs;
+// --------********--------********--------********--------********--------********
+// Functions for the Member(Index) start here
+// author:
+// --------********--------********--------********--------********--------********
 
-    insert('member_friend_apply',[
-        'member_id' => getLogin()['mid'],
-        'apply_member_id' => $inputs['id']
-    ]);
 
-    formatOutput(true, 'apply success');
-}
-
-function friendGroupHandler()
-{
-    global $inputs;
-
-    insert('member_group_apply',[
-        'member_id' => getLogin()['mid'],
-        'group_id' => $inputs['id']
-    ]);
-
-    formatOutput(true, 'apply success');
-}
 
 function getFriendLastedPosting()
 {
@@ -826,7 +916,7 @@ function agreeFriendHandler()
 }
 
 // --------********--------********--------********--------********--------********
-// Functions for the Member ends here
+// Functions for the Index ends here
 // author:
 // --------********--------********--------********--------********--------********
 ?>

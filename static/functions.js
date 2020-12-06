@@ -764,6 +764,33 @@ function submitGroupEdit() {
         }
     })
 }
+function handleApply(e,type)
+{
+    let info = e.parent().data('info')
+    info = JSON.parse(decodeURIComponent(info))
+    console.log(info)
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"handle_group_apply",
+            id:info.id,
+            type:type,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                alert(res.msg)
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+}
 
 /* --------********--------********--------********--------********--------********
 Functions for the GROUP ends here
@@ -1019,6 +1046,12 @@ function detailPostingGuest(e) {
     let id = e.parent().data('id');
     window.location.href = './posting_tmpl.php?act=view&id=' + id;
 }
+
+function detailPostingOwner(e) {
+    let id = e.parent().data('id');
+    window.location.href = '../owner/posting_tmpl.php?act=view&id=' + id;
+}
+
 function submitComment()
 {
     let content = $('#comment_content').val();
