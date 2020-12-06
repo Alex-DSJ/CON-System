@@ -1,3 +1,6 @@
+<!-- This file is completed by Yuxin Wang-40024855 individually -->
+
+<!-- all required php files here -->
 <?php require_once "../common/header.php";?>
     <link href="https://cdn.bootcss.com/bootstrap-select/1.13.10/css/bootstrap-select.min.css" rel="stylesheet">
     <script src="https://cdn.bootcss.com/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
@@ -10,7 +13,9 @@ if (checkMemberLogin() == false) {
 $suggestPostingList = getFriendLastedPosting();
 ?>
     <div class="wrapper">
+        <!-- Header for the Member -->
         <?php require_once "nav.php"?>
+        <!-- content of the Friend Hot Posts Page -->
         <section class="content">
             <div class="container-fluid">
 

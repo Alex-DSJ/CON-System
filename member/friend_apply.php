@@ -1,3 +1,6 @@
+<!-- This file is completed by Yuxin Wang-40024855 individually -->
+
+<!-- all required php files here -->
 <?php require_once "../common/header.php";?>
 <script src="../static/functions.js"></script>
 <?php
@@ -8,8 +11,9 @@ if (checkMemberLogin() == false) {
 $info = getNewFriendApply();
 ?>
 <div class="wrapper">
+    <!-- Header for the Member -->
     <?php require_once "nav.php"?>
-
+    <!-- Content of the Friend Apply Page -->
     <section class="content">
         <div class="container-fluid">
 
