@@ -1,7 +1,6 @@
 <?php
 require_once "./func.php";
 require_once "./dbQuerry.php";
-require_once "./condo_func.php";
 
 // call all other php func need 
 
@@ -17,6 +16,7 @@ if (isset($inputs['act'])) {
         case 'add_admin' : addAdminHandler();break;
         case 'del_admin' : delAdminHandler();break;
         case 'edit_admin' : editAdminHandler();break;
+
         case 'apply_friend' : friendApplyHandler();break;
         case 'apply_group' : friendGroupHandler();break;
         case 'friend_search' : friendSearchHandler();break;
@@ -38,7 +38,7 @@ if (isset($inputs['act'])) {
         case 'add_posting' : addPostingHandler();break;
         case 'del_posting' : delPostingHandler();break;
         case 'edit_posting' : editPostingHandler();break;
-        case 'detail_posting' : groupApplyHandler();break;
+//        case 'detail_posting' : groupApplyHandler();break;
         case 'add_comment' : addCommentHandler();break;
 
         // owner(admin) related APIs
@@ -56,10 +56,14 @@ if (isset($inputs['act'])) {
         case 'add_building' : addBuildingHandler();break;
         case 'del_building' : delBuildingHandler();break;
         case 'edit_building' : editBuildingHandler();break;
+
         case 'add_contract' : addContractHandler();break;
         case 'update_contract' : updateContractHandler();break;
-        
-        
+        case 'del_contract' : delContractHandler();break;
+        case 'edit_contract' : editContractHandler();break;
+
+        case 'withdraw_group': withdrawGroupHandler();break;
+        case 'unfriend': unfriendHandle();break;
         default :
             formatOutput(false, 'unknown action');
     }

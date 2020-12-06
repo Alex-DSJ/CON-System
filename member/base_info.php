@@ -19,11 +19,11 @@ $friendInfo = getMemberFriendInfo();
         <ul class="navbar-nav" id="my-nav">
             <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Home</a></li>
-            <li class="nav-item d-none d-sm-inline-block active"><a href="social.php" class="nav-link">Social</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="social.php" class="nav-link">Social</a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="contract.php" class="nav-link">Contract</a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">My Posting</a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="message.php" class="nav-link">Message</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="base_info.php" class="nav-link">Base Info</a></li>
+            <li class="nav-item d-none d-sm-inline-block active"><a href="base_info.php" class="nav-link">Base Info</a></li>
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
@@ -33,6 +33,7 @@ $friendInfo = getMemberFriendInfo();
             </li>
         </ul>
     </nav>
+
     <section class="content">
         <div class="container-fluid">
 
@@ -90,7 +91,7 @@ $friendInfo = getMemberFriendInfo();
                                     <tr>
                                         <td><?php echo $item['group_name']?></td>
                                         <td><?php echo $item['description']?></td>
-                                        <td><button class="btn btn-danger" onclick="withdraw()">withdraw</button></td>
+                                        <td data-id="<?php echo $item['union_id'] ?>"><button class="btn btn-danger" onclick="withdraw($(this))">withdraw</button></td>
                                     </tr>
                                     <?php
                                 } ?>
@@ -105,13 +106,13 @@ $friendInfo = getMemberFriendInfo();
                             <table class="table-striped table">
                                 <tr>
                                     <th>Friend Name</th>
-                                    <th>Create Time</th>
+                                    <th>Option</th>
                                 </tr>
                                 <?php foreach ($friendInfo as $item){
                                     ?>
                                     <tr>
                                         <td><?php echo $item['name']?></td>
-                                        <td><?php echo $item['create_time']?></td>
+                                        <td data-id="<?php echo $item['id'] ?>"><button class="btn btn-danger" onclick="unfriend($(this))">unfriend</button></td>
                                     </tr>
                                     <?php
                                 } ?>

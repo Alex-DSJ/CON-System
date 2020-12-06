@@ -399,13 +399,17 @@ function submitBuildingEdit1() {
     })
 }
 
+
+// contract both super admin and member
 // display the popup form for adding contract
 function addContract() {
     $('#modal-add-message').modal('show')
 }
 
 // TODO update the contract into the databse
-
+// update contract in the super admin
+// handle when submit of edit contract button is click
+// send http request to API.php so it would filter which function would be call to handle edit contract
 function updateContract() {
     let status = $("#status option:selected").val()
     if (status == '') {
@@ -434,7 +438,8 @@ function updateContract() {
         }
     })
 }
-
+// handle when submit contract button is click(add new contract)
+// send http request to API.php so it would filter which function would be call to handle add contract
 function submitContract()
 {
     let content = $('#content').val()
@@ -466,6 +471,80 @@ function submitContract()
             alert('server error')
         }
     })
+}
+// edit contract in the member
+// handle when submit of edit contract button is click
+// send http request to API.php so it would filter which function would be call to handle edit contract
+function submitContractEdit() {
+    let status = $("#status_edit option:selected").val()
+    let title = $('#title_edit').val();
+    let content = $('#content_edit').val();
+    if (status == '') {
+        return false;
+    }
+
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "update_contract",
+            id: $('#id_edit').val(),
+            title: title,
+            content: content,
+            status: status,
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+// handle when delete contract button is click
+// send http request to API.php so it would filter which function would be call to handle delete contract
+function delContract(e) {
+    let id = e.parent().data('id');
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"del_contract",
+            id:id
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+}
+// get show the modal, allow user to edit the contract
+function editContract(e) {
+
+    let info = e.parent().data('info')
+    info = JSON.parse(decodeURIComponent(info))
+    console.log(info)
+    $('#id_edit').val(info.id)
+    $('#title_edit').val(info.title)
+    $('#status_edit').val(info.status)
+    $('#content_edit').val(info.content)
+
+    $('#modal-edit-message').modal('show')
+
 }
 
 /* --------********--------********--------********--------********--------********
@@ -696,6 +775,33 @@ function submitGroupEdit() {
         }
     })
 }
+function handleApply(e,type)
+{
+    let info = e.parent().data('info')
+    info = JSON.parse(decodeURIComponent(info))
+    console.log(info)
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"handle_group_apply",
+            id:info.id,
+            type:type,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                alert(res.msg)
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+}
 
 /* --------********--------********--------********--------********--------********
 Functions for the GROUP ends here
@@ -710,7 +816,31 @@ author: saebom SHIN (40054234)
 function addMember() {
     $('#modal-add-member').modal('show')
 }
+function editMember(e) {
+    let info = e.parent().data('info')
+    info = JSON.parse(decodeURIComponent(info))
+    console.log(info)
+    $('#id_edit').val(info.id)
+    $('#name_edit').val(info.name)
+    $('#password_edit').val(info.password)
+    $('#address_edit').val(info.address)
+    $('#email_edit').val(info.email)
+    $('#family_edit').val(info.family)
+    $('#colleagues_edit').val(info.colleagues)
+    $('#privilege_edit').val(info.privilege)
+    $('#status_edit').val(info.status)
 
+    let condos = getCondos(info.id)
+    if (condos) {
+        var selectCondos = []
+        $.each(condos,function (k,item) {
+            selectCondos.push(item.id)
+        })
+        $('#condos_edit').val(selectCondos)
+    }
+
+    $('#modal-edit-member').modal('show')
+}
 function delMember(e) {
     let id = e.parent().data('id');
     $.ajax({
@@ -877,9 +1007,13 @@ author: saebom SHIN (40054234)
 Functions for the POSTING starts here
 author: kimchhengheng (26809413)_saebom SHIN (40054234)
 --------********--------********--------********--------********--------******** */
+// handle when button save is click
+// make http request to API.php then it would filter which function would handle the add/edit posting
+// act have two possible value by default it is add_posting but edit also using this
 function savePosting(act = 'add_posting') {
     let title = $('#title').val();
-    let content = $('#content').val()
+    let content = $('#content').val();
+    let status = $('#status').val();
 
     if (title == '' || content == '') {
         alert('params err')
@@ -893,7 +1027,8 @@ function savePosting(act = 'add_posting') {
             act: act,
             id: $('#id_edit').val(),
             title: title,
-            content: content
+            content: content,
+            status: status
         },
         fileElementId: 'fileToUpload',
         dataType: 'json',
@@ -911,8 +1046,8 @@ function savePosting(act = 'add_posting') {
         }
     })
 }
-
-function delPosting() {
+// delete the posting
+function delPosting(e) {
     let id = e.parent().data('id');
     $.ajax({
         url: COMMON_API,
@@ -930,22 +1065,32 @@ function delPosting() {
                 return false;
             }
         },
-        error: function () {
-            alert('server error')
+        error: function (jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
         }
     })
 }
-
+// show the modal to allow user edit posting
 function editPosting(e) {
     let id = e.parent().data('id');
     window.location.href = '../member/posting_templ.php?act=edit&id=' + id;
 }
-
+// show all the information of the posting
 function detailPosting(e) {
     let id = e.parent().data('id');
     window.location.href = '../member/posting_templ.php?act=view&id=' + id;
 }
-
+//show all the information of the public posting from guest.php
+function detailPostingGuest(e) {
+    let id = e.parent().data('id');
+    window.location.href = './posting_tmpl.php?act=view&id=' + id;
+}
+// show all the information of posting of the member
+function detailPostingOwner(e) {
+    let id = e.parent().data('id');
+    window.location.href = '../owner/posting_tmpl.php?act=view&id=' + id;
+}
+// submit the comment
 function submitComment()
 {
     let content = $('#comment_content').val();
@@ -960,7 +1105,7 @@ function submitComment()
         dataType: 'json',
         type: 'post',
         success: function (res) {
-           alert(res.msg)
+            alert(res.msg)
             window.location.reload()
         },
         error: function () {
@@ -973,9 +1118,49 @@ function submitComment()
 Functions for the POSTING ends here
 author: kimchhengheng (26809413)_saebom SHIN (40054234)
 --------********--------********--------********--------********--------******** */
+/* --------********--------********--------********--------********--------********
+Functions for the Member ends here
+author: kimchhengheng (26809413)_
+--------********--------********--------********--------********--------******** */
+// handle login of member is clicked
+function member_login() {
+    console.log('member_login')
+    let username = $('#username').val();
+    let password = $('#password').val();
+    if(username == '' || password == '') {
+        alert('input username and password first')
+        return false;
+    }
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            "act": "member_login",
+            "username": username,
+            "password" :password,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.href = 'index.php'
+            } else {
+                return false;
+            }
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
+        }
+    })
+}
 
-//social
-//posting
+/* --------********--------********--------********--------********--------********
+Functions for the SOCIAL start here
+author: kimchhengheng (26809413)
+--------********--------********--------********--------********--------******** */
+// search all friend
+// make http request to API.php then it would filter which function would handle the search friend
+// display all the result if it is success
 function searchFriend()
 {
     let friend_keyword = $('#friend_keyword').val()
@@ -994,7 +1179,7 @@ function searchFriend()
             console.log(res)
             var t = ''
             $.each(res.data,function (k,item) {
-                t += `<tr><td>${ item.id }</td><td>${ item.name }</td><td>${ item.email }</td><td data-id="${ item.id }"><button class="btn btn-primary apply-friend btn-sm">apply</button></td></tr>`
+                t += `<tr><td>${ item.name }</td><td>${ item.email }</td><td data-id="${ item.id }"><button class="btn btn-primary apply-friend btn-sm">apply</button></td></tr>`
             })
             $('#friend-search-container').empty().append(t)
         },
@@ -1003,7 +1188,9 @@ function searchFriend()
         }
     })
 }
-
+// search all friend
+// make http request to API.php then it would filter which function would handle the search posting
+// display all the result if it is success
 function searchPosting()
 {
     let posting_keyword = $('#posting_keyword').val()
@@ -1030,6 +1217,9 @@ function searchPosting()
         }
     })
 }
+// search all friend
+// make http request to API.php then it would filter which function would handle the search group
+// display all the result if it is success
 function searchGroup() {
     let group_keyword = $('#group_keyword').val()
     if (group_keyword == '' ) {
@@ -1047,7 +1237,7 @@ function searchGroup() {
             console.log(res)
             var t = ''
             $.each(res.data,function (k,item) {
-                t += `<tr><td>${ item.id }</td><td>${ item.group_name }</td><td>${ item.description }</td><td data-id="${ item.id }"><button class="btn btn-primary apply-group btn-sm">apply</button></td></tr>`
+                t += `<tr><td>${ item.group_name }</td><td>${ item.description }</td><td data-id="${ item.id }"><button class="btn btn-primary apply-group btn-sm">apply</button></td></tr>`
             })
             $('#group-search-container').empty().append(t)
         },
@@ -1056,20 +1246,32 @@ function searchGroup() {
         }
     })
 }
+/* --------********--------********--------********--------********--------********
+Functions for the SOCIAL start here
+author: kimchhengheng (26809413)
+--------********--------********--------********--------********--------******** */
+/* --------********--------********--------********--------********--------********
+Functions for the MESSAGE start here
+author: kimchhengheng (26809413)
+--------********--------********--------********--------********--------******** */
 
-//social
-
-//message
+// show modal message
 function addMessage()
 {
     $('#modal-add-message').modal('show')
     $(".selectpicker").selectpicker();
 }
+// submit message
+// make http request to API.php then it would filter which function would handle the search group
+// reload page if it is sucess
 function submitMessage()
 {
-    let content = $('#content').val()
-    let title = $('#title').val()
-    let receiver = $('#receiver').val()
+    let content = $('#content').val();
+    let title = $('#title').val();
+    let receiver = $('#receiver').val().split(":");
+    let receiverId=receiver[0];
+    let receiverEmail = receiver[1];
+    alert(receiverId+"\t"+receiverEmail);
     if (content == '' || title == '' || receiver == '') {
         return false;
     }
@@ -1081,7 +1283,8 @@ function submitMessage()
             id: $('#id').val(),
             content: content,
             title: title,
-            receiver: receiver,
+            receiverId: receiverId,
+            receiverEmail:receiverEmail
         },
         dataType: 'json',
         type: 'post',
@@ -1098,8 +1301,249 @@ function submitMessage()
         }
     })
 }
-//message
+/* --------********--------********--------********--------********--------********
+Functions for the MESSAGE start here
+author: kimchhengheng (26809413)
+--------********--------********--------********--------********--------******** */
 
 /* --------********--------********--------********--------********--------********
-Functions for the Member End Here
+Functions for the BASE_INFO start here
+author:
+--------********--------********--------********--------********--------******** */
+
+function withdraw(e) {
+    let id = e.parent().data('id')
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "withdraw_group",
+            id: id
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+function unfriend(e) {
+    let id = e.parent().data('id');
+    alert("unfriend");
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "unfriend",
+            id: id
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+/* --------********--------********--------********--------********--------********
+Functions for the BASE_INFO start here
+author:
+--------********--------********--------********--------********--------******** */
+/* --------********--------********--------********--------********--------********
+Functions to call when page finish reload
+author:
+--------********--------********--------********--------********--------******** */
+//get member group
+function getGroups(id)
+{
+    var out ;
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"member_groups",
+            id:id,
+        },
+        dataType:'json',
+        type:'post',
+        async:false,
+        success:function (res) {
+            if(res.success == true) {
+                out = res.data
+            } else {
+                alert(res.msg)
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+    return out
+}
+function getCondos(id)
+{
+    var out ;
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"member_condos",
+            id:id,
+        },
+        dataType:'json',
+        type:'post',
+        async:false,
+        success:function (res) {
+            if(res.success == true) {
+                out = res.data
+            } else {
+                alert(res.msg)
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
+    return out
+}
+$(function () {
+    $('body').on('click', '.show-condos', function () {
+        let id = $(this).data('id')
+        console.log(id)
+        var res = getCondos(id)
+        var t = ''
+        $.each(res, function (k, item) {
+            t += `<tr><td>${item.name}</td></tr>`
+        })
+        $('#condos-contanier').empty().append(t)
+        $('#modal-condos').modal('show')
+    })
+
+    $('body').on('click', '.show-groups', function () {
+        let id = $(this).data('id')
+        console.log(id)
+        var res = getGroups(id)
+        var t = ''
+        $.each(res, function (k, item) {
+            t += `<tr><td>${item.group_name}</td></tr>`
+        })
+        $('#condos-contanier').empty().append(t)
+        $('#modal-condos').modal('show')
+    })
+
+    $('body').on('click', '.apply-friend', function () {
+        let id = $(this).parent().data('id')
+        console.log(id)
+        $.ajax({
+            url: COMMON_API,
+            data: {
+                act: "apply_friend",
+                id: id
+            },
+            dataType: 'json',
+            type: 'post',
+            success: function (res) {
+                alert(res.msg)
+                if (res.success == true) {
+                    window.location.reload()
+                } else {
+                    return false;
+                }
+            },
+            error: function () {
+                alert('server error')
+            }
+        })
+    })
+
+    $('body').on('click', '.apply-group',function () {
+        let id = $(this).parent().data('id')
+        $.ajax({
+            url: COMMON_API,
+            data: {
+                act: "apply_group",
+                id: id
+            },
+            dataType: 'json',
+            type: 'post',
+            success: function (res) {
+                alert(res.msg)
+                if (res.success == true) {
+                    window.location.reload()
+                } else {
+                    return false;
+                }
+            },
+            error: function () {
+                alert('server error')
+            }
+        })
+    })
+
+    $('body').on('click','.comment',function () {
+        let id = $(this).data('id')
+        $('#id_comment_edit').val(id)
+        $('#modal-add-comment').modal('show')
+    })
+    //button with class disagree-friend would call the function when the button is click , but it is call after page is load
+    //make http request to API.php then it would filter which function would handle the disagree_friend_apply
+    //reload page if it is success
+    $('body').on('click','.disagree-friend',function () {
+        let id = $(this).parent().data('id')
+        $.ajax({
+            url: COMMON_API,
+            data: {
+                act: "disagree_friend_apply",
+                id: id,
+            },
+            dataType: 'json',
+            type: 'post',
+            success: function (res) {
+                alert(res.msg)
+                window.location.reload()
+            },
+            error: function () {
+                alert('server error')
+            }
+        })
+    })
+    //button with class agree-friend would call the function when the button is click , but it is call after page is load
+    //make http request to API.php then it would filter which function would handle the agree_friend_apply
+    //reload page if it is success
+    $('body').on('click','.agree-friend',function () {
+        let id = $(this).parent().data('id');
+        $.ajax({
+            url: COMMON_API,
+            data: {
+                act: "agree_friend_apply",
+                id: id,
+            },
+            dataType: 'json',
+            type: 'post',
+            success: function (res) {
+                alert(res.msg)
+                window.location.reload()
+            },
+            error: function () {
+                alert('server error')
+            }
+        })
+    })
+})
+/* --------********--------********--------********--------********--------********
+Functions to call when page finish reload
+author:
 --------********--------********--------********--------********--------******** */

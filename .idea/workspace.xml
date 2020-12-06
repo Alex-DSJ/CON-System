@@ -2,20 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fb7ddaad-6967-4886-ad4f-23174da57990" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/func/api.php" beforeDir="false" afterPath="$PROJECT_DIR$/func/api.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/func/condo_func.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/func/func.php" beforeDir="false" afterPath="$PROJECT_DIR$/func/func.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/func/group_func.php" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/guest.php" beforeDir="false" afterPath="$PROJECT_DIR$/guest.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/owner/condo.php" beforeDir="false" afterPath="$PROJECT_DIR$/owner/condo.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/owner/group.php" beforeDir="false" afterPath="$PROJECT_DIR$/owner/group.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/owner/index.php" beforeDir="false" afterPath="$PROJECT_DIR$/owner/index.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/owner/login.php" beforeDir="false" afterPath="$PROJECT_DIR$/owner/login.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/owner/posting.php" beforeDir="false" afterPath="$PROJECT_DIR$/owner/posting.php" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/owner/posting_templ.php" beforeDir="false" afterPath="$PROJECT_DIR$/owner/posting_templ.php" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/static/ajaxfileupload.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/ajaxfileupload.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/static/functions.js" beforeDir="false" afterPath="$PROJECT_DIR$/static/functions.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/static/owner.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,9 +25,15 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/../condo" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\xampp\htdocs\dashboard\CON-System\member" />
+      <recent name="C:\xampp\htdocs\dashboard\CON-System" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -49,10 +44,28 @@
       <option name="presentableId" value="Default" />
       <updated>1606938916906</updated>
       <workItem from="1606938918140" duration="793000" />
+      <workItem from="1607187649430" duration="404000" />
+      <workItem from="1607188069122" duration="73000" />
+      <workItem from="1607188152022" duration="323000" />
+      <workItem from="1607188490453" duration="3244000" />
+      <workItem from="1607191958919" duration="1299000" />
+      <workItem from="1607193510335" duration="3124000" />
+      <workItem from="1607217745795" duration="623000" />
+      <workItem from="1607219386489" duration="6188000" />
     </task>
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="362" y="72" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1607220150539">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="362" y="72" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1607220150539" />
+    <state x="184" y="168" key="FileChooserDialogImpl" timestamp="1607220262963">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="184" y="168" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1607220262963" />
   </component>
 </project>
