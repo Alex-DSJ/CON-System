@@ -13,7 +13,7 @@
                 <div class="m-auto">
                     <div class="card">
                         <div class="card-body ">
-                            <p class="login-box-msg">CON System Owner Login</p>
+                            <p class="login-box-msg">Login</p>
 
                             <div action="" method="post">
                                 <div class="input-group mb-3">

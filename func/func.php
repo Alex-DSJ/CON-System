@@ -178,7 +178,7 @@ function editBuildingHandler() {
     formatOutput(true, 'update success', $res);
 }
 
-// delete a building from the databse
+// delete a building from the database
 function delBuildingHandler() {
     global $inputs;
     $sql = "DELETE FROM building WHERE id = " . $inputs['id'];
@@ -279,10 +279,14 @@ function delContractHandler()
 // Functions for the OWNER/ADMIN starts here
 // author: saebom SHIN (40054234)
 // --------********--------********--------********--------********--------********
+
+// get all memberlist from the database
 function getMemberList()
 {
     return getAll("select * from member ");
 }
+
+// get all condo list from the database
 function getCondoList()
 {
     $sql = "select a.*,c.building_name from condo a 
@@ -292,6 +296,7 @@ where b.building_id = ?";
     return getAll($sql, [getLogin()['bid']]);
 }
 
+// update the info of condo to the database
 function editCondoHandler()
 {
     global $inputs;
@@ -305,6 +310,7 @@ function editCondoHandler()
     formatOutput(true, 'update success');
 }
 
+// delete a condo from the database
 function delCondoHandler()
 {
     global $inputs;
@@ -312,6 +318,8 @@ function delCondoHandler()
     execSql($sql);
     formatOutput(true, 'delete success');
 }
+
+// add a new condo to the dataase
 function addCondoHandler()
 {
     global $inputs;
@@ -339,11 +347,14 @@ function addCondoHandler()
 // Functions for the GROUP starts here
 // author: saebom SHIN(40054234)
 // --------********--------********--------********--------********--------********
+
+// get all group list from the database
 function getGroupList()
 {
     return getAll("select * from `group` where admin_id = ?", [getLogin()['uid']]);
 }
 
+// get all group apply list from the database
 function getGroupApplyList()
 {
     return getAll("select 
@@ -355,6 +366,28 @@ where c.admin_id = ?
 ", [getLogin()['uid']]);
 }
 
+// 
+function groupApplyHandler()
+{
+    global $inputs;
+    updateDb('member_group_apply',[
+        'status' => $inputs['type'],
+        'handle_time' => date('Y-m-d H:i:s'),
+    ], [
+        'id' => $inputs['id']
+    ]);
+
+    $info = getOne("select * from member_group_apply where id = ?", [$inputs['id']]);
+
+    insert('member_group',[
+        'member_id' => $info['member_id'],
+        'group_id' => $info['group_id']
+    ]);
+
+    formatOutput(true, 'update success');
+}
+
+// update the info of group to the database
 function editGroupHandler()
 {
     global $inputs;
@@ -368,6 +401,7 @@ function editGroupHandler()
     formatOutput(true, 'update success');
 }
 
+// delete the info of group from the database
 function delGroupHandler()
 {
     global $inputs;
@@ -376,6 +410,7 @@ function delGroupHandler()
     formatOutput(true, 'delete success');
 }
 
+// add the info of group to the database
 function addGroupHandler()
 {
     global $inputs;
@@ -444,6 +479,12 @@ function getMemberCondoInfo()
                         inner join condo b on a.condo_id = b.id
                         where a.member_id = ?",
         [getLogin()['mid']]);
+}
+function memberCondosHandler()
+{
+    global $inputs;
+    $res = getAll('select a.*,b.name from member_condo a inner join condo b on a.condo_id = b.id where a.member_id = ?', [$inputs['id']]);
+    formatOutput(true, 'success', $res);
 }
 // get the group that the logged member be part of
 function getMemberGroupInfo()

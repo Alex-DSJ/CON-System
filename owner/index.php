@@ -9,7 +9,7 @@
 <?php require_once "../common/header.php";
 require_once "../func/func.php";
 if (checkUserLogin() == false) {
-    header("Location:/owner/login.php");
+    header("Location:./login.php");
 }
 $dataList = getMemberList();
 $condo = getCondoList();

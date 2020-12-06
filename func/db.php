@@ -4,8 +4,8 @@
 try {
 
     $user = 'root';
-    $pass = 'hkc610787';
-    $host = '127.0.0.1:3307';
+    $pass = 'Tlstoqhal89*';
+    $host = '127.0.0.1:3306';
     $dbname = 'condo_system';
 
 
