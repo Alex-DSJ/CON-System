@@ -212,9 +212,13 @@ function getContractList() {
 // update a contract to the database
 function updateContractHandler() {
     global $inputs;
-    $res = updateDb('contract',
-                    ['status' => $inputs['status'],],
-                    ['id' => $inputs['id']]);
+    $res = updateDb('contract',[
+        'status' => $inputs['status'],
+        'title' => $inputs['title'],
+        'content' => $inputs['content'],
+    ], [
+        'id' => $inputs['id']
+    ]);
     formatOutput(true, 'update success', $res);
 }
 
@@ -684,11 +688,6 @@ function addCommentHandler()
 // --------********--------********--------********--------********--------********
 
 
-
-//function getMemberGroupList()
-//{
-//    return getAll("select b.group_name,b.id from member_group a inner join `group` b on a.group_id = b.id where a.member_id =?", [getLogin()['mid']]);
-//}
 // get email of all the member
 function getMailList()
 {
@@ -862,7 +861,10 @@ function withdrawGroupHandler()
 function unfriendHandle()
 {
     global $inputs;
-    $sql = "delete from `member_friend` where id = " . $inputs['id'];
+    $res=getOne("select * from member_friend where id =?", [$inputs['id']]);
+    $sql = "delete from `member_friend` where member_id= ".$res['member_id']." and friend_id= ".$res['friend_id'];
+    execSql($sql);
+    $sql = "delete from `member_friend` where member_id= ".$res['friend_id']." and friend_id= ".$res['member_id'];
     execSql($sql);
     formatOutput(true, 'delete success');
 }

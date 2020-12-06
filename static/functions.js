@@ -1271,7 +1271,6 @@ function submitMessage()
     let receiver = $('#receiver').val().split(":");
     let receiverId=receiver[0];
     let receiverEmail = receiver[1];
-    alert(receiverId+"\t"+receiverEmail);
     if (content == '' || title == '' || receiver == '') {
         return false;
     }
@@ -1336,7 +1335,7 @@ function withdraw(e) {
 }
 function unfriend(e) {
     let id = e.parent().data('id');
-    alert("unfriend");
+    alert(id);
     $.ajax({
         url: COMMON_API,
         data: {
