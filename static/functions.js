@@ -220,10 +220,6 @@ function editAdmin(e) {
     $('#modal-edit-admin').modal('show')
 }
 
-// This file is completed by shijun DENG-40084956 individually
-
-var COMMON_API = '../func/api.php'
-
 // invoke the popup form for adding a building
 function addBuilding(){
     $('#modal-add-building').modal('show')
@@ -483,8 +479,10 @@ function submitContract()
 
 // add condo information with associated building
 function submitCondo1() {
-  console.log('submitting a new condo');
-  let building = $("#building").val();
+  let selectTag = document.getElementById('building');
+  let sIndex = selectTag.selectedIndex;
+  let building_id = parseInt(selectTag.options[sIndex].value);
+  // let building = $("#building").val();
   let name = $("#name").val();
   let area = $("#area").val();
   let cost = $("#cost").val();
@@ -497,8 +495,8 @@ function submitCondo1() {
   $.ajax({
     url: COMMON_API,
     data: {
-      act: "add_condo",
-      building: building,
+      act: "sadmin_add_condo",
+      building_id: building_id,
       name: name,
       cost: cost,
       area: area,
@@ -529,8 +527,8 @@ function submitCondoEdit1() {
   // obtain the building_id from the option
   let buildingTag = document.getElementById('building_edit');
   let sIndex = buildingTag.selectedIndex;
-  let buildingID = buildingTag.options[sIndex].value;
-  let building = $("#building_eidt").val();
+  let idString = buildingTag.options[sIndex].value;
+  let building_id = parseInt(idString);
   let id = $("#id_edit").val();
   let name = $("#name_edit").val();
   let area = $("#area_edit").val();
@@ -544,10 +542,9 @@ function submitCondoEdit1() {
   $.ajax({
     url: COMMON_API,
     data: {
-      act: "edit_condo",
-      id: id,
-      // buildingID = buildingID,
-      building: building,
+      act: "sadmin_edit_condo",
+      id: id, 
+      building_id : building_id,
       name: name,
       cost: cost,
       area: area,

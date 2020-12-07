@@ -324,7 +324,7 @@ function editCondoHandler1(){
         'id' => $inputs['id']
     ]);
     updateDb('condo_building',[
-        'building_id' => $inputs['buildingID']
+        'building_id' => $inputs['building_id']
     ], [
         'condo_id' => $inputs['id']
     ]);
@@ -342,7 +342,7 @@ function addCondoHandler1()
     ]);
     insert('condo_building', [
         'condo_id' => $lastId,
-        'building_id' => $inputs['building'],
+        'building_id' => $inputs['building_id'],
     ]);
 
     formatOutput(true, 'add success');

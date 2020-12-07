@@ -106,7 +106,7 @@ foreach ($building as $item) {
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="submitCondo()">Save</button>
+                <button class="btn btn-primary" onclick="submitCondo1()">Save</button>
             </div>
         </div>
     </div>
@@ -141,7 +141,7 @@ foreach ($building as $item) {
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="submitCondoEdit()">Save</button>
+                <button class="btn btn-primary" onclick="submitCondoEdit1()">Save</button>
             </div>
         </div>
     </div>
