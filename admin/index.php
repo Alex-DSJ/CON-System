@@ -44,7 +44,7 @@ foreach ($building as $item) {
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>ID</th>
                                     <th>name</th>
                                     <th>building Name</th>
                                     <th>create time</th>

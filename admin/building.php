@@ -11,8 +11,12 @@ if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
     header("Location:/admin/login.php");
 }
 $dataList = getBuildingList();
+$adminList = getAdminList();
+$adminName = '<option value="">please select</option>';
+foreach ($adminList as $admin) {
+    $adminName .= "<option value='{$admin['id']}'>{$admin['name']}</option>";
+}
 ?>
-
 
 <div class="wrapper">
 
@@ -34,7 +38,7 @@ $dataList = getBuildingList();
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th>ID</th>
                                     <th>building name</th>
                                     <th>description</th>
                                     <th>area</th>
@@ -54,6 +58,7 @@ $dataList = getBuildingList();
                                         <td><?php echo $item['address'] ?></td>
                                         <td><?php echo $item['create_time'] ?></td>
                                         <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
+                                            <button class="btn btn-primary btn-sm" onclick="assignAdmin($(this))">Assign</button>
                                             <button class="btn btn-danger btn-sm" onclick="delBuilding($(this))">del</button>
                                             <button class="btn btn-warning btn-sm"  onclick="editBuilding($(this))">edit</button>
                                         </td>
@@ -97,6 +102,36 @@ $dataList = getBuildingList();
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" onclick="submitBuilding()">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- the popup form for assign button -->
+<div class="modal fade" id="modal-assign-admin">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Assign Admin
+                    <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
+                </span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body" style="margin: 20px">
+                <div class="form-group row">
+                    <label for="">ID: </label>
+                    <input type="text" class="form-control" id="id_asg" disabled>
+                    <label for="">Building Name: </label>
+                    <input type="text" class="form-control" id="name_asg" disabled>
+                    <label for="">Admin Name</label><br>
+                    <select name="" id="admin_building" class="form-control">
+                        <?php echo $adminName; ?>
+                    </select>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-primary" onclick="submitAdminAssignment($(this))">Save</button>
             </div>
         </div>
     </div>

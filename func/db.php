@@ -8,8 +8,8 @@ try {
 //    $host = '127.0.0.1:3306';
 //    $dbname = 'condo_system';
     $user = 'root';
-    $pass = 'hkc610787';
-    $host = '127.0.0.1:3307';
+    $pass = 'Alex112524';
+    $host = '127.0.0.1:3306';
     $dbname = 'condo_system';
 
     global $db;

@@ -4,543 +4,470 @@
 // --------********--------********--------********--------********--------********
 
 // path to the filter
-var COMMON_API = "../func/api.php";
+var COMMON_API = '../func/api.php'
 
 // get the username and password
 // route to api.php and invoke loginHandler() to verify them
 // enter the index.php once it success
 function login() {
-  console.log("login");
-  let username = $("#username").val();
-  let password = $("#password").val();
-  if (username == "" || password == "") {
-    alert("input username and password first");
-    return false;
-  }
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "login",
-      username: username,
-      password: password,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        if (res.data.is_first_login * 1 === 0) {
-          window.location.href = "reset_info.php";
-        } else {
-          window.location.href = "index.php";
-        }
-      } else {
+    console.log('login')
+    let username = $('#username').val();
+    let password = $('#password').val();
+    if(username == '' || password == '') {
+        alert('input username and password first')
         return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+    }
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            "act": "login",
+            "username": username,
+            "password" :password,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                if (res.data.is_first_login*1  === 0) {
+                    window.location.href = 'reset_info.php'
+                } else {
+                    window.location.href = 'index.php'
+                }
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
 }
 
 // change the password when the super admin login for the first time
 // route to api.php and invoke resetHandler() to verify them
 // enter the index.php once it success
 function resetLoginInfo() {
-  console.log("resetLoginInfo");
-  let username = $("#username").val();
-  let password = $("#password").val();
-  if (username == "" || password == "") {
-    alert("input username and password first");
-    return false;
-  }
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "reset",
-      username: username,
-      password: password,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.href = "index.php";
-      } else {
+    console.log('resetLoginInfo')
+    let username = $('#username').val();
+    let password = $('#password').val();
+    if(username == '' || password == '') {
+        alert('input username and password first')
         return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+    }
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            "act": "reset",
+            "username" : username,
+            "password" : password,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.href = 'index.php'
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
 }
 
 // logout a user
-// route to api.php and invoke logoutHandler()
+// route to api.php and invoke logoutHandler() 
 // enter the login.php once it success
 function logout() {
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "logout",
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.href = "index.php";
-      } else {
-        return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:'logout'
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.href = 'index.php'
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
 }
 
 //show the popup form for adding an admin
-function addAdmin() {
-  $("#modal-add-admin").modal("show");
+function addAdmin(){
+    $('#modal-add-admin').modal('show')
 }
 
 // update association admin information
 // route to api.php and invoke editAdminHandler() to update the admin's info
 // go back to the previous page with the updated info
 function submitAdminEdit() {
-  let admin_username = $("#admin_name_edit").val();
-  let admin_password = $("#admin_password_edit").val();
-  let admin_building = $("#admin_building_edit").val();
-  let id_edit = $("#id_edit").val();
+    let admin_username = $('#admin_name_edit').val();
+    let admin_password = $('#admin_password_edit').val();
+    let admin_building = $('#admin_building_edit').val();
+    let id_edit = $('#id_edit').val();
 
-  if (admin_username == "" || admin_password == "" || admin_building == "") {
-    alert("params err");
-    return false;
-  }
-
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "edit_admin",
-      id: id_edit,
-      admin_username: admin_username,
-      admin_password: admin_password,
-      admin_building: admin_building,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
+    if (admin_username == '' || admin_password == '' || admin_building == '') {
+        alert('params err');
         return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+    }
+
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"edit_admin",
+            id:id_edit,
+            admin_username:admin_username,
+            admin_password:admin_password,
+            admin_building:admin_building,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
 }
 
 // add an association admin information
 // route to api.php and invoke addAdminHandler() to add an admin
 // go back to the previous page with the updated info
 function submitAdmin() {
-  let admin_username = $("#admin_name").val();
-  let admin_password = $("#admin_password").val();
-  let admin_building = $("#admin_building").val();
+    let admin_username = $('#admin_name').val();
+    let admin_password = $('#admin_password').val();
+    let admin_building = $('#admin_building').val();
 
-  if (admin_username == "" || admin_password == "" || admin_building == "") {
-    alert("params err");
-    return false;
-  }
-
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "add_admin",
-      admin_username: admin_username,
-      admin_password: admin_password,
-      admin_building: admin_building,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
+    if (admin_username == '' || admin_password == '' || admin_building == '') {
+        alert('params err');
         return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+    }
+
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"add_admin",
+            admin_username:admin_username,
+            admin_password:admin_password,
+            admin_building:admin_building,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
+        }
+    })
 }
 
 // delete an association admin information
 // route to api.php and invoke delAdminHandler() to delete an admin
 // go back to the previous page with the updated info
 function delAdmin(e) {
-  let id = e.parent().data("id");
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "del_admin",
-      id: id,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
-        return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+    let id = e.parent().data('id');
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"del_admin",
+            id:id
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
+        }
+    })
 }
 
 // open the popup form for edit an associaiton admin
 function editAdmin(e) {
-  $("#admin_name_edit").val(e.parent().data("name"));
-  $("#admin_password_edit").val(e.parent().data("pass"));
-  $("#admin_building_edit").val(e.parent().data("building"));
-  $("#id_edit").val(e.parent().data("id"));
-  $("#modal-edit-admin").modal("show");
+    $('#admin_name_edit').val(e.parent().data('name'))
+    $('#admin_password_edit').val(e.parent().data('pass'))
+    $('#admin_building_edit').val(e.parent().data('building'))
+    $('#id_edit').val(e.parent().data('id'))
+    $('#modal-edit-admin').modal('show')
 }
 
 // This file is completed by shijun DENG-40084956 individually
 
-var COMMON_API = "../func/api.php";
+var COMMON_API = '../func/api.php'
 
-// invole the popup form for adding a building
-function addBuilding() {
-  $("#modal-add-building").modal("show");
+// invoke the popup form for adding a building
+function addBuilding(){
+    $('#modal-add-building').modal('show')
 }
+
+//invoke the popup form for assign an admin
+function assignAdmin(e){
+    let info = e.parent().data('info')
+    info = JSON.parse(decodeURIComponent(info))
+    $('#id_asg').val(info.id)
+    $('#name_asg').val(info.building_name)    
+    $('#modal-assign-admin').modal('show')
+}
+
 
 // update the information of a building in the database
 // e should include the information of the building's id
 function editBuilding(e) {
-  let info = e.parent().data("info");
-  info = JSON.parse(decodeURIComponent(info));
-  console.log(info);
-  $("#id_edit").val(info.id);
-  $("#name_edit").val(info.building_name);
-  $("#desc_edit").val(info.description);
-  $("#address_edit").val(info.address);
-  $("#area_edit").val(info.area);
-  $("#modal-edit-building").modal("show");
+    let info = e.parent().data('info')
+    info = JSON.parse(decodeURIComponent(info))
+    $('#id_edit').val(info.id)
+    $('#name_edit').val(info.building_name)
+    $('#desc_edit').val(info.description)
+    $('#address_edit').val(info.address)
+    $('#area_edit').val(info.area)
+    $('#modal-edit-building').modal('show')
 }
 
 // delete a building from the database
 // e should include the information of the building's id
 function delBuilding(e) {
-  let id = e.parent().data("id");
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "del_building",
-      id: id,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
-        return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+    console.log(e);
+    let id = e.parent().data('id');
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"del_building",
+            id:id
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function () {
+            alert('server error')
+        }
+    })
 }
 
 // submit the form to add a building to the database
 function submitBuilding() {
-  let id = $("#id").val();
-  let name = $("#name").val();
-  let desc = $("#desc").val();
-  let address = $("#address").val();
-  let area = $("#area").val();
+    let id = $('#id').val();
+    let name = $('#name').val();
+    let desc = $('#desc').val();
+    let address = $('#address').val();
+    let area = $('#area').val();
 
-  if (name == "" || desc == "" || address == "" || area == "") {
-    alert("params err");
-    return false;
-  }
-
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "add_building",
-      id: id,
-      name: name,
-      desc: desc,
-      address: address,
-      area: area,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
+    if (name == '' || desc == '' || address == ''||area == '') {
+        alert('params err');
         return false;
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      alert(jqXHR.responseText);
-    },
-  });
+    }
+
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"add_building",
+            id: id,
+            name:name,
+            desc:desc,
+            address:address,
+            area:area,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
+        }
+    })
+}
+
+
+function submitAdminAssignment(e){
+
+    let selectTag = document.getElementsByClassName('form-control')[6];
+    let selectedIndex = document.getElementsByClassName('form-control')[6].selectedIndex;
+    let admin_id = selectTag.options[selectedIndex].value;
+    let building_id = $('#id_asg').val();
+
+    if (admin_id == ''){
+        alert('No admin is selected, operation cancelled.');
+        return false;
+    }
+
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"asg_admin",
+            building: building_id,
+            admin : admin_id
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
+        }
+    })
 }
 
 // update a building's information
 // route to api.php and invoke editBuildingHandler() to update a bulding's info
 // go back to the previous page with the updated info
 function submitBuildingEdit() {
-  let id = $("#id_edit").val();
-  let name = $("#name_edit").val();
-  let desc = $("#desc_edit").val();
-  let address = $("#address_edit").val();
-  let area = $("#area_edit").val();
+    let id = $('#id_edit').val();
+    let name = $('#name_edit').val();
+    let desc = $('#desc_edit').val();
+    let address = $('#address_edit').val();
+    let area = $('#area_edit').val();
 
-  if (name == "" || desc == "" || address == "" || area == "") {
-    alert("params err");
-    return false;
-  }
-
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "edit_building",
-      id: id,
-      name: name,
-      desc: desc,
-      address: address,
-      area: area,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
+    if (name == '' || desc == '' || address == ''||area == '') {
+        alert('params err');
         return false;
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      // error detail
-      alert(jqXHR.responseText);
-      // alert(jqXHR.status);
-      // alert(jqXHR.readyState);
-      // alert(jqXHR.statusText);
-      // alert(textStatus);
-      // alert(errorThrown);
-    },
-  });
+    }
+
+    $.ajax({
+        url: COMMON_API,
+        data:{
+            act:"edit_building",
+            id: id,
+            name:name,
+            desc:desc,
+            address:address,
+            area:area,
+        },
+        dataType:'json',
+        type:'post',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            // error detail
+            alert(jqXHR.responseText);
+            // alert(jqXHR.status);
+            // alert(jqXHR.readyState);
+            // alert(jqXHR.statusText);
+            // alert(textStatus);
+            // alert(errorThrown);
+        }
+    })
 }
 
-function submitBuildingEdit1() {
-  let id = $("#id_edit").val();
-  let name = $("#name_edit").val();
-  let desc = $("#desc_edit").val();
-  let address = $("#address_edit").val();
-  let area = $("#area_edit").val();
-
-  if (name == "" || desc == "" || address == "" || area == "") {
-    alert("params err");
-    return false;
-  }
-
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "edit_building",
-      id: id,
-      name: name,
-      desc: desc,
-      address: address,
-      area: area,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
-        return false;
-      }
-    },
-    error: function (jqXHR, textStatus, errorThrown) {
-      // error detail
-      alert(jqXHR.responseText);
-      // alert(jqXHR.status);
-      // alert(jqXHR.readyState);
-      // alert(jqXHR.statusText);
-      // alert(textStatus);
-      // alert(errorThrown);
-    },
-  });
-}
-
-// contract both super admin and member
 // display the popup form for adding contract
 function addContract() {
-  $("#modal-add-message").modal("show");
+    $('#modal-add-message').modal('show')
 }
 
 // TODO update the contract into the databse
-// update contract in the super admin
-// handle when submit of edit contract button is click
-// send http request to API.php so it would filter which function would be call to handle edit contract
+
 function updateContract() {
-  let status = $("#status option:selected").val();
-  if (status == "") {
-    return false;
-  }
-
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "update_contract",
-      id: $("#edit_id").val(),
-      status: status,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
+    let status = $("#status option:selected").val()
+    if (status == '') {
         return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
-}
-// handle when submit contract button is click(add new contract)
-// send http request to API.php so it would filter which function would be call to handle add contract
-function submitContract() {
-  let content = $("#content").val();
-  let title = $("#title").val();
-  let status = $("#status option:selected").val();
-  if (content == "" || title == "" || status == "") {
-    return false;
-  }
+    }
 
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "add_contract",
-      content: content,
-      title: title,
-      status: status,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
-        return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "update_contract",
+            id: $('#edit_id').val(),
+            status: status,
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
 }
-// edit contract in the member
-// handle when submit of edit contract button is click
-// send http request to API.php so it would filter which function would be call to handle edit contract
-function submitContractEdit() {
-  let status = $("#status_edit option:selected").val();
-  let title = $("#title_edit").val();
-  let content = $("#content_edit").val();
-  if (status == "") {
-    return false;
-  }
 
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "update_contract",
-      id: $("#id_edit").val(),
-      title: title,
-      content: content,
-      status: status,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
+function submitContract()
+{
+    let content = $('#content').val()
+    let title = $('#title').val()
+    let status = $("#status option:selected").val()
+    if (content == '' || title == '' || status == '') {
         return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
-}
-// handle when delete contract button is click
-// send http request to API.php so it would filter which function would be call to handle delete contract
-function delContract(e) {
-  let id = e.parent().data("id");
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "del_contract",
-      id: id,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
-        return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
-}
-// get show the modal, allow user to edit the contract
-function editContract(e) {
-  let info = e.parent().data("info");
-  info = JSON.parse(decodeURIComponent(info));
-  console.log(info);
-  $("#id_edit").val(info.id);
-  $("#title_edit").val(info.title);
-  $("#status_edit").val(info.status);
-  $("#content_edit").val(info.content);
+    }
 
-  $("#modal-edit-message").modal("show");
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "add_contract",
+            content: content,
+            title: title,
+            status: status,
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
 }
 
 /* --------********--------********--------********--------********--------********
