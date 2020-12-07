@@ -11,10 +11,9 @@ require_once "../func/func.php";
 
 <?php
 if (checkUserLogin() == false) {
-    header("Location:/admin/login.php");
+    header("Location:./login.php");
 }
 $dataList = getContractList();
-
 ?>
     <div class="wrapper">
 
@@ -55,7 +54,10 @@ $dataList = getContractList();
                                             <td><?php echo $item['content'] ?></td>
                                             <td><?php echo $item['status'] ?></td>
                                             <td><?php echo $item['create_time'] ?></td>
-                                            <td><button class="btn btn-primary edit-contract" data-id="<?php echo $item['id'] ?>" data-status="<?php echo $item['status'] ?>">Edit</button></td>
+                                            <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
+                                                <button class="btn btn-danger btn-sm" onclick="delConract($(this))">Del</button>
+                                                <button class="btn btn-warning btn-sm"  onclick="editContract($(this))">Edit</button>
+                                            </td>
                                             </tr>
                                         <?php
                                     } ?>
@@ -71,7 +73,7 @@ $dataList = getContractList();
     </div>
 
     <!-- the popup form for adding a contract -->
-    <div class="modal fade" id="modal-add-message">
+    <div class="modal fade" id="modal-add-contract">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -83,7 +85,11 @@ $dataList = getContractList();
                 </div>
                 <div class="modal-body" style="margin: 20px">
                     <div class="form-group row">
-                        <input type="hidden" id="edit_id">
+                        <label for="">Title</label>
+                        <input type="text" class="form-control"  id="title">
+                        <label for="">Message</label>
+                        <textarea class="form-control" rows="5" aria-label="With textarea" id="content"></textarea>
+                        <label for="">Status</label>
                         <select name="" id="status" class="form-control">
                             <option value="normal">Normal</option>
                             <option value="urgent">Urgent</option>
@@ -91,7 +97,7 @@ $dataList = getContractList();
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="updateContract()">Save</button>
+                    <button class="btn btn-primary" onclick="submitContract()">Save</button>
                 </div>
             </div>
             <!-- /.modal-content -->

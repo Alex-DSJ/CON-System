@@ -229,9 +229,7 @@ function getBuildingInfo() {
 //contract both admin and member
 // get all contract from the database
 function getContractList() {
-    $sql = "sql
-            SELECT * FROM contract ORDER BY id DESC
-            sql";
+    $sql = "SELECT * FROM contract ORDER BY id DESC";
     return getAll($sql);
 }
 

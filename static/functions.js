@@ -97,9 +97,9 @@ function logout() {
                 return false;
             }
         },
-        error:function () {
-            alert('server error')
-        }
+        error:function (jqXHR, textStatus, errorThrown) {
+          alert(jqXHR.responseText);
+      }
     })
 }
 
@@ -403,7 +403,7 @@ function submitBuildingEdit() {
 
 // display the popup form for adding contract
 function addContract() {
-    $('#modal-add-message').modal('show')
+    $('#modal-add-contract').modal('show')
 }
 
 // TODO update the contract into the databse
@@ -415,25 +415,31 @@ function updateContract() {
     }
 
     $.ajax({
-        url: COMMON_API,
-        data: {
-            act: "update_contract",
-            id: $('#edit_id').val(),
-            status: status,
-        },
-        dataType: 'json',
-        type: 'post',
-        success: function (res) {
-            alert(res.msg)
-            if (res.success == true) {
-                window.location.reload()
-            } else {
-                return false;
-            }
-        },
-        error: function () {
-            alert('server error')
+      url: COMMON_API,
+      data: {
+          act: "update_contract",
+          id: $('#edit_id').val(),
+          status: status,
+      },
+      dataType: 'json',
+      type: 'post',
+      success: function (res) {
+        alert(res.msg)
+        if (res.success == true) {
+          window.location.reload()
+        } else {
+          return false;
         }
+      },
+      error:function (jqXHR, textStatus, errorThrown) {
+        // error detail
+        alert(jqXHR.responseText);
+        // alert(jqXHR.status);
+        // alert(jqXHR.readyState);
+        // alert(jqXHR.statusText);
+        // alert(textStatus);
+        // alert(errorThrown);
+      }
     })
 }
 
@@ -464,9 +470,14 @@ function submitContract()
                 return false;
             }
         },
-        error: function () {
-            alert('server error')
-        }
+        error:function (jqXHR, textStatus, errorThrown) {
+          // error detail
+          alert(jqXHR.responseText);
+          // alert(jqXHR.status);
+          // alert(jqXHR.readyState);
+          // alert(jqXHR.statusText);
+          // alert(textStatus);
+        }  
     })
 }
 
