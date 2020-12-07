@@ -114,15 +114,15 @@ function addAdminHandler() {
     formatOutput(true, $adminId . "  **  " . $admin_buildingId);
 }
 
-function adminExists($inputs){
-    $isOccupied = execSql($sql);
-    if($isOccupied > 0){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
+// function adminExists($inputs){
+//     $isOccupied = execSql($sql);
+//     if($isOccupied > 0){
+//         return true;
+//     }
+//     else{
+//         return false;
+//     }
+// }
 
 // delete a certain admin from the database
 function delAdminHandler() {
@@ -314,14 +314,30 @@ function getMemberList()
     return getAll("select * from member ");
 }
 
-// get all condo list from the database
+// get the condo list of a certain building from the database
 function getCondoList()
 {
-    $sql = "select a.*,c.building_name from condo a 
-left join condo_building b on a.id = b.condo_id
-left join building c on c.id = b.building_id
-where b.building_id = ?";
+    $sql = "SELECT c.*,
+	            b.building_name
+            FROM condo c 
+            LEFT JOIN condo_building cb 
+            ON c.id = cb.condo_id
+            LEFT JOIN building b 
+            ON b.id = cb.building_id
+            WHERE cb.building_id = ?";
     return getAll($sql, [getLogin()['bid']]);
+}
+
+//get all condos of the system
+function getAllCondos(){
+    $sql = "SELECT c.*,
+	            b.building_name
+            FROM condo_building cb
+            JOIN building b
+	            ON b.id = cb.building_id
+            JOIN condo c
+	            ON c.id = cb.condo_id";
+    return getAll($sql);
 }
 
 // update the info of condo to the database
@@ -334,6 +350,11 @@ function editCondoHandler()
         'cost' => $inputs['cost'],
     ], [
         'id' => $inputs['id']
+    ]);
+    updateDb('condo_building',[
+        'building_id' => $inputs['buildingID']
+    ], [
+        'condo_id' => $inputs['id']
     ]);
     formatOutput(true, 'update success');
 }
@@ -359,7 +380,7 @@ function addCondoHandler()
     ]);
     insert('condo_building', [
         'condo_id' => $lastId,
-        'building_id' => getLogin()['bid'],
+        'building_id' => $inputs['building'],
     ]);
 
     formatOutput(true, 'add success');

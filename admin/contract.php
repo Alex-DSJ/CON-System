@@ -105,6 +105,40 @@ $dataList = getContractList();
         <!-- /.modal-dialog -->
     </div>
 
+    <!-- the popup form for updating a contract -->
+    <div class="modal fade" id="modal-edit-contract">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Edit Contract
+                    <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
+                </span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body" style="margin: 20px">
+                    <div class="form-group row">
+                        <input type="hidden" class="form-control" id="id_edit">
+                        <label for=""></label>
+                        <input type="text" class="form-control"  id="title_edit">
+                        <label for="">Message</label>
+                        <textarea class="form-control" rows="5" aria-label="With textarea" id="content"></textarea>
+                        <label for="">Status</label>
+                        <select name="" id="status" class="form-control">
+                            <option value="normal">Normal</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="updateContract()">Save</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
 <?php require_once "../common/footer.php";?>
 <script>
     $('body').on('click','.edit-contract',function () {

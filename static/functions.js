@@ -481,6 +481,99 @@ function submitContract()
     })
 }
 
+// add condo information with associated building
+function submitCondo1() {
+  console.log('submitting a new condo');
+  let building = $("#building").val();
+  let name = $("#name").val();
+  let area = $("#area").val();
+  let cost = $("#cost").val();
+
+  if (name == "" || area == "" || cost == "") {
+    alert("ERROR! All parameters need to be filled.");
+    return false;
+  }
+
+  $.ajax({
+    url: COMMON_API,
+    data: {
+      act: "add_condo",
+      building: building,
+      name: name,
+      cost: cost,
+      area: area,
+    },
+    dataType: "JSON",
+    type: "POST",
+    success: function (res) {
+      alert(res.msg);
+      if (res.success == true) {
+        window.location.reload();
+      } else {
+        return false;
+      }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      // error detail
+      alert(jqXHR.responseText);
+      // alert(jqXHR.status);
+      // alert(jqXHR.readyState);
+      // alert(jqXHR.statusText);
+      // alert(textStatus);
+    }  
+  });
+}
+
+// add condo information which is edited.
+function submitCondoEdit1() {
+  // obtain the building_id from the option
+  let buildingTag = document.getElementById('building_edit');
+  let sIndex = buildingTag.selectedIndex;
+  let buildingID = buildingTag.options[sIndex].value;
+  let building = $("#building_eidt").val();
+  let id = $("#id_edit").val();
+  let name = $("#name_edit").val();
+  let area = $("#area_edit").val();
+  let cost = $("#cost_edit").val();
+
+  if (building == "" || name == "" || area == "" || cost == "") {
+    alert("ERROR! All parameters are needed to be filled.");
+    return false;
+  }
+
+  $.ajax({
+    url: COMMON_API,
+    data: {
+      act: "edit_condo",
+      id: id,
+      buildingID = buildingID,
+      building: building,
+      name: name,
+      cost: cost,
+      area: area,
+    },
+    dataType: "JSON",
+    type: "POST",
+    success: function (res) {
+      alert(res.msg);
+      if (res.success == true) {
+        window.location.reload();
+      } else {
+        return false;
+      }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      // error detail
+      alert(jqXHR.responseText);
+      // alert(jqXHR.status);
+      // alert(jqXHR.readyState);
+      // alert(jqXHR.statusText);
+      // alert(textStatus);
+    }  
+  });
+}
+
+
 /* --------********--------********--------********--------********--------********
 Functions for the SUPER ADMIN ends here
 author: Shijun Deng (40084956)
@@ -533,74 +626,70 @@ function editCondo(e) {
 }
 
 // add condo information
-function submitCondo() {
-  let name = $("#name").val();
-  let area = $("#area").val();
-  let cost = $("#cost").val();
-
-  if (name == "" || area == "" || cost == "") {
-    alert("params err");
-    return false;
-  }
-
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "add_condo",
-      name: name,
-      cost: cost,
-      area: area,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
-        return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+function submitCondo() {	
+  let name = $("#name").val();	
+  let area = $("#area").val();	
+  let cost = $("#cost").val();	
+  if (name == "" || area == "" || cost == "") {	
+    alert("params err");	
+    return false;	
+  }	
+  $.ajax({	
+    url: COMMON_API,	
+    data: {	
+      act: "add_condo",	
+      name: name,	
+      cost: cost,	
+      area: area,	
+    },	
+    dataType: "json",	
+    type: "post",	
+    success: function (res) {	
+      alert(res.msg);	
+      if (res.success == true) {	
+        window.location.reload();	
+      } else {	
+        return false;	
+      }	
+    },	
+    error: function () {	
+      alert("server error");	
+    },	
+  });	
 }
 
 // add condo information which is edited.
-function submitCondoEdit() {
-  let name = $("#name_edit").val();
-  let area = $("#area_edit").val();
-  let cost = $("#cost_edit").val();
-
-  if (name == "" || area == "" || cost == "") {
-    alert("params err");
-    return false;
-  }
-
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "edit_condo",
-      id: $("#id_edit").val(),
-      name: name,
-      cost: cost,
-      area: area,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
-        return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+function submitCondoEdit() {	
+  let name = $("#name_edit").val();	
+  let area = $("#area_edit").val();	
+  let cost = $("#cost_edit").val();	
+  if (name == "" || area == "" || cost == "") {	
+    alert("params err");	
+    return false;	
+  }	
+  $.ajax({	
+    url: COMMON_API,	
+    data: {	
+      act: "edit_condo",	
+      id: $("#id_edit").val(),	
+      name: name,	
+      cost: cost,	
+      area: area,	
+    },	
+    dataType: "json",	
+    type: "post",	
+    success: function (res) {	
+      alert(res.msg);	
+      if (res.success == true) {	
+        window.location.reload();	
+      } else {	
+        return false;	
+      }	
+    },	
+    error: function () {	
+      alert("server error");	
+    },	
+  });	
 }
 
 /* --------********--------********--------********--------********--------********
@@ -1072,7 +1161,7 @@ author: kimchhengheng (26809413)_saebom SHIN (40054234)
 --------********--------********--------********--------********--------******** */
 /* --------********--------********--------********--------********--------********
 Functions for the Member ends here
-author: kimchhengheng (26809413)
+author: kimchhengheng (26809413) Yuxin Wang-40024855
 --------********--------********--------********--------********--------******** */
 // handle login of member is clicked
 function member_login() {
@@ -1105,6 +1194,11 @@ function member_login() {
     },
   });
 }
+
+	/* --------********--------********--------********--------********--------********	
+Functions for the Member ends here	
+author: kimchhengheng (26809413) Yuxin Wang-40024855	
+--------********--------********--------********--------********--------******** */
 
 /* --------********--------********--------********--------********--------********
 Functions for the SOCIAL start here
@@ -1255,7 +1349,7 @@ author: kimchhengheng (26809413)
 
 /* --------********--------********--------********--------********--------********
 Functions for the BASE_INFO start here
-author:
+author: Yuxin Wang-40024855
 --------********--------********--------********--------********--------******** */
 
 function withdraw(e) {
@@ -1307,7 +1401,7 @@ function unfriend(e) {
 }
 /* --------********--------********--------********--------********--------********
 Functions for the BASE_INFO start here
-author:
+author: Yuxin Wang-40024855
 --------********--------********--------********--------********--------******** */
 /* --------********--------********--------********--------********--------********
 Functions to call when page finish reload
