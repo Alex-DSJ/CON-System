@@ -114,16 +114,6 @@ function addAdminHandler() {
     formatOutput(true, $adminId . "  **  " . $admin_buildingId);
 }
 
-// function adminExists($inputs){
-//     $isOccupied = execSql($sql);
-//     if($isOccupied > 0){
-//         return true;
-//     }
-//     else{
-//         return false;
-//     }
-// }
-
 // delete a certain admin from the database
 function delAdminHandler() {
     global $inputs;
@@ -220,6 +210,10 @@ function delBuildingHandler() {
 function getBuildingInfo() {
     return getOne("SELECT * FROM building WHERE id = ?",[getLogin()['bid']]);
 }
+// --------********--------********--------********--------********--------********
+// Functions for the SUPER ADMIN ends here
+// author: Shijun Deng (40084956)
+// --------********--------********--------********--------********--------********
 
 // --------********--------********--------********--------********--------********
 // Functions for the Contract page start here
@@ -293,19 +287,19 @@ function delContractHandler()
     formatOutput(true, 'delete success');
 }
 
-// edit contract within member	
-function editContractHandler1()	
-{	
-    global $inputs;	
-    updateDb('contract',[	
-        'title' => $inputs['title'],	
-        'status' => $inputs['status'],	
-        'content' => $inputs['content'],	
-    ], [	
-        'id' => $inputs['id'],	
-        'admin_id' => getLogin()['uid']	
-    ]);	
-    formatOutput(true, 'update success');	
+// edit contract within member
+function editContractHandler()
+{
+    global $inputs;
+    updateDb('contract',[
+        'title' => $inputs['title'],
+        'status' => $inputs['status'],
+        'content' => $inputs['content'],
+    ], [
+        'id' => $inputs['id'],
+        'admin_id' => getLogin()['uid']
+    ]);
+    formatOutput(true, 'update success');
 }
 
 // --------********--------********--------********--------********--------********
@@ -347,11 +341,6 @@ function addCondoHandler1()
 
     formatOutput(true, 'add success');
 }
-
-// --------********--------********--------********--------********--------********
-// Functions for the SUPER ADMIN ends here
-// author: Shijun Deng (40084956)
-// --------********--------********--------********--------********--------********
 
 // --------********--------********--------********--------********--------********
 // Functions for the OWNER/ADMIN starts here
