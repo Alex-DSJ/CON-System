@@ -546,7 +546,7 @@ function submitCondoEdit1() {
     data: {
       act: "edit_condo",
       id: id,
-      buildingID = buildingID,
+      // buildingID = buildingID,
       building: building,
       name: name,
       cost: cost,
