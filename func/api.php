@@ -13,9 +13,6 @@ if (isset($inputs['act'])) {
         // additional related APIs
         case 'login' : loginHandler($inputs);break;
         case 'member_login' : memberLoginHandler($inputs);break;
-        case 'add_admin' : addAdminHandler();break;
-        case 'del_admin' : delAdminHandler();break;
-        case 'edit_admin' : editAdminHandler();break;
 
         case 'apply_friend' : friendApplyHandler();break;
         case 'apply_group' : friendGroupHandler();break;
@@ -53,7 +50,15 @@ if (isset($inputs['act'])) {
         case 'admin_login' : loginHandler($inputs);break;
         case 'logout' : logoutHandler($inputs);break;
         case 'reset' : resetHandler($inputs);break;
+        case 'add_admin' : addAdminHandler();break;
+        case 'del_admin' : delAdminHandler();break;
+        case 'edit_admin' : editAdminHandler();break;
+<<<<<<< HEAD
+=======
+        case 'asg_admin' : assignAdminHandler();break;
+>>>>>>> main
         case 'add_building' : addBuildingHandler();break;
+        case 'asg_admin' : assignAdminHandler();break;
         case 'del_building' : delBuildingHandler();break;
         case 'edit_building' : editBuildingHandler();break;
 
@@ -64,6 +69,7 @@ if (isset($inputs['act'])) {
 
         case 'withdraw_group': withdrawGroupHandler();break;
         case 'unfriend': unfriendHandle();break;
+        
         default :
             formatOutput(false, 'unknown action');
     }
