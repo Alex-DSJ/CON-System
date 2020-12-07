@@ -53,12 +53,9 @@ if (isset($inputs['act'])) {
         case 'add_admin' : addAdminHandler();break;
         case 'del_admin' : delAdminHandler();break;
         case 'edit_admin' : editAdminHandler();break;
-<<<<<<< HEAD
-=======
+
         case 'asg_admin' : assignAdminHandler();break;
->>>>>>> main
         case 'add_building' : addBuildingHandler();break;
-        case 'asg_admin' : assignAdminHandler();break;
         case 'del_building' : delBuildingHandler();break;
         case 'edit_building' : editBuildingHandler();break;
 
