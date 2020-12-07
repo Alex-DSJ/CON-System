@@ -293,10 +293,60 @@ function delContractHandler()
     formatOutput(true, 'delete success');
 }
 
+// edit contract within member	
+function editContractHandler1()	
+{	
+    global $inputs;	
+    updateDb('contract',[	
+        'title' => $inputs['title'],	
+        'status' => $inputs['status'],	
+        'content' => $inputs['content'],	
+    ], [	
+        'id' => $inputs['id'],	
+        'admin_id' => getLogin()['uid']	
+    ]);	
+    formatOutput(true, 'update success');	
+}
+
 // --------********--------********--------********--------********--------********
 // Functions for the Contract page ends here
 // author: Shijun Deng (40084956)
 // --------********--------********--------********--------********--------********
+
+// update the info of condo to the database
+function editCondoHandler1(){
+    global $inputs;
+    updateDb('condo',[
+        'name' => $inputs['name'],
+        'area' => $inputs['area'],
+        'cost' => $inputs['cost'],
+    ], [
+        'id' => $inputs['id']
+    ]);
+    updateDb('condo_building',[
+        'building_id' => $inputs['buildingID']
+    ], [
+        'condo_id' => $inputs['id']
+    ]);
+    formatOutput(true, 'update success');
+}
+
+function addCondoHandler1()
+{
+    global $inputs;
+
+    $lastId = insert('condo',[
+        'name' => $inputs['name'],
+        'area' => $inputs['area'],
+        'cost' => $inputs['cost'],
+    ]);
+    insert('condo_building', [
+        'condo_id' => $lastId,
+        'building_id' => $inputs['building'],
+    ]);
+
+    formatOutput(true, 'add success');
+}
 
 // --------********--------********--------********--------********--------********
 // Functions for the SUPER ADMIN ends here
@@ -341,22 +391,17 @@ function getAllCondos(){
 }
 
 // update the info of condo to the database
-function editCondoHandler()
-{
-    global $inputs;
-    updateDb('condo',[
-        'name' => $inputs['name'],
-        'area' => $inputs['area'],
-        'cost' => $inputs['cost'],
-    ], [
-        'id' => $inputs['id']
-    ]);
-    updateDb('condo_building',[
-        'building_id' => $inputs['buildingID']
-    ], [
-        'condo_id' => $inputs['id']
-    ]);
-    formatOutput(true, 'update success');
+function editCondoHandler()	
+{	
+    global $inputs;	
+    updateDb('condo',[	
+        'name' => $inputs['name'],	
+        'area' => $inputs['area'],	
+        'cost' => $inputs['cost'],	
+    ], [	
+        'id' => $inputs['id']	
+    ]);	
+    formatOutput(true, 'update success');	
 }
 
 // delete a condo from the database
@@ -380,7 +425,7 @@ function addCondoHandler()
     ]);
     insert('condo_building', [
         'condo_id' => $lastId,
-        'building_id' => $inputs['building'],
+        'building_id' => getLogin()['bid'],
     ]);
 
     formatOutput(true, 'add success');
@@ -479,7 +524,7 @@ function addGroupHandler()
 // --------********--------********--------********--------********--------********
 
 // --------********--------********--------********--------********--------********
-// Functions for the MEMBER starts here
+// Functions for the OWNER starts here
 // author: saebom SHIN(40054234)
 // --------********--------********--------********--------********--------********
 
@@ -710,7 +755,7 @@ function addCommentHandler()
 // --------********--------********--------********--------********--------********
 // --------********--------********--------********--------********--------********
 // Functions for the MEMBER start  here
-// author: yuxin kimchhengheng(26809413)
+// author: Yuxin Wang-40024855/ kimchhengheng(26809413)
 // --------********--------********--------********--------********--------********
 // check the session of the member id is set or not
 function checkMemberLogin()
@@ -778,7 +823,7 @@ function getMemberCondoInfo()
 }
 // --------********--------********--------********--------********--------********
 // Functions for the MEMBER end  here
-// author: yuxin kimchhengheng(26809413)
+// author: Yuxin Wang-40024855/ kimchhengheng(26809413)
 // --------********--------********--------********--------********--------********
 // --------********--------********--------********--------********--------********
 // Functions for the Message start  here
@@ -936,7 +981,7 @@ function friendGroupHandler()
 
 // --------********--------********--------********--------********--------********
 // Functions for the BASE_INFO page start here
-// author:
+// author: Yuxin Wang-40024855
 // --------********--------********--------********--------********--------********
 
 function getMemberFriendInfo()
@@ -965,12 +1010,12 @@ function unfriendHandle()
 
 // --------********--------********--------********--------********--------********
 // Functions for the BASE_INFO page start here
-// author:
+// author: Yuxin Wang-40024855
 // --------********--------********--------********--------********--------********
 
 // --------********--------********--------********--------********--------********
 // Functions for the Member(Index) start here
-// author:
+// author: Yuxin Wang-40024855
 // --------********--------********--------********--------********--------********
 function getFriendLastedPosting()
 {
@@ -1015,6 +1060,6 @@ function agreeFriendHandler()
 }
 // --------********--------********--------********--------********--------********
 // Functions for the Index ends here
-// author:
+// author: Yuxin Wang-40024855
 // --------********--------********--------********--------********--------********
 ?>
