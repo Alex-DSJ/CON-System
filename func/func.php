@@ -114,15 +114,15 @@ function addAdminHandler() {
     formatOutput(true, $adminId . "  **  " . $admin_buildingId);
 }
 
-function adminExists($inputs){
-    $isOccupied = execSql($sql);
-    if($isOccupied > 0){
-        return true;
-    }
-    else{
-        return false;
-    }
-}
+//function adminExists($inputs){
+//    $isOccupied = execSql($sql);
+//    if($isOccupied > 0){
+//        return true;
+//    }
+//    else{
+//        return false;
+//    }
+//}
 
 // delete a certain admin from the database
 function delAdminHandler() {
@@ -220,6 +220,10 @@ function delBuildingHandler() {
 function getBuildingInfo() {
     return getOne("SELECT * FROM building WHERE id = ?",[getLogin()['bid']]);
 }
+// --------********--------********--------********--------********--------********
+// Functions for the SUPER ADMIN ends here
+// author: Shijun Deng (40084956)
+// --------********--------********--------********--------********--------********
 
 // --------********--------********--------********--------********--------********
 // Functions for the Contract page start here
@@ -294,14 +298,22 @@ function delContractHandler()
     execSql($sql);
     formatOutput(true, 'delete success');
 }
-
+// edit contract within member
+function editContractHandler()
+{
+    global $inputs;
+    updateDb('contract',[
+        'title' => $inputs['title'],
+        'status' => $inputs['status'],
+        'content' => $inputs['content'],
+    ], [
+        'id' => $inputs['id'],
+        'admin_id' => getLogin()['uid']
+    ]);
+    formatOutput(true, 'update success');
+}
 // --------********--------********--------********--------********--------********
 // Functions for the Contract page ends here
-// author: Shijun Deng (40084956)
-// --------********--------********--------********--------********--------********
-
-// --------********--------********--------********--------********--------********
-// Functions for the SUPER ADMIN ends here
 // author: Shijun Deng (40084956)
 // --------********--------********--------********--------********--------********
 
@@ -460,7 +472,7 @@ function addGroupHandler()
 // --------********--------********--------********--------********--------********
 
 // --------********--------********--------********--------********--------********
-// Functions for the MEMBER starts here
+// Functions for the OWNER starts here
 // author: saebom SHIN(40054234)
 // --------********--------********--------********--------********--------********
 
@@ -691,7 +703,7 @@ function addCommentHandler()
 // --------********--------********--------********--------********--------********
 // --------********--------********--------********--------********--------********
 // Functions for the MEMBER start  here
-// author: yuxin kimchhengheng(26809413)
+// author: Yuxin Wang-40024855/ kimchhengheng(26809413)
 // --------********--------********--------********--------********--------********
 // check the session of the member id is set or not
 function checkMemberLogin()
@@ -759,7 +771,7 @@ function getMemberCondoInfo()
 }
 // --------********--------********--------********--------********--------********
 // Functions for the MEMBER end  here
-// author: yuxin kimchhengheng(26809413)
+// author: Yuxin Wang-40024855/ kimchhengheng(26809413)
 // --------********--------********--------********--------********--------********
 // --------********--------********--------********--------********--------********
 // Functions for the Message start  here
@@ -917,7 +929,7 @@ function friendGroupHandler()
 
 // --------********--------********--------********--------********--------********
 // Functions for the BASE_INFO page start here
-// author:
+// author: Yuxin Wang-40024855
 // --------********--------********--------********--------********--------********
 
 function getMemberFriendInfo()
@@ -946,12 +958,12 @@ function unfriendHandle()
 
 // --------********--------********--------********--------********--------********
 // Functions for the BASE_INFO page start here
-// author:
+// author: Yuxin Wang-40024855
 // --------********--------********--------********--------********--------********
 
 // --------********--------********--------********--------********--------********
 // Functions for the Member(Index) start here
-// author:
+// author: Yuxin Wang-40024855
 // --------********--------********--------********--------********--------********
 function getFriendLastedPosting()
 {
@@ -996,6 +1008,6 @@ function agreeFriendHandler()
 }
 // --------********--------********--------********--------********--------********
 // Functions for the Index ends here
-// author:
+// author: Yuxin Wang-40024855
 // --------********--------********--------********--------********--------********
 ?>
