@@ -97,9 +97,9 @@ function logout() {
                 return false;
             }
         },
-        error:function () {
-            alert('server error')
-        }
+        error:function (jqXHR, textStatus, errorThrown) {
+          alert(jqXHR.responseText);
+      }
     })
 }
 
@@ -219,10 +219,6 @@ function editAdmin(e) {
     $('#id_edit').val(e.parent().data('id'))
     $('#modal-edit-admin').modal('show')
 }
-
-// This file is completed by shijun DENG-40084956 individually
-
-var COMMON_API = '../func/api.php'
 
 // invoke the popup form for adding a building
 function addBuilding(){
@@ -403,7 +399,7 @@ function submitBuildingEdit() {
 
 // display the popup form for adding contract
 function addContract() {
-    $('#modal-add-message').modal('show')
+    $('#modal-add-contract').modal('show')
 }
 
 // TODO update the contract into the databse
@@ -415,25 +411,31 @@ function updateContract() {
     }
 
     $.ajax({
-        url: COMMON_API,
-        data: {
-            act: "update_contract",
-            id: $('#edit_id').val(),
-            status: status,
-        },
-        dataType: 'json',
-        type: 'post',
-        success: function (res) {
-            alert(res.msg)
-            if (res.success == true) {
-                window.location.reload()
-            } else {
-                return false;
-            }
-        },
-        error: function () {
-            alert('server error')
+      url: COMMON_API,
+      data: {
+          act: "update_contract",
+          id: $('#edit_id').val(),
+          status: status,
+      },
+      dataType: 'json',
+      type: 'post',
+      success: function (res) {
+        alert(res.msg)
+        if (res.success == true) {
+          window.location.reload()
+        } else {
+          return false;
         }
+      },
+      error:function (jqXHR, textStatus, errorThrown) {
+        // error detail
+        alert(jqXHR.responseText);
+        // alert(jqXHR.status);
+        // alert(jqXHR.readyState);
+        // alert(jqXHR.statusText);
+        // alert(textStatus);
+        // alert(errorThrown);
+      }
     })
 }
 
@@ -464,11 +466,110 @@ function submitContract()
                 return false;
             }
         },
-        error: function () {
-            alert('server error')
-        }
+        error:function (jqXHR, textStatus, errorThrown) {
+          // error detail
+          alert(jqXHR.responseText);
+          // alert(jqXHR.status);
+          // alert(jqXHR.readyState);
+          // alert(jqXHR.statusText);
+          // alert(textStatus);
+        }  
     })
 }
+
+// add condo information with associated building
+function submitCondo1() {
+  let selectTag = document.getElementById('building');
+  let sIndex = selectTag.selectedIndex;
+  let building_id = parseInt(selectTag.options[sIndex].value);
+  // let building = $("#building").val();
+  let name = $("#name").val();
+  let area = $("#area").val();
+  let cost = $("#cost").val();
+
+  if (name == "" || area == "" || cost == "") {
+    alert("ERROR! All parameters need to be filled.");
+    return false;
+  }
+
+  $.ajax({
+    url: COMMON_API,
+    data: {
+      act: "sadmin_add_condo",
+      building_id: building_id,
+      name: name,
+      cost: cost,
+      area: area,
+    },
+    dataType: "JSON",
+    type: "POST",
+    success: function (res) {
+      alert(res.msg);
+      if (res.success == true) {
+        window.location.reload();
+      } else {
+        return false;
+      }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      // error detail
+      alert(jqXHR.responseText);
+      // alert(jqXHR.status);
+      // alert(jqXHR.readyState);
+      // alert(jqXHR.statusText);
+      // alert(textStatus);
+    }  
+  });
+}
+
+// add condo information which is edited.
+function submitCondoEdit1() {
+  // obtain the building_id from the option
+  let buildingTag = document.getElementById('building_edit');
+  let sIndex = buildingTag.selectedIndex;
+  let idString = buildingTag.options[sIndex].value;
+  let building_id = parseInt(idString);
+  let id = $("#id_edit").val();
+  let name = $("#name_edit").val();
+  let area = $("#area_edit").val();
+  let cost = $("#cost_edit").val();
+
+  if (building == "" || name == "" || area == "" || cost == "") {
+    alert("ERROR! All parameters are needed to be filled.");
+    return false;
+  }
+
+  $.ajax({
+    url: COMMON_API,
+    data: {
+      act: "sadmin_edit_condo",
+      id: id, 
+      building_id : building_id,
+      name: name,
+      cost: cost,
+      area: area,
+    },
+    dataType: "JSON",
+    type: "POST",
+    success: function (res) {
+      alert(res.msg);
+      if (res.success == true) {
+        window.location.reload();
+      } else {
+        return false;
+      }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      // error detail
+      alert(jqXHR.responseText);
+      // alert(jqXHR.status);
+      // alert(jqXHR.readyState);
+      // alert(jqXHR.statusText);
+      // alert(textStatus);
+    }  
+  });
+}
+
 
 /* --------********--------********--------********--------********--------********
 Functions for the SUPER ADMIN ends here
@@ -522,74 +623,70 @@ function editCondo(e) {
 }
 
 // add condo information
-function submitCondo() {
-  let name = $("#name").val();
-  let area = $("#area").val();
-  let cost = $("#cost").val();
-
-  if (name == "" || area == "" || cost == "") {
-    alert("params err");
-    return false;
-  }
-
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "add_condo",
-      name: name,
-      cost: cost,
-      area: area,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
-        return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+function submitCondo() {	
+  let name = $("#name").val();	
+  let area = $("#area").val();	
+  let cost = $("#cost").val();	
+  if (name == "" || area == "" || cost == "") {	
+    alert("params err");	
+    return false;	
+  }	
+  $.ajax({	
+    url: COMMON_API,	
+    data: {	
+      act: "add_condo",	
+      name: name,	
+      cost: cost,	
+      area: area,	
+    },	
+    dataType: "json",	
+    type: "post",	
+    success: function (res) {	
+      alert(res.msg);	
+      if (res.success == true) {	
+        window.location.reload();	
+      } else {	
+        return false;	
+      }	
+    },	
+    error: function () {	
+      alert("server error");	
+    },	
+  });	
 }
 
 // add condo information which is edited.
-function submitCondoEdit() {
-  let name = $("#name_edit").val();
-  let area = $("#area_edit").val();
-  let cost = $("#cost_edit").val();
-
-  if (name == "" || area == "" || cost == "") {
-    alert("params err");
-    return false;
-  }
-
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "edit_condo",
-      id: $("#id_edit").val(),
-      name: name,
-      cost: cost,
-      area: area,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
-        return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+function submitCondoEdit() {	
+  let name = $("#name_edit").val();	
+  let area = $("#area_edit").val();	
+  let cost = $("#cost_edit").val();	
+  if (name == "" || area == "" || cost == "") {	
+    alert("params err");	
+    return false;	
+  }	
+  $.ajax({	
+    url: COMMON_API,	
+    data: {	
+      act: "edit_condo",	
+      id: $("#id_edit").val(),	
+      name: name,	
+      cost: cost,	
+      area: area,	
+    },	
+    dataType: "json",	
+    type: "post",	
+    success: function (res) {	
+      alert(res.msg);	
+      if (res.success == true) {	
+        window.location.reload();	
+      } else {	
+        return false;	
+      }	
+    },	
+    error: function () {	
+      alert("server error");	
+    },	
+  });	
 }
 
 /* --------********--------********--------********--------********--------********
@@ -1094,10 +1191,12 @@ function member_login() {
     },
   });
 }
+
 /* --------********--------********--------********--------********--------********
 Functions for the Member ends here
 author: kimchhengheng (26809413) Yuxin Wang-40024855
 --------********--------********--------********--------********--------******** */
+
 /* --------********--------********--------********--------********--------********
 Functions for the SOCIAL start here
 author: kimchhengheng (26809413)

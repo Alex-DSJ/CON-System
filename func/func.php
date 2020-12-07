@@ -114,16 +114,6 @@ function addAdminHandler() {
     formatOutput(true, $adminId . "  **  " . $admin_buildingId);
 }
 
-//function adminExists($inputs){
-//    $isOccupied = execSql($sql);
-//    if($isOccupied > 0){
-//        return true;
-//    }
-//    else{
-//        return false;
-//    }
-//}
-
 // delete a certain admin from the database
 function delAdminHandler() {
     global $inputs;
@@ -233,9 +223,7 @@ function getBuildingInfo() {
 //contract both admin and member
 // get all contract from the database
 function getContractList() {
-    $sql = "sql
-            SELECT * FROM contract ORDER BY id DESC
-            sql";
+    $sql = "SELECT * FROM contract ORDER BY id DESC";
     return getAll($sql);
 }
 
@@ -298,6 +286,7 @@ function delContractHandler()
     execSql($sql);
     formatOutput(true, 'delete success');
 }
+
 // edit contract within member
 function editContractHandler()
 {
@@ -312,10 +301,46 @@ function editContractHandler()
     ]);
     formatOutput(true, 'update success');
 }
+
 // --------********--------********--------********--------********--------********
 // Functions for the Contract page ends here
 // author: Shijun Deng (40084956)
 // --------********--------********--------********--------********--------********
+
+// update the info of condo to the database
+function editCondoHandler1(){
+    global $inputs;
+    updateDb('condo',[
+        'name' => $inputs['name'],
+        'area' => $inputs['area'],
+        'cost' => $inputs['cost'],
+    ], [
+        'id' => $inputs['id']
+    ]);
+    updateDb('condo_building',[
+        'building_id' => $inputs['building_id']
+    ], [
+        'condo_id' => $inputs['id']
+    ]);
+    formatOutput(true, 'update success');
+}
+
+function addCondoHandler1()
+{
+    global $inputs;
+
+    $lastId = insert('condo',[
+        'name' => $inputs['name'],
+        'area' => $inputs['area'],
+        'cost' => $inputs['cost'],
+    ]);
+    insert('condo_building', [
+        'condo_id' => $lastId,
+        'building_id' => $inputs['building_id'],
+    ]);
+
+    formatOutput(true, 'add success');
+}
 
 // --------********--------********--------********--------********--------********
 // Functions for the OWNER/ADMIN starts here
@@ -328,28 +353,44 @@ function getMemberList()
     return getAll("select * from member ");
 }
 
-// get all condo list from the database
+// get the condo list of a certain building from the database
 function getCondoList()
 {
-    $sql = "select a.*,c.building_name from condo a 
-left join condo_building b on a.id = b.condo_id
-left join building c on c.id = b.building_id
-where b.building_id = ?";
+    $sql = "SELECT c.*,
+	            b.building_name
+            FROM condo c 
+            LEFT JOIN condo_building cb 
+            ON c.id = cb.condo_id
+            LEFT JOIN building b 
+            ON b.id = cb.building_id
+            WHERE cb.building_id = ?";
     return getAll($sql, [getLogin()['bid']]);
 }
 
+//get all condos of the system
+function getAllCondos(){
+    $sql = "SELECT c.*,
+	            b.building_name
+            FROM condo_building cb
+            JOIN building b
+	            ON b.id = cb.building_id
+            JOIN condo c
+	            ON c.id = cb.condo_id";
+    return getAll($sql);
+}
+
 // update the info of condo to the database
-function editCondoHandler()
-{
-    global $inputs;
-    updateDb('condo',[
-        'name' => $inputs['name'],
-        'area' => $inputs['area'],
-        'cost' => $inputs['cost'],
-    ], [
-        'id' => $inputs['id']
-    ]);
-    formatOutput(true, 'update success');
+function editCondoHandler()	
+{	
+    global $inputs;	
+    updateDb('condo',[	
+        'name' => $inputs['name'],	
+        'area' => $inputs['area'],	
+        'cost' => $inputs['cost'],	
+    ], [	
+        'id' => $inputs['id']	
+    ]);	
+    formatOutput(true, 'update success');	
 }
 
 // delete a condo from the database

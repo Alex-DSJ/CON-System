@@ -2,9 +2,11 @@
 <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
         <ul class="navbar-nav" id="my-nav">
             <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Admin</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="building.php" class="nav-link">Building</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="contract.php" class="nav-link">Contract</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Association Admins</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="member.php" class="nav-link">Members</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="building.php" class="nav-link">Buildings</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="condo.php" class="nav-link">Condos</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="contract.php" class="nav-link">Contracts</a></li>
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">
