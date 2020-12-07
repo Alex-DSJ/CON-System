@@ -1,9 +1,13 @@
+<!-- This file is completed by Yuxin Wang-40024855 individually -->
+<!-- all required php files here -->
 <?php require_once "../common/header.php";?>
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
 <?php
 require_once "../func/func.php";
 
 if (checkMemberLogin() == false) {
-    header("Location:/member/login.php");
+    header("Location:./login.php");
 }
 $info = getMemberInfo();
 $condoInfo = getMemberCondoInfo();
@@ -12,9 +16,9 @@ $friendInfo = getMemberFriendInfo();
 
 ?>
 <div class="wrapper">
-
-    <?php require_once "./nav.php"?>
-
+    <!-- Header for the Member -->
+    <?php require_once "nav.php"?>
+    <!-- Content of the Base info Page -->
     <section class="content">
         <div class="container-fluid">
 
@@ -72,7 +76,7 @@ $friendInfo = getMemberFriendInfo();
                                     <tr>
                                         <td><?php echo $item['group_name']?></td>
                                         <td><?php echo $item['description']?></td>
-                                        <td><button class="btn btn-danger" onclick="withdraw()">withdraw</button></td>
+                                        <td data-id="<?php echo $item['union_id'] ?>"><button class="btn btn-danger" onclick="withdraw($(this))">withdraw</button></td>
                                     </tr>
                                     <?php
                                 } ?>
@@ -87,13 +91,13 @@ $friendInfo = getMemberFriendInfo();
                             <table class="table-striped table">
                                 <tr>
                                     <th>Friend Name</th>
-                                    <th>Create Time</th>
+                                    <th>Option</th>
                                 </tr>
                                 <?php foreach ($friendInfo as $item){
                                     ?>
                                     <tr>
                                         <td><?php echo $item['name']?></td>
-                                        <td><?php echo $item['create_time']?></td>
+                                        <td data-id="<?php echo $item['id'] ?>"><button class="btn btn-danger" onclick="unfriend($(this))">unfriend</button></td>
                                     </tr>
                                     <?php
                                 } ?>

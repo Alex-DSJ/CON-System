@@ -1,5 +1,6 @@
-
+// jQuerry extend from the node
 jQuery.extend({
+    // function to handle error
     handleError: function( s, xhr, status, e )      {
         // If a local callback was specified, fire it
         if ( s.error ) {
@@ -11,7 +12,7 @@ jQuery.extend({
             (s.context ? jQuery(s.context) : jQuery.event).trigger( "ajaxError", [xhr, s, e] );
         }
     },
-
+    //function to create upload Iframe
     createUploadIframe: function(id, uri)
     {
         //create frame
@@ -39,6 +40,7 @@ jQuery.extend({
 
         return io
     },
+    // function to create upload form
     createUploadForm: function(id, fileElementId)
     {
         //create form
@@ -57,6 +59,7 @@ jQuery.extend({
         $(form).appendTo('body');
         return form;
     },
+    // function to add other request to form
     addOtherRequestsToForm: function(form,data)
     {
         // add extra parameter
@@ -70,7 +73,7 @@ jQuery.extend({
         }
         return form;
     },
-
+    // function to handle ajax file upload
     ajaxFileUpload: function(s) {
         // TODO introduce global settings, allowing the client to modify them for all requests, not only timeout
         s = jQuery.extend({}, jQuery.ajaxSettings, s);
@@ -205,7 +208,7 @@ jQuery.extend({
         return {abort: function () {}};
 
     },
-
+    // function to upload httpData
     uploadHttpData: function( r, type ) {
         var data = !type;
         data = type == "xml" || data ? r.responseXML : r.responseText;

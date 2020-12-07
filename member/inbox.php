@@ -2,24 +2,20 @@
 <!-- all required php files here -->
 <?php 
     require_once "../common/header.php";
-    require_once "../func/message_func.php";
+    require_once "../func/func.php";
 
 ?>
-
-<!-- all required js here -->
-<script src="../static/auth.js"></script>
-
-
-
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
 <?php
-
-// check user log in
+if (checkMemberLogin() == false) {
+    header("Location:./login.php");
+}
 $dataList = getInboxMessage();
 ?>
 <div class="wrapper">
 
-    <?php require_once "./nav.php"?>
-
+    <?php require_once "nav.php"?>
     <section class="content">
         <div class="container-fluid">
 

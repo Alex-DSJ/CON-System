@@ -2,24 +2,19 @@
 <!-- all required php files here -->
 <?php 
     require_once "../common/header.php";
-    require_once "../func/posting_func.php";
     require_once "../func/func.php";
 ?>
-
-<!-- all required js here -->
-<script src="../static/auth.js"></script>
-<script src="../static/posting.js"></script>
-
-
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
 <?php
-// to check the login 
-
+if (checkMemberLogin() == false) {
+    header("Location:./login.php");
+}
 $dataList = getPostingList();
 ?>
 <div class="wrapper">
 
-    <?php require_once "./nav.php"?>
-
+    <?php require_once "nav.php"?>
     <section class="content">
         <div class="container-fluid">
 

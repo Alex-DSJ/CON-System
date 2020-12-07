@@ -2,25 +2,23 @@
 <!-- all required php files here -->
 <?php 
     require_once "../common/header.php";
-    require_once "../func/message_func.php";
     require_once "../func/func.php";
 ?>
-
-<!-- all required js here -->
-<script src="../static/auth.js"></script>
-<script src="../static/social.js"></script>
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
 <link href="https://cdn.bootcss.com/bootstrap-select/1.13.10/css/bootstrap-select.min.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
 
 <?php
-
-// check the login
-
+if (checkMemberLogin() == false) {
+    header("Location:./login.php");
+}
+$suggestFriendList = getSuggestFriend();
+$suggestPostingList = getSuggestPosting();
+$suggestGroupList = getSuggestGroup();
 ?>
 <div class="wrapper">
-
-    <?php require_once "./nav.php"?>
-
+    <?php require_once "nav.php"?>
     <section class="content">
         <div class="container-fluid">
 
@@ -32,32 +30,30 @@
                         </div>
                         <div class="card-body">
                             <div class="form-group form-inline">
-                                <input type="text" class="form-control from-inline" style="width: 200px" placeholder="search member username" id="friend_keyword">
+                                <input type="text" class="form-control from-inline" style=" width: 200px" placeholder="search member username" id="friend_keyword">
                                 <button class="btn btn-success" onclick="searchFriend()">Search</button>
                             </div>
                             <div>
                                 <table class="table table-hover">
                                     <thead>
-                                        <tr>
-                                            <th>#</th>
-                                            <th>username</th>
-                                            <th>email</th>
-                                            <th>option</th>
-                                        </tr>
+                                    <tr>
+                                        <th>username</th>
+                                        <th>email</th>
+                                        <th>option</th>
+                                    </tr>
                                     </thead>
                                     <tbody id="friend-search-container">
-                                        <?php foreach ($suggestFriendList as $item){
-                                            ?>
-                                            <tr>
-                                                <td><?php echo $item['id']; ?></td>
-                                                <td><?php echo $item['name']; ?></td>
-                                                <td><?php echo $item['email']; ?></td>
-                                                <td data-id="<?php echo $item['id'] ?>">
-                                                    <button class="btn btn-primary apply-friend">apply</button>
-                                                </td>
-                                            </tr>
+                                    <?php foreach ($suggestFriendList as $item){
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $item['name']; ?></td>
+                                            <td><?php echo $item['email']; ?></td>
+                                            <td data-id="<?php echo $item['id'] ?>">
+                                                <button class="btn btn-primary apply-friend">apply</button>
+                                            </td>
+                                        </tr>
                                         <?php
-                                        } ?>
+                                    } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -120,14 +116,23 @@
                                 <table class="table table-hover">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
                                         <th>name</th>
                                         <th>description</th>
-                                        <th>create_time</th>
                                         <th>option</th>
                                     </tr>
                                     </thead>
                                     <tbody id="group-search-container">
+                                    <?php foreach ($suggestGroupList as $item){
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $item['group_name']; ?></td>
+                                            <td><?php echo $item['description']; ?></td>
+                                            <td data-id="<?php echo $item['id'] ?>">
+                                                <button class="btn btn-primary apply-group">apply</button>
+                                            </td>
+                                        </tr>
+                                        <?php
+                                    } ?>
                                     </tbody>
                                 </table>
                             </div>

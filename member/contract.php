@@ -1,16 +1,21 @@
+<!-- This file is completed by Yuxin Wang-40024855 individually -->
+
+<!-- all required php files here -->
 <?php require_once "../common/header.php";?>
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
 <?php
 require_once "../func/func.php";
 if (checkMemberLogin() == false) {
-    header("Location:/member/login.php");
+    header("Location:./login.php");
 }
 $dataList = getMemberContractList();
 
 ?>
     <div class="wrapper">
-
-    <?php require_once "./nav.php"?>
-
+        <!-- Header for the Member -->
+        <?php require_once "nav.php"?>
+        <!-- Content of the Contract Page -->
         <section class="content">
             <div class="container-fluid">
 
@@ -23,7 +28,7 @@ $dataList = getMemberContractList();
 
                             <div class="card-body">
                                 <div style="margin-bottom: 10px">
-                                    <button class="btn btn-primary btn-sm" onclick="addContract()">Add</button>
+                                    <button class="btn btn-primary btn-sm" onclick="addContract()"><i class="far fa-plus-square"></i></button>
                                 </div>
 
                                 <table class="table table-bordered">
@@ -32,7 +37,8 @@ $dataList = getMemberContractList();
                                         <th>Title</th>
                                         <th>Message</th>
                                         <th>Status</th>
-                                        <th>create time</th>
+                                        <th>Create time</th>
+                                        <th>Option</th>
                                     </tr>
                                     </thead>
                                     <tbody id="group-list">
@@ -43,6 +49,10 @@ $dataList = getMemberContractList();
                                             <td><?php echo $item['content'] ?></td>
                                             <td><?php echo $item['status'] ?></td>
                                             <td><?php echo $item['create_time'] ?></td>
+                                            <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
+                                                <button class="btn btn-danger btn-sm" onclick="delContract($(this))"><i class="fas fa-trash-alt"></i></button>
+                                                <button class="btn btn-warning btn-sm"  onclick="editContract($(this))"><i class="fas fa-edit"></i></button>
+                                            </td>
                                         </tr>
                                         <?php
                                     } ?>
@@ -56,12 +66,12 @@ $dataList = getMemberContractList();
             </div>
         </section>
     </div>
-
+    <!-- Pop out windows for add and edit -->
     <div class="modal fade" id="modal-add-message">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Add Message
+                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Add Contract
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -82,6 +92,39 @@ $dataList = getMemberContractList();
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" onclick="submitContract()">Save</button>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+
+    <div class="modal fade" id="modal-edit-message">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Edit Contract
+                    <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
+                </span>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span></button>
+                </div>
+                <div class="modal-body" style="margin: 20px">
+                    <div class="form-group row">
+                        <label for="">Title</label>
+                        <input type="hidden" class="form-control" id="id_edit">
+                        <input type="text" class="form-control" id="title_edit">
+                        <label for="">Message</label>
+                        <input type="text" class="form-control" id="content_edit">
+                        <label for="">Status</label>
+                        <select name="" id="status_edit" class="form-control">
+                            <option value="normal">normal</option>
+                            <option value="urgent">urgent</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" onclick="submitContractEdit()">Save</button>
                 </div>
             </div>
             <!-- /.modal-content -->

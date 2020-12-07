@@ -1,10 +1,15 @@
-<?php require_once "../common/header.php";?>
+<!-- This file is completed by saebom SHIN-40054234 individually -->
+
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
 <link href="https://cdn.bootcss.com/bootstrap-select/1.13.10/css/bootstrap-select.min.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
-<?php
+
+<!-- all required php files here -->
+<?php require_once "../common/header.php";
 require_once "../func/func.php";
 if (checkUserLogin() == false) {
-    header("Location:/owner/login.php");
+    header("Location:./login.php");
 }
 $dataList = getMemberList();
 $condo = getCondoList();
@@ -14,7 +19,7 @@ foreach ($condo as $item) {
 }
 ?>
 <div class="wrapper">
-
+    <!-- navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
         <ul class="navbar-nav" id="my-nav">
             <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
@@ -31,7 +36,7 @@ foreach ($condo as $item) {
             </li>
         </ul>
     </nav>
-
+    <!-- main table of the condo tab -->
     <section class="content">
         <div class="container-fluid">
 

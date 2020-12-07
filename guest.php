@@ -1,45 +1,34 @@
-<!-- This file is completed by kimchhengheng-26809413 individually -->
-<!-- all required php files here -->
-<?php 
-    require_once "../common/header.php";
-    require_once "../func/func.php";
-?>
-<!-- all required js files here -->
-<script src="../static/functions.js"></script>
+<!-- This file is completed by saebom SHIN-40054234 individually -->
 
-<?php
-if (checkMemberLogin() == false) {
-    header("Location:./login.php");
-}
-$dataList = getSentboxMessage();
+<!-- all required php files here -->
+<?php require_once "./common/header.php";
+require_once "./func/func.php";
+
+$dataList =getPublicPost();
 ?>
     <div class="wrapper">
-
-        <?php require_once "nav.php"?>
+        <!-- main table of the guest tab -->
         <section class="content">
             <div class="container-fluid">
-
+                <nav>
+                    <a href="index.php">Main Page</a>
+                </nav>
                 <div class="row" style="margin-top: 20px">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">SentBox Message</h3>
+                                <h3 class="card-title">Posting</h3>
                             </div>
 
                             <div class="card-body">
-                                <div style="margin-bottom: 10px">
-                                    <button class="btn btn-primary btn-sm" onclick="window.location.href='inbox.php'">Inbox <i class="fas fa-inbox"></i></button>
-                                    <button class="btn btn-primary btn-sm" onclick="window.location.href='sentbox.php'">SendBox <i class="fas fa-paper-plane"></i></button>
-                                </div>
 
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
                                         <th>#</th>
-                                        <th>Title</th>
-                                        <th>Message</th>
-                                        <th>Receiver</th>
+                                        <th>title</th>
                                         <th>create time</th>
+                                        <th>option</th>
                                     </tr>
                                     </thead>
                                     <tbody id="group-list">
@@ -48,9 +37,11 @@ $dataList = getSentboxMessage();
                                         <tr>
                                             <td><?php echo $item['id'] ?></td>
                                             <td><?php echo $item['title'] ?></td>
-                                            <td><?php echo $item['content'] ?></td>
-                                            <td><?php echo $item['receiver'] ?></td>
                                             <td><?php echo $item['create_time'] ?></td>
+                                            <td data-id="<?php echo $item['id'] ?>">
+                                                <!-- check the detailPosting .js and .php for guest -->
+                                                <button class="btn btn-primary btn-sm" onclick="detailPostingGuest($(this))">detail</button>
+                                            </td>
                                         </tr>
                                         <?php
                                     } ?>
@@ -65,4 +56,11 @@ $dataList = getSentboxMessage();
         </section>
     </div>
 
-<?php require_once "../common/footer.php";?>
+<?php require_once "./common/footer.php";?>
+<script>
+    //show all the information of the public posting from guest.php
+    function detailPostingGuest(e) {
+        let id = e.parent().data("id");
+        window.location.href = "./posting_tmpl.php?act=view&id=" + id;
+    }
+</script>

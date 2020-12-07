@@ -1,19 +1,26 @@
-<?php require_once "../common/header.php";?>
+<!-- This file is completed by saebom SHIN-40054234 individually -->
+
+<!-- all required js files here -->
 <script src="../static/ajaxfileupload.js"></script>
-<?php
+<script src="../static/functions.js"></script>
+
+<!-- all required php files here -->
+<?php require_once "../common/header.php";
 require_once "../func/func.php";
+
 if (checkUserLogin() == false) {
     header("Location:/owner/login.php");
 }
 
 if (isset($_GET['id'])) {
     $info = getPostingInfo($_GET['id']);
+    $comment = getPostingComment($_GET['id']);
 } else {
     $info = [];
 }
 ?>
 <div class="wrapper">
-
+    <!-- navbar -->
     <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
         <ul class="navbar-nav" id="my-nav">
             <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
@@ -30,7 +37,7 @@ if (isset($_GET['id'])) {
             </li>
         </ul>
     </nav>
-
+    <!-- main table of the condo tab -->
     <section class="content">
         <div class="container-fluid">
 
@@ -61,6 +68,41 @@ if (isset($_GET['id'])) {
                                     <div class="row m-t-10">
                                         <label for="">Content</label>
                                         <textarea name="" id="content" cols="30" rows="10" class="form-control" value=""><?php echo $info['title'] ?></textarea>
+                                    </div>
+                                    <div class="row">
+                                        <select id="status" class="form-control">
+                                            <option value="public">public</option>
+                                            <?php
+                                            foreach ($groupInfo as $item) {
+                                                ?>
+                                                <option value="<?php echo $item['group_name']?>" <?php
+                                                if(strcmp($item['group_name'],$info['status'])==0)
+                                                    echo "selected"?>>
+                                                    <?php echo $item['group_name']?>
+                                                </option>
+                                                <?php
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                    <div class="row m-t-10">
+                                        <label for="">Content</label>
+                                        <!--                                        change title to content-->
+                                        <textarea name="" id="content" cols="30" rows="10" class="form-control" value=""><?php echo $info['content'] ?></textarea>
+                                    </div>
+                                    <div class="row m-t-10">
+                                        <label for="">Comment</label>
+                                        <ul>
+                                            <?php
+                                            foreach ($comment as $item) {
+                                                ?>
+                                                <li>
+                                                    <?php echo $item['content'] ?>
+                                                </li>
+                                                <?php
+                                            }
+                                            ?>
+                                        </ul>
                                     </div>
                                     <button class="btn btn-primary save" onclick="savePosting('edit_posting')">Save</button>
                                     <?php if (isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'view') {
