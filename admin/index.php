@@ -45,19 +45,11 @@ foreach ($building as $item) {
                                 <thead>
                                 <tr>
                                     <th>ID</th>
-<<<<<<< HEAD
-                                    <th>Name</th>
-                                    <th>Building Name</th>
-                                    <th>Create Time</th>
-                                    <th>Update Time</th>
-                                    <th>Option</th>
-=======
                                     <th>name</th>
                                     <th>building Name</th>
                                     <th>create time</th>
                                     <th>update time</th>
                                     <th>option</th>
->>>>>>> main
                                 </tr>
                                 </thead>
                                 <tbody id="group-list">
