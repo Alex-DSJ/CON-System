@@ -55,8 +55,8 @@ $dataList = getContractList();
                                             <td><?php echo $item['status'] ?></td>
                                             <td><?php echo $item['create_time'] ?></td>
                                             <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
-                                                <button class="btn btn-danger btn-sm" onclick="delConract($(this))">Del</button>
-                                                <button class="btn btn-warning btn-sm"  onclick="editContract($(this))">Edit</button>
+                                                <button class="btn btn-danger btn-sm" onclick="delContract($(this))">Del</button>
+                                                <button class="btn btn-warning btn-sm"  onclick="updateContract($(this))">Edit</button>
                                             </td>
                                             </tr>
                                         <?php
