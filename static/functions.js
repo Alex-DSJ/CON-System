@@ -492,14 +492,33 @@ function updateContractBySA() {
       }
     },
     error:function (jqXHR, textStatus, errorThrown) {
-      // error detail
       alert(jqXHR.responseText);
-      // alert(jqXHR.status);
-      // alert(jqXHR.readyState);
-      // alert(jqXHR.statusText);
-      // alert(textStatus);
-      // alert(errorThrown);
     }
+  })
+}
+
+// delete a contract from the database
+function delContract(e) {
+  let id = e.parent().data('id');
+  $.ajax({
+      url:COMMON_API,
+      data:{
+          act:"del_contract",
+          id:id
+      },
+      dataType:'JSON',
+      type:'POST',
+      success:function (res) {
+          alert(res.msg)
+          if(res.success == true) {
+              window.location.reload()
+          } else {
+              return false;
+          }
+      },
+      error:function (jqXHR, textStatus, errorThrown) {
+        alert(jqXHR.responseText);
+      }
   })
 }
 

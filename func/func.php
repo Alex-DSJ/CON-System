@@ -337,8 +337,10 @@ function getMemberContractList()
 function delContractHandler()
 {
     global $inputs;
-    $sql = "delete from contract where id = " . $inputs['id'];
-    execSql($sql);
+    $sql1 = "delete from contract where id = " . $inputs['id'];
+    execSql($sql1);
+    $sql2 = "DELETE FROM user_contract WHERE contract_id = " . $inputs['id'];
+    execSql($sql2);
     formatOutput(true, 'delete success');
 }
 
