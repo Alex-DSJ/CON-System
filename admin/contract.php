@@ -100,7 +100,7 @@ $nameOptions .= '</optgroup>';
                                             <td><?php echo $userRole ?></td>
                                             <td data-id="<?php echo $contract['id'] ?>" data-info="<?php echo rawurlencode(json_encode($contract)) ?>">
                                                 <button class="btn btn-danger btn-sm" onclick="delContract($(this))">Del</button>
-                                                <button class="btn btn-warning btn-sm"  onclick="updateContract($(this))">Edit</button>
+                                                <button class="btn btn-warning btn-sm"  onclick="editContractBySA($(this))">Edit</button>
                                             </td>
                                             </tr>
                                         <?php
@@ -152,9 +152,7 @@ $nameOptions .= '</optgroup>';
                     <button class="btn btn-primary" onclick="submitContractBySA()">Save</button>
                 </div>
             </div>
-            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
     </div>
 
     <!-- the popup form for updating a contract -->
@@ -169,21 +167,29 @@ $nameOptions .= '</optgroup>';
                         <span aria-hidden="true">×</span></button>
                 </div>
                 <div class="modal-body" style="margin: 20px">
-                    <div class="form-group row">
-                        <input type="hidden" class="form-control" id="id_edit">
-                        <label for=""></label>
+                <div class="form-group row">
+                        <label for="" id="id_edit"></label>
+                        <label for="">Title</label>
                         <input type="text" class="form-control"  id="title_edit">
-                        <label for="">Message</label>
-                        <textarea class="form-control" rows="5" aria-label="With textarea" id="content"></textarea>
+                        <label for="">Content</label>
+                        <textarea class="form-control" rows="5" aria-label="With textarea" id="content_edit"></textarea>
                         <label for="">Status</label>
-                        <select name="" id="status" class="form-control">
+                        <select name="" id="status_edit" class="form-control">
                             <option value="normal">Normal</option>
                             <option value="urgent">Urgent</option>
+                        </select>
+                        <label for="">Created For</label>
+                        <select name="" id="creator_edit" class="form-control">
+                            <option value="" disabled selected>Please Select</option>
+                            <optgroup label="Super Admin">
+                                <option value="1">admin</option>
+                            </optgroup>
+                            <?php echo $nameOptions; ?>
                         </select>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="updateContract()">Save</button>
+                    <button class="btn btn-primary" onclick="updateContractBySA()">Save</button>
                 </div>
             </div>
             <!-- /.modal-content -->

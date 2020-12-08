@@ -314,7 +314,6 @@ function submitBuilding() {
     })
 }
 
-
 function submitAdminAssignment(e){
 
     let selectTag = document.getElementsByClassName('form-control')[6];
@@ -447,7 +446,64 @@ function submitContractBySA()
     })
 }
 
-// TODO update the contract into the databse
+// display the popup form for editing contract from the super admin
+function editContractBySA(e) {
+
+  let info = e.parent().data('info')
+  info = JSON.parse(decodeURIComponent(info))
+  $('#id_edit').val(info.id)
+  $('#title_edit').val(info.title)
+  $('#status_edit').val(info.status)
+  $('#content_edit').val(info.content)
+  $('#modal-edit-contract').modal('show')
+}
+
+// update a contract by the super admin
+function updateContractBySA() {
+  let content = $('#content_edit').val()
+  let title = $('#title_edit').val()
+  let status = $("#status_edit option:selected").val()
+  let role = $("#creator_edit :selected").parent().attr('label');
+  // let name = $("#creator_edit :selected").text();
+  let creator_id = $("#creator_edit :selected").val();
+  let id = $('#id_edit').val()
+
+
+  $.ajax({
+    url: COMMON_API,
+    data: {
+        act: "sadmin_update_contract",
+        id: id,
+        title: title,
+        content: content,
+        status: status,
+        creator_id: creator_id,
+        role: role,
+        // name: name,
+    },
+    dataType: 'JSON',
+    type: 'POST',
+    success: function (res) {
+      alert(res.msg)
+      if (res.success == true) {
+        window.location.reload()
+      } else {
+        return false;
+      }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      // error detail
+      alert(jqXHR.responseText);
+      // alert(jqXHR.status);
+      // alert(jqXHR.readyState);
+      // alert(jqXHR.statusText);
+      // alert(textStatus);
+      // alert(errorThrown);
+    }
+  })
+}
+
+// update the contract into the databse
 function updateContract() {
     let status = $("#status option:selected").val()
     if (status == '') {
@@ -483,6 +539,7 @@ function updateContract() {
     })
 }
 
+// add a new contract into the database
 function submitContract()
 {
     let content = $('#content').val()

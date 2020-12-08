@@ -238,6 +238,29 @@ function getContractRelList(){
     return getAll($sql);
 }
 
+// update a contract by the admin
+function updateContractHandler1() {
+    global $inputs;
+
+    //update contract
+    $res = updateDb('contract',[
+        'status' => $inputs['status'],
+        'title' => $inputs['title'],
+        'content' => $inputs['content'],
+    ], [
+        'id' => $inputs['id']
+    ]);
+
+    //update user_contract
+    $res = updateDb('user_contract',[
+        'user_type' => $inputs['role'],
+        'uid' => $inputs['creator_id'],
+    ], [
+        'contract_id' => $inputs['id']
+    ]);
+
+    formatOutput(true, 'update success', $res);
+}
 
 
 // update a contract to the database
