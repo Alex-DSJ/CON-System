@@ -1,20 +1,36 @@
+<?php
+require_once "../func/func.php";
+
+if (checkUserLogin() == false) {
+    header("Location:/login.php");
+}
+$contractList = getContractList();  //get all contracts from the database
+$userContractRelList = getContractRelList();    //get all user_contract relations from the database
+$adminList = getAllAdmins();
+$memberList = getMemberList();
+
+$nameOptions = '<optgroup label="Admin">';
+foreach ($adminList as $admin) {
+    if($admin['id'] != 1){
+        $nameOptions .= "<option value='{$admin['id']}'>{$admin['name']}</option>";
+    }
+}
+$nameOptions .= '</optgroup><optgroup label="Member">';
+foreach ($memberList as $member) {
+    $nameOptions .= "<option value='{$member['id']}'>{$member['name']}</option>";
+}
+$nameOptions .= '</optgroup>';
+?>
+
 <!-- This file is completed by shijun DENG-40084956 individually -->
 
 <!-- all required php files here -->
-<?php
-require_once "../common/header.php";
-require_once "../func/func.php";
-?>
+<?php require_once "../common/header.php"; ?>
 
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
 
-<?php
-if (checkUserLogin() == false) {
-    header("Location:./login.php");
-}
-$dataList = getContractList();
-?>
+
     <div class="wrapper">
 
     <?php require_once "navbar.php";?>
@@ -41,20 +57,48 @@ $dataList = getContractList();
                                         <th>Title</th>
                                         <th>Message</th>
                                         <th>Status</th>
-                                        <th>Create Time</th>
+                                        <th>Creator Name</th>
+                                        <th>Creator Role</th>
                                         <th>Option</th>
                                     </tr>
                                     </thead>
                                     <tbody id="group-list">
-                                    <?php foreach ($dataList as $item) {
+                                    <?php foreach ($contractList as $contract) {
+                                        // get the creator role and id
+                                        $userRole = '';
+                                        $userName = '';
+                                        foreach ($userContractRelList as $userContractRel) {
+                                            if ($userContractRel['contract_id'] == $contract['id']) {
+                                                $userRole = $userContractRel['user_type'];
+                                                $userID = $userContractRel['uid'];
+                                                // get the creator name
+                                                if ($userRole == 'Admin' || $userRole == 'Super Admin') {
+                                                    foreach ($adminList as $admin) {
+                                                        if ($admin['id'] == $userID) {
+                                                            $userName = $admin['name'];
+                                                        }
+                                                    }
+                                                }
+                                                else {
+                                                    foreach ($memberList as $member) {
+                                                        if ($member['id'] == $userID) {
+                                                            $userName = $member['name'];
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+
+                                        
                                         ?>
                                         <tr>
-                                            <td><?php echo $item['id'] ?></td>
-                                            <td><?php echo $item['title'] ?></td>
-                                            <td><?php echo $item['content'] ?></td>
-                                            <td><?php echo $item['status'] ?></td>
-                                            <td><?php echo $item['create_time'] ?></td>
-                                            <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
+                                            <td><?php echo $contract['id'] ?></td>
+                                            <td><?php echo $contract['title'] ?></td>
+                                            <td><?php echo $contract['content'] ?></td>
+                                            <td><?php echo $contract['status'] ?></td>
+                                            <td><?php echo $userName ?></td>
+                                            <td><?php echo $userRole ?></td>
+                                            <td data-id="<?php echo $contract['id'] ?>" data-info="<?php echo rawurlencode(json_encode($contract)) ?>">
                                                 <button class="btn btn-danger btn-sm" onclick="delContract($(this))">Del</button>
                                                 <button class="btn btn-warning btn-sm"  onclick="updateContract($(this))">Edit</button>
                                             </td>
@@ -87,17 +131,25 @@ $dataList = getContractList();
                     <div class="form-group row">
                         <label for="">Title</label>
                         <input type="text" class="form-control"  id="title">
-                        <label for="">Message</label>
+                        <label for="">Content</label>
                         <textarea class="form-control" rows="5" aria-label="With textarea" id="content"></textarea>
                         <label for="">Status</label>
                         <select name="" id="status" class="form-control">
                             <option value="normal">Normal</option>
                             <option value="urgent">Urgent</option>
                         </select>
+                        <label for="">Created For</label>
+                        <select name="" id="creator" class="form-control">
+                            <option value="" disabled selected>Please Select</option>
+                            <optgroup label="Super Admin">
+                                <option value="1">admin</option>
+                            </optgroup>
+                            <?php echo $nameOptions; ?>
+                        </select>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" onclick="submitContract()">Save</button>
+                    <button class="btn btn-primary" onclick="submitContractBySA()">Save</button>
                 </div>
             </div>
             <!-- /.modal-content -->

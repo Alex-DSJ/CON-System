@@ -140,7 +140,7 @@ function editAdminHandler() {
 
 }
 
-// get all admins from the database
+// get all admins which have buildings from the database
 function getAdminList() {
     $sql = "SELECT a.*,
             IFNULL(c.building_name,'-') AS building_name,
@@ -150,6 +150,12 @@ function getAdminList() {
             LEFT JOIN building c ON c.id = b.building_id
             WHERE a.id != 1";
     return getAll($sql);
+}
+
+// get the list of all admins
+function getAllAdmins(){
+    $sql = "SELECT * FROM admin";
+    return getALl($sql);
 }
 
 //get all buildings' name and return
@@ -227,6 +233,13 @@ function getContractList() {
     return getAll($sql);
 }
 
+function getContractRelList(){
+    $sql = "SELECT * FROM user_contract ORDER by id DESC";
+    return getAll($sql);
+}
+
+
+
 // update a contract to the database
 function updateContractHandler() {
     global $inputs;
@@ -238,6 +251,25 @@ function updateContractHandler() {
         'id' => $inputs['id']
     ]);
     formatOutput(true, 'update success', $res);
+}
+
+// add a new contract to the database
+function addContractHandler1() {
+    global $inputs;
+
+    $cid = insert('contract',[
+        'title' => $inputs['title'],
+        'content' => $inputs['content'],
+        'status' => $inputs['status'],
+    ]);
+
+    insert('user_contract',[
+        'user_type' => $inputs['role'],
+        'uid' => $inputs['id'],
+        'contract_id' => $cid,
+    ]);
+
+    formatOutput(true, 'add success');
 }
 
 // add a new contract to the database

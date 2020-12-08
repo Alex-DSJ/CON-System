@@ -59,6 +59,7 @@ if (isset($inputs['act'])) {
         case 'edit_building' : editBuildingHandler();break;
         case 'sadmin_add_condo' : addCondoHandler1();break;
         case 'sadmin_edit_condo' : editCondoHandler1();break;
+        case 'sadmin_add_contract' : addContractHandler1();break;
         case 'add_contract' : addContractHandler();break;
         case 'update_contract' : updateContractHandler();break;
         case 'del_contract' : delContractHandler();break;

@@ -402,8 +402,52 @@ function addContract() {
     $('#modal-add-contract').modal('show')
 }
 
-// TODO update the contract into the databse
+function submitContractBySA()
+{
+    let content = $('#content').val()
+    let title = $('#title').val()
+    let status = $("#status option:selected").val()
+    let role = $("#creator :selected").parent().attr('label');
+    let name = $("#creator :selected").text();
+    let id = $("#creator :selected").val();
+    if (content == '' || title == '' || status == '') {
+      alert("ERROR! All parameters need to be filled.");
+      return false;
+    }
 
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "sadmin_add_contract",
+            content: content,
+            title: title,
+            status: status,
+            role: role,
+            name: name,
+            id: id,
+        },
+        dataType: 'JSON',
+        type: 'POST',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+          // error detail
+          alert(jqXHR.responseText);
+          // alert(jqXHR.status);
+          // alert(jqXHR.readyState);
+          // alert(jqXHR.statusText);
+          // alert(textStatus);
+        }  
+    })
+}
+
+// TODO update the contract into the databse
 function updateContract() {
     let status = $("#status option:selected").val()
     if (status == '') {
@@ -445,7 +489,8 @@ function submitContract()
     let title = $('#title').val()
     let status = $("#status option:selected").val()
     if (content == '' || title == '' || status == '') {
-        return false;
+      alert("ERROR! All parameters need to be filled.");
+      return false;
     }
 
     $.ajax({
@@ -456,7 +501,7 @@ function submitContract()
             title: title,
             status: status,
         },
-        dataType: 'json',
+        dataType: 'JSON',
         type: 'post',
         success: function (res) {
             alert(res.msg)
