@@ -39,19 +39,19 @@ require_once "../common/header.php";
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>name</th>
-                                    <th>address</th>
-                                    <th>email</th>
-                                    <th>condos</th>
-                                    <th>groups</th>
-                                    <th>family</th>
-                                    <th>colleagues</th>
-                                    <th>privilege</th>
-                                    <th>status</th>
-                                    <th>create time</th>
-                                    <th>update time</th>
-                                    <th>option</th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Address</th>
+                                    <th>Email</th>
+                                    <th>Condos</th>
+                                    <th>Groups</th>
+                                    <th>Family</th>
+                                    <th>Colleagues</th>
+                                    <th>Privilege</th>
+                                    <th>Status</th>
+                                    <th>Create Time</th>
+                                    <th>Update Time</th>
+                                    <th>Option</th>
                                 </tr>
                                 </thead>
                                 <tbody id="group-list">
@@ -62,8 +62,8 @@ require_once "../common/header.php";
                                         <td><?php echo $item['name'] ?></td>
                                         <td><?php echo $item['address'] ?></td>
                                         <td><?php echo $item['email'] ?></td>
-                                        <td><button class="btn btn-dark" data-id="<?php echo $item['id'] ?>" onclick="showCondo(<?php echo $item['id'] ?>)">condos</button></td>
-                                        <td><button class="btn btn-dark" data-id="<?php echo $item['id'] ?>" onclick="showGroup(<?php echo $item['id'] ?>)">groups</button></td>
+                                        <td><button class="btn btn-dark" data-id="<?php echo $item['id'] ?>" onclick="showCondo(<?php echo $item['id'] ?>)">Condos</button></td>
+                                        <td><button class="btn btn-dark" data-id="<?php echo $item['id'] ?>" onclick="showGroup(<?php echo $item['id'] ?>)">Groups</button></td>
                                         <td><?php echo $item['family'] ?></td>
                                         <td><?php echo $item['colleagues'] ?></td>
                                         <td><?php echo $item['privilege'] ?></td>
@@ -71,8 +71,8 @@ require_once "../common/header.php";
                                         <td><?php echo $item['create_time'] ?></td>
                                         <td><?php echo $item['last_update_time'] ?></td>
                                         <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
-                                            <button class="btn btn-danger btn-sm" onclick="delMember($(this))">del</button>
-                                            <button class="btn btn-warning btn-sm" onclick="editMember($(this))">edit</button>
+                                            <button class="btn btn-danger btn-sm" onclick="delMember($(this))">Del</button>
+                                            <button class="btn btn-warning btn-sm" onclick="editMember($(this))">Edit</button>
                                         </td>
                                     </tr>
                                 <?php
@@ -97,7 +97,7 @@ require_once "../common/header.php";
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">ï¿½</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -155,7 +155,7 @@ require_once "../common/header.php";
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">ï¿½</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -207,7 +207,7 @@ require_once "../common/header.php";
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">ï¿½</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
