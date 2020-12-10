@@ -2,11 +2,11 @@ USE lac353_2;
 SET FOREIGN_KEY_CHECKS=0;
 
 -- admin's data
-INSERT INTO `admin` VALUES ('1', 'admin', 'admin', '1', DEFAULT, DEFAULT);
-INSERT INTO `admin` VALUES ('2', 'kim', 'kim123', '1', DEFAULT, DEFAULT);
-INSERT INTO `admin` VALUES ('3', 'alex', 'alex123', '1', DEFAULT, DEFAULT);
-INSERT INTO `admin` VALUES ('4', 'saebom', 'saebom123', '1', DEFAULT, DEFAULT);
-INSERT INTO `admin` VALUES ('5', 'shirley', 'shirley123', '1', DEFAULT, DEFAULT);
+INSERT INTO `admin` VALUES ('1', 'admin', 'admin', '0', DEFAULT, DEFAULT);
+INSERT INTO `admin` VALUES ('2', 'kim', 'kim123', '0', DEFAULT, DEFAULT);
+INSERT INTO `admin` VALUES ('3', 'alex', 'alex123', '0', DEFAULT, DEFAULT);
+INSERT INTO `admin` VALUES ('4', 'saebom', 'saebom123', '0', DEFAULT, DEFAULT);
+INSERT INTO `admin` VALUES ('5', 'shirley', 'shirley123', '0', DEFAULT, DEFAULT);
 
 -- building's data id, building_name, address, description, area, create_time
 INSERT INTO `building` VALUES ('1', 'building1', 'adress1', 'description1', '11.11', DEFAULT);
@@ -212,3 +212,8 @@ INSERT INTO `member_reply` VALUES('6', '6', '6');
 INSERT INTO `member_reply` VALUES('7', '7', '7');
 INSERT INTO `member_reply` VALUES('8', '8', '8');
 INSERT INTO `member_reply` VALUES('9', '9', '9');
+
+--- update the admin when want to test the resete
+UPDATE `admin`
+SET is_first_login =0
+WHERE id=1;

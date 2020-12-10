@@ -1,6 +1,6 @@
 <?php
 require_once "./func.php";
-require_once "./dbQuerry.php";
+require_once "./dbQuery.php";
 
 // call all other php func need 
 

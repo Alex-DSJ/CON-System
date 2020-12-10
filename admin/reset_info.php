@@ -1,10 +1,11 @@
-<?php require_once "../common/header.php";?>
 <?php
     require_once "../func/func.php";
     if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
-        header("Location:/admin/login.php");
+        header("Location: /login.php");
     }
+require_once "../common/header.php";
 ?>
+<script src="../static/functions.js"></script>
 <div class="wrapper" style="margin-top: 5%">
     <section class="content">
         <div class="container-fluid">
@@ -16,7 +17,7 @@
 
                             <div action="" method="post">
                                 <div class="input-group mb-3">
-                                    <input type="text" class="form-control" placeholder="Username" required autocomplete="false" name="username" id="username">
+                                    <input type="text" class="form-control" value="admin" name="username" id="username">
                                     <div class="input-group-append">
                                         <div class="input-group-text">
                                             <span class="fas fa-user"></span>

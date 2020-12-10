@@ -14,9 +14,15 @@ function login() {
     let username = $('#username').val();
     let password = $('#password').val();
     if(username == '' || password == '') {
-        alert('input username and password first')
+        alert('input username and password first');
         return false;
     }
+    if(username != "admin"){
+        alert('Super Admin authorization only');
+        return false;
+    }
+
+
     $.ajax({
         url:COMMON_API,
         data:{
