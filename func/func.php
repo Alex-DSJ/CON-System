@@ -8,7 +8,7 @@
 session_start();
 
 require_once dirname(__FILE__).'/db.php';
-require_once dirname(__FILE__)."/dbQuerry.php";
+require_once dirname(__FILE__) . "/dbQuery.php";
 
 define('ADMIN_ID', '1');
 
