@@ -823,6 +823,10 @@ function editMemberHandler()
 {
     global $inputs;
 
+    if (emailRepeated($inputs['email'])) {
+        formatOutput(false, 'ERROR! The auto-generated email address already existed, please choose another one.');
+    }
+
     $sql = "delete from `member_condo` where member_id = " . $inputs['id'];
     execSql($sql);
 
@@ -859,6 +863,10 @@ function delMemberHandler()
 function addMemberHandler()
 {
     global $inputs;
+
+    if (emailRepeated($inputs['email'])) {
+        formatOutput(false, 'ERROR! The auto-generated email address already existed, please choose another one.');
+    }
 
     $lastId = insert('member',[
         'name' => $inputs['name'],
