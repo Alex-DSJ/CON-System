@@ -366,7 +366,7 @@ function addMemberHandler1()
     global $inputs;
 
     if (emailRepeated($inputs['email'])) {
-        formatOutput(false, 'The email address already existed, please choose another one.');
+        formatOutput(false, 'ERROR! The email address already existed, please choose another one.');
     }
 
     $lastId = insert('member',[
@@ -392,6 +392,10 @@ function addMemberHandler1()
 function editMemberHandler1()
 {
     global $inputs;
+
+    if (emailRepeated($inputs['email'])) {
+        formatOutput(false, 'ERROR! The email address already existed, please choose another one.');
+    }
 
     updateDb('member',[
         'name' => $inputs['name'],
