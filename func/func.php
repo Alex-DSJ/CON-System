@@ -365,6 +365,10 @@ function addMemberHandler1()
 {
     global $inputs;
 
+    if (emailRepeated($inputs['email'])) {
+        formatOutput(false, 'The email address already existed, please choose another one.');
+    }
+
     $lastId = insert('member',[
         'name' => $inputs['name'],
         'password' => $inputs['password'],
@@ -541,6 +545,20 @@ function delEmailHandler1(){
     $sql = "DELETE FROM mail WHERE id = " . $inputs['id'];
     execSql($sql);
     formatOutput(true, 'delete success');
+}
+
+// check if the email address is repeated
+function emailRepeated($email){
+    global $email;
+
+    $sql = 'SELECT count(*) FROM member WHERE email = ' . $email;
+    if (getAll($sql) > 0) {
+        return true;
+    }
+    else {
+        return false;
+    }
+    
 }
 // --------********--------********--------********--------********--------********
 // Functions for the Contract page ends here
