@@ -1,8 +1,3 @@
-<!-- This file is completed by Yuxin Wang-40024855 individually -->
-
-<!-- all required php files here -->
-<?php require_once "../common/header.php";?>
-<script src="../static/functions.js"></script>
 <?php
 require_once "../func/func.php";
 if (checkMemberLogin() == false) {
@@ -10,9 +5,13 @@ if (checkMemberLogin() == false) {
 }
 $info = getNewFriendApply();
 ?>
+<!-- This file is completed by Yuxin Wang-40024855 individually -->
+<!-- all required php files here -->
+<?php require_once "../common/header.php";?>
+<script src="../static/functions.js"></script>
 <div class="wrapper">
     <!-- Header for the Member -->
-    <?php require_once "nav.php"?>
+    <?php require_once "nav.php";?>
     <!-- Content of the Friend Apply Page -->
     <section class="content">
         <div class="container-fluid">
@@ -37,8 +36,8 @@ $info = getNewFriendApply();
                                         <td><?php echo $item['create_time']?></td>
 <!--                                        <input type="hidden" id="applier_id" value="--><?php //$item['applier_id']?><!--">-->
                                         <td data-id="<?php echo $item['id']?>">
-                                            <button class="btn btn-sm btn-danger disagree-friend">disagree</button>
-                                            <button class="btn btn-sm btn-success agree-friend">agree</button>
+                                            <button class="btn btn-sm btn-danger" onclick="disagreeFriend($(this))">disagree</button>
+                                            <button class="btn btn-sm btn-success" onclick="agreeFriend($(this))">agree</button>
                                         </td>
                                     </tr>
                                     <?php

@@ -1,25 +1,18 @@
-<!-- This file is completed by kimchhengheng-26809413 individually -->
-<!-- all required php files here -->
-<?php 
-    require_once "../common/header.php";
-    require_once "../func/func.php";
-?>
-
-
-<!-- all required js here -->
-<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-select/2.0.0-beta1/js/bootstrap-select.js"></script>
-<script src="../static/functions.js"></script>
-<link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-select/2.0.0-beta1/css/bootstrap-select.min.css" rel="stylesheet">
-
 <?php
+require_once "../func/func.php";
 if (checkMemberLogin() == false) {
     header("Location:./login.php");
 }
 $mailList = getMailList();
+require_once "../common/header.php";
 ?>
+<!-- This file is completed by kimchhengheng-26809413 individually -->
+<!-- all required js here -->
+<script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-select/2.0.0-beta1/js/bootstrap-select.js"></script>
+<script src="../static/functions.js"></script>
+<link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-select/2.0.0-beta1/css/bootstrap-select.min.css" rel="stylesheet">
 <div class="wrapper">
-
-    <?php require_once "nav.php"?>
+    <?php require_once "nav.php";?>
     <section class="content">
         <div class="container-fluid">
 
@@ -39,13 +32,11 @@ $mailList = getMailList();
 
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
 </div>
-
 <div class="modal fade" id="modal-add-message">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -86,5 +77,4 @@ $mailList = getMailList();
     </div>
     <!-- /.modal-dialog -->
 </div>
-
 <?php require_once "../common/footer.php";?>

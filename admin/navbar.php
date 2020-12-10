@@ -4,9 +4,13 @@
             <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Association Admins</a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="member.php" class="nav-link">Members</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="group.php" class="nav-link">Groups</a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="building.php" class="nav-link">Buildings</a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="condo.php" class="nav-link">Condos</a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="contract.php" class="nav-link">Contracts</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">Postings</a></li>
+            <li class="nav-item d-none d-sm-inline-block"><a href="email.php" class="nav-link">Emails</a></li>
+            <!-- <li class="nav-item d-none d-sm-inline-block"><a href="meeting.php" class="nav-link">Meetings</a></li> -->
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">

@@ -1,15 +1,6 @@
-<!-- This file is completed by shijun DENG-40084956 individually -->
-
-<!-- all required php files here -->
 <?php 
-require_once "../common/header.php";
 require_once "../func/func.php";
-?>
 
-<!-- all required js file here -->
-<script src="../static/functions.js"></script>
-
-<?php
 if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
     header("Location:login.php");
 }
@@ -20,6 +11,13 @@ foreach ($building as $item) {
     $buildingStr .= "<option value='{$item['id']}'>{$item['building_name']}</option>";
 }
 ?>
+<!-- This file is completed by shijun DENG-40084956 individually -->
+
+<!-- all required js file here -->
+<script src="../static/functions.js"></script>
+
+<!-- all required php files here -->
+<?php require_once "../common/header.php"; ?>
 
 <div class="wrapper">
 

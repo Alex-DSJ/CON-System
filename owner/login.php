@@ -34,8 +34,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button type="button" class="btn btn-primary btn-block" onclick="admin_login()">Login</button>
-                                        <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='../index.php'">Return Index</button>
+                                        <button type="button" class="btn btn-primary btn-block" onclick="admin_login()">Login <i class="fas fa-sign-in-alt"></i></button>
+                                        <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='../index.php'">Return Index <i class="fas fa-sign-in-alt"></i></button>
 
                                     </div>
                                 </div>

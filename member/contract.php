@@ -1,24 +1,21 @@
+<?php
+require_once "../func/func.php";
+if (checkMemberLogin() == false) {
+    header("Location: ./login.php");
+}
+$dataList = getMemberContractList();
+?>
 <!-- This file is completed by Yuxin Wang-40024855 individually -->
-
 <!-- all required php files here -->
 <?php require_once "../common/header.php";?>
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
-<?php
-require_once "../func/func.php";
-if (checkMemberLogin() == false) {
-    header("Location:./login.php");
-}
-$dataList = getMemberContractList();
-
-?>
     <div class="wrapper">
         <!-- Header for the Member -->
-        <?php require_once "nav.php"?>
+        <?php require_once "nav.php";?>
         <!-- Content of the Contract Page -->
         <section class="content">
             <div class="container-fluid">
-
                 <div class="row" style="margin-top: 20px">
                     <div class="col-md-12">
                         <div class="card">
@@ -30,7 +27,6 @@ $dataList = getMemberContractList();
                                 <div style="margin-bottom: 10px">
                                     <button class="btn btn-primary btn-sm" onclick="addContract()"><i class="far fa-plus-square"></i></button>
                                 </div>
-
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
@@ -66,8 +62,8 @@ $dataList = getMemberContractList();
             </div>
         </section>
     </div>
-    <!-- Pop out windows for add and edit -->
-    <div class="modal fade" id="modal-add-message">
+    <!-- Pop out windows for add-->
+    <div class="modal fade" id="modal-add-contract">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -98,8 +94,8 @@ $dataList = getMemberContractList();
         </div>
         <!-- /.modal-dialog -->
     </div>
-
-    <div class="modal fade" id="modal-edit-message">
+<!-- Pop out windows for edit -->
+    <div class="modal fade" id="modal-edit-contract">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -131,5 +127,4 @@ $dataList = getMemberContractList();
         </div>
         <!-- /.modal-dialog -->
     </div>
-
 <?php require_once "../common/footer.php";?>

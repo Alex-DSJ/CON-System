@@ -1,24 +1,20 @@
-<!-- This file is completed by kimchhengheng-26809413 individually -->
-<!-- all required php files here -->
-<?php 
-    require_once "../common/header.php";
-    require_once "../func/func.php";
-?>
-<!-- all required js files here -->
-<script src="../static/functions.js"></script>
-<link href="https://cdn.bootcss.com/bootstrap-select/1.13.10/css/bootstrap-select.min.css" rel="stylesheet">
-<script src="https://cdn.bootcss.com/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
-
 <?php
+require_once "../func/func.php";
 if (checkMemberLogin() == false) {
     header("Location:./login.php");
 }
 $suggestFriendList = getSuggestFriend();
 $suggestPostingList = getSuggestPosting();
 $suggestGroupList = getSuggestGroup();
+require_once "../common/header.php";
 ?>
+<!-- This file is completed by kimchhengheng-26809413 individually -->
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
+<link href="https://cdn.bootcss.com/bootstrap-select/1.13.10/css/bootstrap-select.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
 <div class="wrapper">
-    <?php require_once "nav.php"?>
+    <?php require_once "nav.php";?>
     <section class="content">
         <div class="container-fluid">
 
@@ -49,7 +45,7 @@ $suggestGroupList = getSuggestGroup();
                                             <td><?php echo $item['name']; ?></td>
                                             <td><?php echo $item['email']; ?></td>
                                             <td data-id="<?php echo $item['id'] ?>">
-                                                <button class="btn btn-primary apply-friend">apply</button>
+                                                <button class="btn btn-primary" onclick="applyFriend($(this))">apply</button>
                                             </td>
                                         </tr>
                                         <?php
@@ -128,7 +124,7 @@ $suggestGroupList = getSuggestGroup();
                                             <td><?php echo $item['group_name']; ?></td>
                                             <td><?php echo $item['description']; ?></td>
                                             <td data-id="<?php echo $item['id'] ?>">
-                                                <button class="btn btn-primary apply-group">apply</button>
+                                                <button class="btn btn-primary" onclick="applyGroup($(this))">apply</button>
                                             </td>
                                         </tr>
                                         <?php

@@ -1,12 +1,11 @@
+<?php
+require_once "../common/header.php";
+?>
+
 <!-- This file is completed by shijun DENG-40084956 individually -->
 
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
-
-<!-- all required php files here -->
-<?php
-require_once "../common/header.php";
-?>
 
 <!-- login form -->
 <div class="wrapper" style="margin-top: 5%">
@@ -37,8 +36,8 @@ require_once "../common/header.php";
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button type="button" class="btn btn-primary btn-block" onclick="login()">Login</button>
-                                        <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='../index.php'">Return Index</button>
+                                        <button type="button" class="btn btn-primary btn-block" onclick="login()">Login <i class="fas fa-sign-in-alt"></i></button>
+                                        <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='../main.php'">Return Index <i class="fas fa-sign-in-alt"></i></button>
 
                                     </div>
                                 </div>

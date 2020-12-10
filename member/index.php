@@ -1,25 +1,23 @@
-<!-- This file is completed by Yuxin Wang-40024855 individually -->
-<!-- all required php files here -->
-<?php require_once "../common/header.php";?>
-<!-- all required js files here -->
-<script src="../static/functions.js"></script>
 <?php
 require_once "../func/func.php";
- if (checkMemberLogin() == false) {
-     header("Location:./login.php");
- }
- $info = getMemberInfo();
- $condoInfo = getMemberCondoInfo();
- $groupInfo = getMemberGroupInfo();
+if (checkMemberLogin() == false) {
+    header("Location: ./login.php");
+}
+$info = getMemberInfo();
+$condoInfo = getMemberCondoInfo();
+$groupInfo = getMemberGroupInfo();
 ?>
+<!-- This file is completed by Yuxin Wang-40024855 individually -->
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
+<!-- all required php files here -->
+<?php require_once "../common/header.php";?>
 <div class="wrapper">
-
     <!-- Header for the Member -->
-    <?php require_once "nav.php"?>
+    <?php require_once "nav.php";?>
     <!-- Content of the Home Page -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-12">
                     <div class="card">
@@ -52,12 +50,33 @@ require_once "../func/func.php";
                                 <button class="btn btn-success btn-sm" onclick="window.open('./hot_posts.php')">Friend Hot Posts</button>
                             </div>
                         </div>
+                        <div class="card-header">
+                            <h3 class="card-title">Group Posting</h3>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <table class="table-striped table">
+                                    <tr>
+                                        <th>Group Name</th>
+                                        <th>Group Description</th>
+                                        <th>Option</th>
+                                    </tr>
+                                    <?php foreach ($groupInfo as $item){
+                                        ?>
+                                        <tr>
+                                            <td><?php echo $item['group_name']?></td>
+                                            <td><?php echo $item['description']?></td>
+                                            <td data-id="<?php echo $item['union_id'] ?>"><button class="btn btn-danger" onclick="detailGroupPostingMember(<?php echo $item['id']?>)">All Post</button></td>
+                                        </tr>
+                                        <?php
+                                    } ?>
+                                </table>
+                            </div>
+                        </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
 </div>
-
 <?php require_once "../common/footer.php";?>

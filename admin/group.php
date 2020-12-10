@@ -1,21 +1,24 @@
 <?php
 require_once "../func/func.php";
 if (checkUserLogin() == false) {
-    header("Location:./login.php");
+    header("Location:/owner/login.php");
 }
-$dataList = getGroupList();
-$applyList = getGroupApplyList();
-require_once "../common/header.php";
+$dataList = getAllGroups();
+$applyList = getAllGroupApplies();
 ?>
-<!-- This file is completed by saebom SHIN-40054234 individually -->
+<!-- This file is completed by shijun DENG-40084956 refer to /owner/group.php -->
 
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
+<!-- all required php files here -->
+<?php require_once "../common/header.php"; ?>
 
 <div class="wrapper">
 
-   <?php require_once "nav.php";?>
+    <!-- navbar -->
+    <?php require_once "navbar.php" ?>
 
+    <!-- main table of the condo tab -->
     <section class="content">
         <div class="container-fluid">
 
@@ -33,12 +36,12 @@ require_once "../common/header.php";
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>name</th>
-                                    <th>descrption</th>
-                                    <th>create time</th>
-                                    <th>update time</th>
-                                    <th>option</th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Descrption</th>
+                                    <th>Create Time</th>
+                                    <th>Members</th>
+                                    <th>Option</th>
                                 </tr>
                                 </thead>
                                 <tbody id="group-list">
@@ -49,14 +52,15 @@ require_once "../common/header.php";
                                         <td><?php echo $item['group_name'] ?></td>
                                         <td><?php echo $item['description'] ?></td>
                                         <td><?php echo $item['create_time'] ?></td>
-                                        <td><?php echo $item['last_update_time'] ?></td>
+                                        <td>
+                                            <button class="btn btn-dark show-members" data-id="<?php echo $item['id'] ?>" onclick="displayMembers($(this))">Members</button>
+                                        </td>
                                         <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
-                                            <button class="btn btn-danger btn-sm" onclick="delGroup($(this))">del</button>
-                                            <button class="btn btn-warning btn-sm" onclick="editGroup($(this))">edit</button>
-                                            <button class="btn btn-primary btn-sm" onclick="detailGroupMember(<?php echo $item['id'] ?>)">detail</button>
+                                            <button class="btn btn-danger btn-sm" onclick="delGroup($(this))">Del</button>
+                                            <button class="btn btn-warning btn-sm" onclick="editGroup($(this))">Edit</button>
                                         </td>
                                     </tr>
-                                    <?php
+                                <?php
                                 } ?>
                                 </tbody>
                             </table>
@@ -73,12 +77,12 @@ require_once "../common/header.php";
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>group name</th>
-                                    <th>member name</th>
-                                    <th>create time</th>
-                                    <th>handle time</th>
-                                    <th>option</th>
+                                    <th>ID</th>
+                                    <th>Group Name</th>
+                                    <th>Member Name</th>
+                                    <th>Create Time</th>
+                                    <th>Handle Time</th>
+                                    <th>Option</th>
                                 </tr>
                                 </thead>
                                 <tbody id="group-list">
@@ -94,9 +98,12 @@ require_once "../common/header.php";
                                             <?php
                                             if ($item['status'] == '') {
                                                 ?>
-                                                <button class="btn btn-danger btn-sm"  onclick="handleApply($(this),'agree')">agree</button>
-                                                <button class="btn btn-warning btn-sm" onclick="handleApply($(this),'disagree')">disagree</button>
-                                                <?php
+                                                <button class="btn btn-danger btn-sm"  onclick="handleApplyBySA($(this),'agree')">Agree</button>
+                                                <button class="btn btn-warning btn-sm" onclick="handleApplyBySA($(this),'disagree')">Disagree</button>
+                                            <?php
+                                            }
+                                            else{
+                                                echo $item['status'];
                                             }
                                             ?>
                                         </td>
@@ -123,7 +130,7 @@ require_once "../common/header.php";
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">Ã—</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -150,7 +157,7 @@ require_once "../common/header.php";
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">Ã—</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="modal-body" style="margin: 20px">
@@ -164,34 +171,34 @@ require_once "../common/header.php";
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="submitGroupEdit()">Save</button>
+                <button class="btn btn-primary" onclick="submitGroupEditBySA()">Save</button>
             </div>
         </div>
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
 </div>
-<div class="modal fade" id="modal-GroupMember">
+
+<!-- popup form for display the member list of the group -->
+<div class="modal fade" id="modal-members">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Detail
+                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Member List
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">Ã—</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
-                    <table class="table table-hover" id="GroupMember-contanier">
-
+                    <table class="table table-hover" id="members-container">
+                                
                     </table>
                 </div>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 <?php require_once "../common/footer.php";?>

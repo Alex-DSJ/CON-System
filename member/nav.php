@@ -5,7 +5,7 @@
         <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Home</a></li>
         <li class="nav-item d-none d-sm-inline-block"><a href="social.php" class="nav-link">Social</a></li>
         <li class="nav-item d-none d-sm-inline-block"><a href="contract.php" class="nav-link">Contract</a></li>
-        <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">My Posting</a></li>
+        <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">Posting</a></li>
         <li class="nav-item d-none d-sm-inline-block"><a href="message.php" class="nav-link">Message</a></li>
         <li class="nav-item d-none d-sm-inline-block"><a href="base_info.php" class="nav-link">Base Info</a></li>
     </ul>

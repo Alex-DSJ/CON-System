@@ -118,7 +118,7 @@ function submitAdminEdit() {
     let id_edit = $('#id_edit').val();
 
     if (admin_username == '' || admin_password == '' || admin_building == '') {
-        alert('params err');
+        alert('ERROR! All parameters need to be filled.');
         return false;
     }
 
@@ -156,7 +156,7 @@ function submitAdmin() {
     let admin_building = $('#admin_building').val();
 
     if (admin_username == '' || admin_password == '' || admin_building == '') {
-        alert('params err');
+        alert('ERROR! All parameters need to be filled.');
         return false;
     }
 
@@ -168,8 +168,8 @@ function submitAdmin() {
             admin_password:admin_password,
             admin_building:admin_building,
         },
-        dataType:'json',
-        type:'post',
+        dataType:'JSON',
+        type:'POST',
         success:function (res) {
             alert(res.msg)
             if(res.success == true) {
@@ -195,8 +195,8 @@ function delAdmin(e) {
             act:"del_admin",
             id:id
         },
-        dataType:'json',
-        type:'post',
+        dataType:'JSON',
+        type:'POST',
         success:function (res) {
             alert(res.msg)
             if(res.success == true) {
@@ -208,7 +208,7 @@ function delAdmin(e) {
         error:function (jqXHR, textStatus, errorThrown) {
             alert(jqXHR.responseText);
         }
-    })
+    });
 }
 
 // open the popup form for edit an associaiton admin
@@ -314,7 +314,6 @@ function submitBuilding() {
     })
 }
 
-
 function submitAdminAssignment(e){
 
     let selectTag = document.getElementsByClassName('form-control')[6];
@@ -386,13 +385,7 @@ function submitBuildingEdit() {
             }
         },
         error:function (jqXHR, textStatus, errorThrown) {
-            // error detail
             alert(jqXHR.responseText);
-            // alert(jqXHR.status);
-            // alert(jqXHR.readyState);
-            // alert(jqXHR.statusText);
-            // alert(textStatus);
-            // alert(errorThrown);
         }
     })
 }
@@ -402,62 +395,32 @@ function addContract() {
     $('#modal-add-contract').modal('show')
 }
 
-// TODO update the contract into the databse
-
-function updateContract() {
-    let status = $("#status option:selected").val()
-    if (status == '') {
-        return false;
-    }
-
-    $.ajax({
-      url: COMMON_API,
-      data: {
-          act: "update_contract",
-          id: $('#edit_id').val(),
-          status: status,
-      },
-      dataType: 'json',
-      type: 'post',
-      success: function (res) {
-        alert(res.msg)
-        if (res.success == true) {
-          window.location.reload()
-        } else {
-          return false;
-        }
-      },
-      error:function (jqXHR, textStatus, errorThrown) {
-        // error detail
-        alert(jqXHR.responseText);
-        // alert(jqXHR.status);
-        // alert(jqXHR.readyState);
-        // alert(jqXHR.statusText);
-        // alert(textStatus);
-        // alert(errorThrown);
-      }
-    })
-}
-
-function submitContract()
+function submitContractBySA()
 {
     let content = $('#content').val()
     let title = $('#title').val()
     let status = $("#status option:selected").val()
+    let role = $("#creator :selected").parent().attr('label');
+    let name = $("#creator :selected").text();
+    let id = $("#creator :selected").val();
     if (content == '' || title == '' || status == '') {
-        return false;
+      alert("ERROR! All parameters need to be filled.");
+      return false;
     }
 
     $.ajax({
         url: COMMON_API,
         data: {
-            act: "add_contract",
+            act: "sadmin_add_contract",
             content: content,
             title: title,
             status: status,
+            role: role,
+            name: name,
+            id: id,
         },
-        dataType: 'json',
-        type: 'post',
+        dataType: 'JSON',
+        type: 'POST',
         success: function (res) {
             alert(res.msg)
             if (res.success == true) {
@@ -474,7 +437,58 @@ function submitContract()
           // alert(jqXHR.statusText);
           // alert(textStatus);
         }  
-    })
+    });
+}
+
+// display the popup form for editing contract from the super admin
+function editContractBySA(e) {
+
+  let info = e.parent().data('info')
+  info = JSON.parse(decodeURIComponent(info))
+  $('#id_edit').val(info.id)
+  $('#title_edit').val(info.title)
+  $('#status_edit').val(info.status)
+  $('#content_edit').val(info.content)
+  $('#modal-edit-contract').modal('show')
+}
+
+// update a contract by the super admin
+function updateContractBySA() {
+  let content = $('#content_edit').val()
+  let title = $('#title_edit').val()
+  let status = $("#status_edit option:selected").val()
+  let role = $("#creator_edit :selected").parent().attr('label');
+  // let name = $("#creator_edit :selected").text();
+  let creator_id = $("#creator_edit :selected").val();
+  let id = $('#id_edit').val()
+
+
+  $.ajax({
+    url: COMMON_API,
+    data: {
+        act: "sadmin_update_contract",
+        id: id,
+        title: title,
+        content: content,
+        status: status,
+        creator_id: creator_id,
+        role: role,
+        // name: name,
+    },
+    dataType: 'JSON',
+    type: 'POST',
+    success: function (res) {
+      alert(res.msg)
+      if (res.success == true) {
+        window.location.reload()
+      } else {
+        return false;
+      }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      alert(jqXHR.responseText);
+    }
+  })
 }
 
 // add condo information with associated building
@@ -570,6 +584,431 @@ function submitCondoEdit1() {
   });
 }
 
+// add a member to the database by the super admin
+function submitMemberBySA() {
+  let name = $("#name").val();
+  let password = $("#password").val();
+  let address = $("#address").val();
+  let email = $("#email").val();
+  let family = $("#family").val();
+  let colleagues = $("#colleagues").val();
+  let privilege = $("#privilege").val();
+  let status = $("#status").val();
+  let condo_id = $("#condo option:selected").val();
+
+  if (name == "" || password == "" || address == "" || email == "" || condo_id == "") {
+    alert("ERROR! All * parameters need to be filled");
+    return false;
+  }
+
+  $.ajax({
+    url: COMMON_API,
+    data: {
+      act: "sadmin_add_member",
+      name: name,
+      password: password,
+      address: address,
+      email: email,
+      family: family,
+      colleagues: colleagues,
+      privilege: privilege,
+      status: status,
+      condo_id: condo_id,
+    },
+    dataType: "JSON",
+    type: "POST",
+    success: function (res) {
+      alert(res.msg);
+      if (res.success == true) {
+        window.location.reload();
+      } else {
+        return false;
+      }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      // error detail
+      alert(jqXHR.responseText);
+    }  
+  });
+}
+
+// update a member by the super admin
+function submitMemberEditBySA() {
+  let id = $("#id_edit").val();
+  let name = $("#name_edit").val();
+  let password = $("#password_edit").val();
+  let address = $("#address_edit").val();
+  let email = $("#email_edit").val();
+  let family = $("#family_edit").val();
+  let colleagues = $("#colleagues_edit").val();
+  let privilege = $("#privilege_edit").val();
+  let status = $("#status_edit").val();
+  let condo_id = $("#condos_edit option:selected").val();
+
+  if (name == "" || password == "" || address == "" || email == "") {
+    alert("ERROR! All * parameters need to be filled");
+    return false;
+  }
+
+  $.ajax({
+    url: COMMON_API,
+    data: {
+      act: "sadmin_edit_member",
+      id: id,
+      password: password,
+      name: name,
+      address: address,
+      email: email,
+      family: family,
+      colleagues: colleagues,
+      privilege: privilege,
+      status: status,
+      condo_id: condo_id
+    },
+    dataType: "JSON",
+    type: "POST",
+    success: function (res) {
+      alert(res.msg);
+      if (res.success == true) {
+        window.location.reload();
+      } else {
+        return false;
+      }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      // error detail
+      alert(jqXHR.responseText);
+    }  
+  });
+}
+
+// delete a condo for a member by the super admin
+function delMemberCondo(id){
+  $.ajax({
+    url: COMMON_API,
+    data: {
+      act: "del_member_condo",
+      id: id,
+    },
+    dataType: "JSON",
+    type: "POST",
+    success: function (res) {
+      alert(res.msg);
+      if (res.success == true) {
+        window.location.reload();
+      } else {
+        return false;
+      }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      alert(jqXHR.responseText);
+    }
+  });
+}
+
+  // show all the information of posting of the member
+function detailPostingSA(e) {
+  let id = e.parent().data("id");
+  window.location.href = "../admin/posting_templ.php?act=view&id=" + id;
+}
+
+// display the popup form for display members of the group
+function displayMembers(e){
+  let id = e.data('id');
+  var out;
+  $.ajax({
+    url: COMMON_API,
+    data: {
+      act: "sadmin_member_group",
+      id: id,
+    },
+    dataType: "json",
+    type: "post",
+    async: false,
+    success: function (res) {
+      if (res.success == true) {
+        out = res.data;
+      } else {
+        alert(res.msg);
+        return false;
+      }
+    },
+    error: function () {
+      alert("server error");
+    },
+  });
+
+  //generate the table
+  var tableTag = document.getElementById('members-container');
+  $('#members-container').empty();
+  out.forEach(item => {
+    var member_group_id = item['id'];
+    var member_id = item['member_id'];
+    var memberName = item['name'];
+    var trTag = document.createElement('tr');
+    var tdID = document.createElement('td');
+    var idText = document.createTextNode(member_group_id);
+    tdID.appendChild(idText);
+    tdID.setAttribute('hidden', '');
+    var tdName = document.createElement('td');
+    var nameText = document.createTextNode(memberName);
+    tdName.appendChild(nameText);
+    var aButton = document.createElement('button');
+    var tdButton = document.createElement('td');
+    aButton.setAttribute('class', 'btn btn-danger btn-sm');
+    aButton.innerHTML = 'Del';
+    tdButton.addEventListener('click', function(){
+      console.log(member_group_id);
+      delMemberGroup1(member_group_id);
+    });
+    tdButton.appendChild(aButton)
+    trTag.appendChild(tdID);
+    trTag.appendChild(tdName);
+    trTag.appendChild(tdButton);
+    tableTag.appendChild(trTag);
+  });
+
+  $('#modal-members').modal('show');
+}
+
+function delMemberGroup1(id){
+  // invoke withdrawGroupHandler() method, api is withdraw_group
+  console.log(id);
+  $.ajax({
+    url: COMMON_API,
+    data: {
+      act: "withdraw_group",
+      id: id,
+    },
+    dataType: "JSON",
+    type: "POST",
+    async: false,
+   success: function (res) {
+      if (res.success == true) {
+        window.location.reload();
+      } else {
+        alert(res.msg);
+        return false;
+      }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+        alert(jqXHR.responseText);
+    }
+  });
+
+  $('#modal-members').modal('hide');
+}
+
+// update group info by the super admin
+function submitGroupEditBySA() {
+  let id = $("#id_edit").val();
+  let name = $("#name_edit").val();
+  let desc = $("#desc_edit").val();
+
+  if (name == "" || desc == "") {
+    alert("params err");
+    return false;
+  }
+
+  $.ajax({
+    url: COMMON_API,
+    data: {
+      act: "sadmin_edit_group",
+      id: id,
+      name: name,
+      desc: desc,
+    },
+    dataType: "JSON",
+    type: "POST",
+    success: function (res) {
+      alert(res.msg);
+      if (res.success == true) {
+        window.location.reload();
+      } else {
+        return false;
+      }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      alert(jqXHR.responseText);
+  }
+  });
+}
+
+// group apply handler by the super admin
+function handleApplyBySA(e, type) {
+  let info = e.parent().data("info");
+  info = JSON.parse(decodeURIComponent(info));
+  let member_id = info.member_id;
+  let group_id = info.group_id;
+  let id = info.id;
+  console.log(id);
+  console.log(member_id);
+  console.log(group_id);
+  console.log(type);
+  $.ajax({
+    url: COMMON_API,
+    data: {
+      act: "sadmin_handle_group_apply",
+      id: id,
+      member_id: member_id,
+      group_id: group_id,
+      type: type,
+    },
+    dataType: "json",
+    type: "post",
+    success: function (res) {
+      if (res.success == true) {
+        window.location.reload();
+      } else {
+        alert(res.msg);
+        return false;
+      }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      alert(jqXHR.responseText);
+  }
+  });
+}
+
+// display the popup form to add an email
+function addEmail(){
+  $('#modal-add-email').modal('show');
+}
+
+// add an email to the database by the super admin
+function submitEmail(){
+  let title = $('#title').val();
+  let sender_id = $('#sender option:selected').val();
+  let sender_name = $('#sender option:selected').text();
+  let receiver_id = $('#receiver option:selected').val();
+  let receiver_name = $('#receiver option:selected').text();
+  let content = $('#content').val();
+
+  if (title == '' || sender == '' || receiver == '' || content == '') {
+    alert("ERROR! All parameters need to be filled.");
+    return false;
+  }
+
+  $.ajax({
+    url: COMMON_API,
+    data: {
+        act: "sadmin_add_email",
+        content: content,
+        title: title,
+        sender_id: sender_id,
+        sender_name: sender_name,
+        receiver_id: receiver_id,
+        receiver_name: receiver_name
+    },
+    dataType: 'JSON',
+    type: 'POST',
+    success: function (res) {
+        alert(res.msg)
+        if (res.success == true) {
+            window.location.reload()
+        } else {
+            return false;
+        }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      alert(jqXHR.responseText);
+    }  
+  });
+}
+
+// display the popup form for editing an email by the super admin
+function editEmail(e){
+  let info = e.parent().data("info");
+  info = JSON.parse(decodeURIComponent(info));
+  $('#id_edit').val(info.id);
+  $('#title_edit').val(info.title);
+  $('#sender_edit').val(info.sender_id);
+  $('#receiver_edit').val(info.receiver_id);
+  $('#content_edit').val(info.content);
+  
+  $('#modal-edit-email').modal('show');
+}
+
+// update edited email to the database by the super admin
+function submitEmailEdit(){
+  let id = $('#id_edit').val();
+  let title = $('#title_edit').val();
+  let sender_id = $('#sender_edit option:selected').val();
+  let sender_name = $('#sender_edit option:selected').text();
+  let receiver_id = $('#receiver_edit option:selected').val();
+  let receiver_name = $('#receiver_edit option:selected').text();
+  let content = $('#content_edit').val();
+
+  if (title == '' || sender_id == '' || receiver_id == '' || content == '') {
+    alert("ERROR! All parameters need to be filled.");
+    return false;
+  }
+
+  $.ajax({
+    url: COMMON_API,
+    data: {
+        act: "sadmin_edit_email",
+        id: id,
+        content: content,
+        title: title,
+        sender_id: sender_id,
+        sender_name: sender_name,
+        receiver_id: receiver_id,
+        receiver_name: receiver_name
+    },
+    dataType: 'JSON',
+    type: 'POST',
+    success: function (res) {
+        alert(res.msg)
+        if (res.success == true) {
+            window.location.reload()
+        } else {
+            return false;
+        }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      alert(jqXHR.responseText);
+    }  
+  });
+}
+
+// delete an email by the super admin
+function delEmail(e){
+  let id = e.parent().data("id");
+
+  $.ajax({
+    url:COMMON_API,
+    data:{
+        act:"sadmin_del_email",
+        id:id
+    },
+    dataType:'JSON',
+    type:'POST',
+    success:function (res) {
+        alert(res.msg)
+        if(res.success == true) {
+            window.location.reload()
+        } else {
+            return false;
+        }
+    },
+    error:function (jqXHR, textStatus, errorThrown) {
+        alert(jqXHR.responseText);
+    }
+  });
+}
+
+function showCondoSA(id){
+  // console.log(id);
+  var res = getCondos(id);
+  console.log(res);
+  var t = "";
+  $.each(res, function (k, item) {
+    t += `<tr><td hidden>${item.id}</td><td>${item.name}</td><td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>"><button class="btn btn-danger btn-sm" onclick="delMemberCondo(${item.id})">Del</button></td></tr>`;
+  });
+  $("#condos-contanier").empty().append(t);
+  $("#modal-condos").modal("show");
+}
 
 /* --------********--------********--------********--------********--------********
 Functions for the SUPER ADMIN ends here
@@ -775,6 +1214,7 @@ function submitGroup() {
 
 // submit the from to add a edited group info to the database
 function submitGroupEdit() {
+  let id = $("#id_edit").val();
   let name = $("#name_edit").val();
   let desc = $("#desc_edit").val();
 
@@ -787,12 +1227,12 @@ function submitGroupEdit() {
     url: COMMON_API,
     data: {
       act: "edit_group",
-      id: $("#id_edit").val(),
+      id: id,
       name: name,
       desc: desc,
     },
-    dataType: "json",
-    type: "post",
+    dataType: "JSON",
+    type: "POST",
     success: function (res) {
       alert(res.msg);
       if (res.success == true) {
@@ -801,9 +1241,9 @@ function submitGroupEdit() {
         return false;
       }
     },
-    error: function () {
-      alert("server error");
-    },
+    error:function (jqXHR, textStatus, errorThrown) {
+      alert(jqXHR.responseText);
+  }
   });
 }
 
@@ -834,7 +1274,71 @@ function handleApply(e, type) {
     },
   });
 }
+//get member group
 
+function getGroupMember(id) {
+    var out
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "member_within_groups",
+            id: id,
+        },
+        dataType: "json",
+        type: "post",
+        async: false,
+        success: function (res) {
+            if (res.success == true) {
+                out = res.data;
+            } else {
+                alert(res.msg);
+                return false;
+            }
+        },
+        error: function () {
+            alert("server error group member");
+        },
+    });
+    return out;
+}
+
+// function delMemberGroup(id){
+//     let id = document.getElementById('delete_id').innerHTML;
+//     $.ajax({
+//         url: COMMON_API,
+//         data: {
+//             act: "delete_member_groups",
+//             id: id,
+//         },
+//         dataType: "JSON",
+//         type: "POST",
+//         success: function (res) {
+//             alert(res.msg);
+//             if (res.success == true) {
+//                 window.location.reload();
+//             } else {
+//                 return false;
+//             }
+//         },
+//         error:function (jqXHR, textStatus, errorThrown) {
+//             alert(jqXHR.responseText);
+//         }
+//     });}
+
+function detailGroupMember(id){
+    var res = getGroupMember(id);
+    var t = "";
+    $.each(res, function (k, item) {
+        t += `<tr><td id="delete_id">${item.member_groupId}</td><td>${item.name}</td><td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>"><button class="btn btn-danger btn-sm" onclick="delMemberGroup()">Del</button></td></tr>`;
+    });
+    if(t == ""){
+        $("#GroupMember-contanier").empty().append("no member yet");
+    }
+    else {
+        $("#GroupMember-contanier").empty().append(t);
+    }
+    $("#modal-GroupMember").modal("show");
+}
 /* --------********--------********--------********--------********--------********
 Functions for the GROUP ends here
 author: saebom SHIN (40054234)
@@ -852,149 +1356,148 @@ function addMember() {
 
 // open the popup form for edit member
 function editMember(e) {
-  let info = e.parent().data("info");
-  info = JSON.parse(decodeURIComponent(info));
-  console.log(info);
-  $("#id_edit").val(info.id);
-  $("#name_edit").val(info.name);
-  $("#password_edit").val(info.password);
-  $("#address_edit").val(info.address);
-  $("#email_edit").val(info.email);
-  $("#family_edit").val(info.family);
-  $("#colleagues_edit").val(info.colleagues);
-  $("#privilege_edit").val(info.privilege);
-  $("#status_edit").val(info.status);
+    let info = e.parent().data("info");
+    info = JSON.parse(decodeURIComponent(info));
+    console.log(info);
+    $("#id_edit").val(info.id);
+    $("#name_edit").val(info.name);
+    $("#password_edit").val(info.password);
+    $("#address_edit").val(info.address);
+    $("#email_edit").val(info.email);
+    $("#family_edit").val(info.family);
+    $("#colleagues_edit").val(info.colleagues);
+    $("#privilege_edit").val(info.privilege);
+    $("#status_edit").val(info.status);
 
-  let condos = getCondos(info.id);
-  if (condos) {
-    var selectCondos = [];
-    $.each(condos, function (k, item) {
-      selectCondos.push(item.id);
-    });
-    $("#condos_edit").val(selectCondos);
-  }
+    let condos = getCondos(info.id);
+    if (condos) {
+        var selectCondos = [];
+        $.each(condos, function (k, item) {
+            selectCondos.push(item.id);
+        });
+        $("#condos_edit").val(selectCondos);
+    }
 
-  $("#modal-edit-member").modal("show");
+    $("#modal-edit-member").modal("show");
 }
 
 // delete member
 function delMember(e) {
-  let id = e.parent().data("id");
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "del_member",
-      id: id,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
-        return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+    let id = e.parent().data("id");
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "del_member",
+            id: id,
+        },
+        dataType: "json",
+        type: "post",
+        success: function (res) {
+            alert(res.msg);
+            if (res.success == true) {
+                window.location.reload();
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert("server error");
+        },
+    });
 }
-
 // add members information
 function submitMember() {
-  let name = $("#name").val();
-  let password = $("#password").val();
-  let address = $("#address").val();
-  let email = $("#email").val();
-  let family = $("#family").val();
-  let colleagues = $("#colleagues").val();
-  let privilege = $("#privilege").val();
-  let status = $("#status").val();
-  let condos = $("#condos").val();
+    let name = $("#name").val();
+    let password = $("#password").val();
+    let address = $("#address").val();
+    let email = name+"@con.com";
+    let family = $("#family").val();
+    let colleagues = $("#colleagues").val();
+    let privilege = $("#privilege").val();
+    let status = $("#status").val();
+    let condos = $("#condos").val();
 
-  if (name == "" || password == "" || address == "" || email == "" || !condos) {
-    alert("params err");
-    return false;
-  }
-
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "add_member",
-      name: name,
-      password: password,
-      address: address,
-      email: email,
-      family: family,
-      colleagues: colleagues,
-      privilege: privilege,
-      status: status,
-      condos: condos,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
+    if (name == "" || password == "" || address == "" || email == "" || !condos || condos ==="") {
+        alert("params err");
         return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+    }
+
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "add_member",
+            name: name,
+            password: password,
+            address: address,
+            email: email,
+            family: family,
+            colleagues: colleagues,
+            privilege: privilege,
+            status: status,
+            condos: condos,
+        },
+        dataType: "json",
+        type: "post",
+        success: function (res) {
+            alert(res.msg);
+            if (res.success == true) {
+                window.location.reload();
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert("server error");
+        },
+    });
 }
 
 // update the edit member's information
 function submitMemberEdit() {
-  let name = $("#name_edit").val();
-  let password = $("#password_edit").val();
-  let address = $("#address_edit").val();
-  let email = $("#email_edit").val();
-  let family = $("#family_edit").val();
-  let colleagues = $("#colleagues_edit").val();
-  let privilege = $("#privilege_edit").val();
-  let status = $("#status_edit").val();
-  let condos = $("#condos_edit").val();
+    let name = $("#name_edit").val();
+    let password = $("#password_edit").val();
+    let address = $("#address_edit").val();
+    let email = name+"@con.com";
+    let family = $("#family_edit").val();
+    let colleagues = $("#colleagues_edit").val();
+    let privilege = $("#privilege_edit").val();
+    let status = $("#status_edit").val();
+    let condos = $("#condos_edit").val();
 
-  if (name == "" || password == "" || address == "" || email == "") {
-    alert("params err");
-    return false;
-  }
-
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "edit_member",
-      id: $("#id_edit").val(),
-      password: password,
-      name: name,
-      address: address,
-      email: email,
-      family: family,
-      colleagues: colleagues,
-      privilege: privilege,
-      status: status,
-      condos: condos,
-    },
-    dataType: "json",
-    type: "post",
-    success: function (res) {
-      alert(res.msg);
-      if (res.success == true) {
-        window.location.reload();
-      } else {
+    if (name == "" || password == "" || address == "" || email == "") {
+        alert("params err");
         return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
+    }
+
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "edit_member",
+            id: $("#id_edit").val(),
+            password: password,
+            name: name,
+            address: address,
+            email: email,
+            family: family,
+            colleagues: colleagues,
+            privilege: privilege,
+            status: status,
+            condos: condos,
+        },
+        dataType: "json",
+        type: "post",
+        success: function (res) {
+            alert(res.msg);
+            if (res.success == true) {
+                window.location.reload();
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert("server error");
+        },
+    });
 }
 
 /* --------********--------********--------********--------********--------********
@@ -1010,7 +1513,6 @@ author: saebom SHIN (40054234)
 // get the username and password
 // enter the index.php once it successes
 function admin_login() {
-  console.log("admin_login");
   let username = $("#username").val();
   let password = $("#password").val();
   if (username == "" || password == "") {
@@ -1038,6 +1540,75 @@ function admin_login() {
       alert("server error");
     },
   });
+}
+function getGroups(id) {
+    var out;
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "member_groups",
+            id: id,
+        },
+        dataType: "json",
+        type: "post",
+        async: false,
+        success: function (res) {
+            if (res.success == true) {
+                out = res.data;
+            } else {
+                alert(res.msg);
+                return false;
+            }
+        },
+        error: function () {
+            alert("server error");
+        },
+    });
+    return out;
+}
+function getCondos(id) {
+    var out;
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "member_condos",
+            id: id,
+        },
+        dataType: "json",
+        type: "post",
+        async: false,
+        success: function (res) {
+            if (res.success == true) {
+                out = res.data;
+            } else {
+                alert(res.msg);
+                return false;
+            }
+        },
+        error: function () {
+            alert("server error");
+        },
+    });
+    return out;
+}
+function showCondo(id){
+    console.log(id);
+    var res = getCondos(id);
+    var t = "";
+    $.each(res, function (k, item) {
+        t += `<tr><td>${item.name}</td></tr>`;
+    });
+    $("#condos-contanier").empty().append(t);
+    $("#modal-condos").modal("show");
+}
+function showGroup(id){
+    var res = getGroups(id);
+    var t = "";
+    $.each(res, function (k, item) {
+        t += `<tr><td>${item.group_name}</td></tr>`;
+    });
+    $("#condos-contanier").empty().append(t);
+    $("#modal-condos").modal("show");
 }
 
 /* --------********--------********--------********--------********--------********
@@ -1151,7 +1722,15 @@ function submitComment() {
     },
   });
 }
+function detailGroupPostingMember(id) {
+    window.location.href = "../member/groupPosting.php?id=" + id;
 
+}
+function detailGroupPostingOwner(id) {
+
+    window.location.href = "../owner/groupPosting.php?id=" + id;
+
+}
 /* --------********--------********--------********--------********--------********
 Functions for the POSTING ends here
 author: kimchhengheng (26809413)_saebom SHIN (40054234)
@@ -1196,7 +1775,124 @@ function member_login() {
 Functions for the Member ends here
 author: kimchhengheng (26809413) Yuxin Wang-40024855
 --------********--------********--------********--------********--------******** */
+/* --------********--------********--------********--------********--------********
+Functions for the Contract starts here
+author: Yuxin Wang-40024855
+--------********--------********--------********--------********--------******** */
 
+// delete a contract from the database
+function delContract(e) {
+    let id = e.parent().data('id');
+    $.ajax({
+        url:COMMON_API,
+        data:{
+            act:"del_contract",
+            id:id
+        },
+        dataType:'JSON',
+        type:'POST',
+        success:function (res) {
+            alert(res.msg)
+            if(res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            alert(jqXHR.responseText);
+        }
+    })
+}
+
+//edit contract
+function editContract(e) {
+
+    let info = e.parent().data('info')
+    info = JSON.parse(decodeURIComponent(info))
+    console.log(info)
+    $('#id_edit').val(info.id)
+    $('#title_edit').val(info.title)
+    $('#status_edit').val(info.status)
+    $('#content_edit').val(info.content)
+    $('#modal-edit-contract').modal('show')
+
+}
+function submitContractEdit() {
+    let status = $("#status_edit option:selected").val()
+    let title = $('#title_edit').val();
+    let content = $('#content_edit').val();
+    if (status == '') {
+        return false;
+    }
+
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "update_contract",
+            id: $('#id_edit').val(),
+            title: title,
+            content: content,
+            status: status,
+        },
+        dataType: 'json',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert('server error')
+        }
+    })
+}
+// add a new contract into the database
+function submitContract()
+{
+    let content = $('#content').val()
+    let title = $('#title').val()
+    let status = $("#status option:selected").val()
+    if (content == '' || title == '' || status == '') {
+        alert("ERROR! All parameters need to be filled.");
+        return false;
+    }
+
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "add_contract",
+            content: content,
+            title: title,
+            status: status,
+        },
+        dataType: 'JSON',
+        type: 'post',
+        success: function (res) {
+            alert(res.msg)
+            if (res.success == true) {
+                window.location.reload()
+            } else {
+                return false;
+            }
+        },
+        error:function (jqXHR, textStatus, errorThrown) {
+            // error detail
+            alert(jqXHR.responseText);
+            // alert(jqXHR.status);
+            // alert(jqXHR.readyState);
+            // alert(jqXHR.statusText);
+            // alert(textStatus);
+        }
+    })
+}
+/* --------********--------********--------********--------********--------********
+Functions for the Contract starts here
+author: Yuxin Wang-40024855
+--------********--------********--------********--------********--------******** */
 /* --------********--------********--------********--------********--------********
 Functions for the SOCIAL start here
 author: kimchhengheng (26809413)
@@ -1249,7 +1945,7 @@ function searchPosting() {
     success: function (res) {
       var t = "";
       $.each(res.data, function (k, item) {
-        t += `  <tr><td>${item.id}</td><td>${item.title}</td><td>${item.name}</td><td>${item.create_time}</td><td data-id="${item.id}"><button class="btn btn-primary btn-sm" onclick="detailPosting($(this))">detail</button></td></tr>`;
+        t += `  <tr><td id="delete_id">${item.id}</td><td>${item.title}</td><td>${item.name}</td><td>${item.create_time}</td><td><button class="btn btn-primary btn-sm" onclick="detailPosting($(this))">detail</button></td></tr>`;
       });
       $("#posting-search-container").empty().append(t);
     },
@@ -1286,6 +1982,54 @@ function searchGroup() {
       alert("server error");
     },
   });
+}
+
+function applyFriend(e){
+    let id = e.parent().data("id");
+    console.log(id);
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "apply_friend",
+            id: id,
+        },
+        dataType: "json",
+        type: "post",
+        success: function (res) {
+            alert(res.msg);
+            if (res.success == true) {
+                window.location.reload();
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert("server error");
+        },
+    });
+}
+function applyGroup(e){
+    let id = e.parent().data("id");
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "apply_group",
+            id: id,
+        },
+        dataType: "json",
+        type: "post",
+        success: function (res) {
+            alert(res.msg);
+            if (res.success == true) {
+                window.location.reload();
+            } else {
+                return false;
+            }
+        },
+        error: function () {
+            alert("server error");
+        },
+    });
 }
 /* --------********--------********--------********--------********--------********
 Functions for the SOCIAL start here
@@ -1396,190 +2140,56 @@ function unfriend(e) {
     },
   });
 }
+
+function comment(id){
+    $("#id_comment_edit").val(id);
+    $("#modal-add-comment").modal("show");
+}
+//button with class agree-friend would call the function when the button is click , but it is call after page is load
+//make http request to API.php then it would filter which function would handle the agree_friend_apply
+//reload page if it is success
+function agreeFriend(e){
+    let id = e.parent().data("id");
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "agree_friend_apply",
+            id: id,
+        },
+        dataType: "json",
+        type: "post",
+        success: function (res) {
+            alert(res.msg);
+            window.location.reload();
+        },
+        error: function () {
+            alert("server error");
+        },
+    });
+}
+//button with class disagree-friend would call the function when the button is click , but it is call after page is load
+//make http request to API.php then it would filter which function would handle the disagree_friend_apply
+//reload page if it is success
+function disagreeFriend(e){
+    let id = e.parent().data("id");
+    $.ajax({
+        url: COMMON_API,
+        data: {
+            act: "disagree_friend_apply",
+            id: id,
+        },
+        dataType: "json",
+        type: "post",
+        success: function (res) {
+            alert(res.msg);
+            window.location.reload();
+        },
+        error: function () {
+            alert("server error");
+        },
+    });
+}
 /* --------********--------********--------********--------********--------********
 Functions for the BASE_INFO start here
 author: Yuxin Wang-40024855
---------********--------********--------********--------********--------******** */
-/* --------********--------********--------********--------********--------********
-Functions to call when page finish reload
-author:
---------********--------********--------********--------********--------******** */
-//get member group
-function getGroups(id) {
-  var out;
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "member_groups",
-      id: id,
-    },
-    dataType: "json",
-    type: "post",
-    async: false,
-    success: function (res) {
-      if (res.success == true) {
-        out = res.data;
-      } else {
-        alert(res.msg);
-        return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
-  return out;
-}
-function getCondos(id) {
-  var out;
-  $.ajax({
-    url: COMMON_API,
-    data: {
-      act: "member_condos",
-      id: id,
-    },
-    dataType: "json",
-    type: "post",
-    async: false,
-    success: function (res) {
-      if (res.success == true) {
-        out = res.data;
-      } else {
-        alert(res.msg);
-        return false;
-      }
-    },
-    error: function () {
-      alert("server error");
-    },
-  });
-  return out;
-}
-$(function () {
-  $("body").on("click", ".show-condos", function () {
-    let id = $(this).data("id");
-    console.log(id);
-    var res = getCondos(id);
-    var t = "";
-    $.each(res, function (k, item) {
-      t += `<tr><td>${item.name}</td></tr>`;
-    });
-    $("#condos-contanier").empty().append(t);
-    $("#modal-condos").modal("show");
-  });
-
-  $("body").on("click", ".show-groups", function () {
-    let id = $(this).data("id");
-    console.log(id);
-    var res = getGroups(id);
-    var t = "";
-    $.each(res, function (k, item) {
-      t += `<tr><td>${item.group_name}</td></tr>`;
-    });
-    $("#condos-contanier").empty().append(t);
-    $("#modal-condos").modal("show");
-  });
-
-  $("body").on("click", ".apply-friend", function () {
-    let id = $(this).parent().data("id");
-    console.log(id);
-    $.ajax({
-      url: COMMON_API,
-      data: {
-        act: "apply_friend",
-        id: id,
-      },
-      dataType: "json",
-      type: "post",
-      success: function (res) {
-        alert(res.msg);
-        if (res.success == true) {
-          window.location.reload();
-        } else {
-          return false;
-        }
-      },
-      error: function () {
-        alert("server error");
-      },
-    });
-  });
-
-  $("body").on("click", ".apply-group", function () {
-    let id = $(this).parent().data("id");
-    $.ajax({
-      url: COMMON_API,
-      data: {
-        act: "apply_group",
-        id: id,
-      },
-      dataType: "json",
-      type: "post",
-      success: function (res) {
-        alert(res.msg);
-        if (res.success == true) {
-          window.location.reload();
-        } else {
-          return false;
-        }
-      },
-      error: function () {
-        alert("server error");
-      },
-    });
-  });
-
-  $("body").on("click", ".comment", function () {
-    let id = $(this).data("id");
-    $("#id_comment_edit").val(id);
-    $("#modal-add-comment").modal("show");
-  });
-  //button with class disagree-friend would call the function when the button is click , but it is call after page is load
-  //make http request to API.php then it would filter which function would handle the disagree_friend_apply
-  //reload page if it is success
-  $("body").on("click", ".disagree-friend", function () {
-    let id = $(this).parent().data("id");
-    $.ajax({
-      url: COMMON_API,
-      data: {
-        act: "disagree_friend_apply",
-        id: id,
-      },
-      dataType: "json",
-      type: "post",
-      success: function (res) {
-        alert(res.msg);
-        window.location.reload();
-      },
-      error: function () {
-        alert("server error");
-      },
-    });
-  });
-  //button with class agree-friend would call the function when the button is click , but it is call after page is load
-  //make http request to API.php then it would filter which function would handle the agree_friend_apply
-  //reload page if it is success
-  $("body").on("click", ".agree-friend", function () {
-    let id = $(this).parent().data("id");
-    $.ajax({
-      url: COMMON_API,
-      data: {
-        act: "agree_friend_apply",
-        id: id,
-      },
-      dataType: "json",
-      type: "post",
-      success: function (res) {
-        alert(res.msg);
-        window.location.reload();
-      },
-      error: function () {
-        alert("server error");
-      },
-    });
-  });
-});
-/* --------********--------********--------********--------********--------********
-Functions to call when page finish reload
-author:
 --------********--------********--------********--------********--------******** */

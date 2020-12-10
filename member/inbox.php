@@ -1,37 +1,29 @@
-<!-- This file is completed by kimchhengheng-26809413 individually -->
-<!-- all required php files here -->
-<?php 
-    require_once "../common/header.php";
-    require_once "../func/func.php";
-
-?>
-<!-- all required js files here -->
-<script src="../static/functions.js"></script>
 <?php
+require_once "../func/func.php";
 if (checkMemberLogin() == false) {
-    header("Location:./login.php");
+   header("Location: ./login.php");
 }
 $dataList = getInboxMessage();
+require_once "../common/header.php";
 ?>
+<!-- This file is completed by kimchhengheng-26809413 individually -->
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
 <div class="wrapper">
-
-    <?php require_once "nav.php"?>
+    <?php require_once "nav.php";?>
     <section class="content">
         <div class="container-fluid">
-
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">InBox Message</h3>
                         </div>
-
                         <div class="card-body">
                             <div style="margin-bottom: 10px">
                                 <button class="btn btn-primary btn-sm" onclick="window.location.href='inbox.php'">Inbox <i class="fas fa-inbox"></i></button>
                                 <button class="btn btn-primary btn-sm" onclick="window.location.href='sentbox.php'">SendBox <i class="fas fa-paper-plane"></i></button>
                             </div>
-
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
@@ -58,12 +50,9 @@ $dataList = getInboxMessage();
                             </table>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
 </div>
-
-
 <?php require_once "../common/footer.php";?>
