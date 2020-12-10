@@ -367,7 +367,7 @@ function addMemberHandler1()
     global $inputs;
 
     if (emailRepeated($inputs['email'])) {
-        formatOutput(false, 'ERROR! The email address already existed, please choose another one.');
+        formatOutput(false, "ERROR! The email address " . $inputs['email'] ." already existed, please choose another one.");
     }
 
     $lastId = insert('member',[
@@ -554,14 +554,15 @@ function delEmailHandler1(){
 
 // check if the email address is repeated
 function emailRepeated($email){
-    global $email;
+    // global $email;
 
-    $sql = 'SELECT count(*) FROM member WHERE email = ' . $email;
-    if (getAll($sql) > 0) {
-        return true;
+    $sql = "SELECT * FROM member WHERE email = '" . $email . "'";
+    $result = getAll($sql);
+    if (empty($result)) {
+        return false;
     }
     else {
-        return false;
+        return true;
     }
     
 }

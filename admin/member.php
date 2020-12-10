@@ -121,8 +121,8 @@ foreach ($condoList as $item) {
                         <!-- TODO get the condo list -->
                         <?php echo $condoStr; ?>
                     </select>
-                    <label for=""><span style="color: red">*</span>Email</label>
-                    <input type="email" class="form-control" id="email">
+                    <!-- <label for=""><span style="color: red">*</span>Email</label> -->
+                    <!-- <input type="email" class="form-control" id="email"> -->
                     <label for="">Family</label>
                     <input type="text" class="form-control" id="family">
                     <label for="">Colleagues</label>
@@ -173,8 +173,8 @@ foreach ($condoList as $item) {
                     <select name="" id="condos_edit" class="form-control">
                         <?php echo $condoStr; ?>
                     </select>
-                    <label for=""><span style="color: red">*</span>Email</label>
-                    <input type="email" class="form-control" id="email_edit">
+                    <!-- <label for=""><span style="color: red">*</span>Email</label> -->
+                    <!-- <input type="email" class="form-control" id="email_edit"> -->
                     <label for="">Family</label>
                     <input type="text" class="form-control" id="family_edit">
                     <label for="">Colleagues</label>

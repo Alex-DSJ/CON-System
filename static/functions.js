@@ -595,14 +595,14 @@ function submitMemberBySA() {
   let name = $("#name").val();
   let password = $("#password").val();
   let address = $("#address").val();
-  let email = $("#email").val();
+  let email = name + "@con.com";
   let family = $("#family").val();
   let colleagues = $("#colleagues").val();
   let privilege = $("#privilege").val();
   let status = $("#status").val();
   let condo_id = $("#condo option:selected").val();
 
-  if (name == "" || password == "" || address == "" || email == "" || condo_id == "") {
+  if (name == "" || password == "" || address == "" || condo_id == "") {
     alert("ERROR! All * parameters need to be filled");
     return false;
   }
@@ -644,7 +644,7 @@ function submitMemberEditBySA() {
   let name = $("#name_edit").val();
   let password = $("#password_edit").val();
   let address = $("#address_edit").val();
-  let email = $("#email_edit").val();
+  let email = name + "@con.com";
   let family = $("#family_edit").val();
   let colleagues = $("#colleagues_edit").val();
   let privilege = $("#privilege_edit").val();
