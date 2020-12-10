@@ -44,12 +44,13 @@ function clearLogin() {
 function loginHandler($inputs = []) {
     $username = $inputs['username'];
     $password = $inputs['password'];
-    $sql = 'SELECT * FROM `admin` WHERE name = ? AND password = ?';
+    $sql = 'SELECT * FROM `admin` WHERE `name` = ? AND password = ?';
     $res = getOne($sql, [$username, $password]);
-    $buildingRes = getOne("SELECT * FROM `admin_building` WHERE admin_id =?", [$res['id']]);
     if (!$res) {
         formatOutput(false, 'username or password error');
-    } else {
+    }
+    else{
+        $buildingRes = getOne("SELECT * FROM `admin_building` WHERE admin_id =?", [$res['id']]);
         $bid = isset($buildingRes['building_id']) ? $buildingRes['building_id'] : '0';
         setLogin($res['id'],$bid);
         formatOutput(true, 'login success', $res);
@@ -63,7 +64,7 @@ function resetHandler($inputs = []) {
     } else {
         $username = $inputs['username'];
         $password = $inputs['password'];
-        if ($username == 'admin' || $inputs['password'] == 'admin') {
+        if ( $password == 'admin') {
             formatOutput(false, 'Initial information must be changed after the first login');
         } else {
             $res = updateDb('admin',[
