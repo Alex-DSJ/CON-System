@@ -1,24 +1,25 @@
-<!-- This file is completed by shijun DENG-40084956, refer from .owner/member.php -->
-
-<!-- required php files and necessary data generation here -->
 <?php
-require_once "../common/header.php";
 require_once "../func/func.php";
 
 if (checkUserLogin() == false) {
-    header("Location:/owner/login.php");
+    header("Location:/admin/login.php");
 }
 $dataList = getMemberList();
-$condo = getCondoList();
-$condoStr = '';
-foreach ($condo as $item) {
+$condoList = getAllCondos();
+$condoStr = "<option value=''>Please Select</option>";
+foreach ($condoList as $item) {
     $condoStr .= "<option value='{$item['id']}'>{$item['name']}</option>";
 }
 ?>
 
+<!-- This file is completed by shijun DENG-40084956, refer from .owner/member.php -->
+
 <!-- required scripts and external resources here -->
 <link href="https://cdn.bootcss.com/bootstrap-select/1.13.10/css/bootstrap-select.min.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
+
+<!-- required php files and necessary data generation here -->
+<?php require_once "../common/header.php"; ?>
 
 <!-- page starts here -->
 <div class="wrapper">
@@ -68,8 +69,8 @@ foreach ($condo as $item) {
                                         <td><?php echo $item['name'] ?></td>
                                         <td><?php echo $item['address'] ?></td>
                                         <td><?php echo $item['email'] ?></td>
-                                        <td><button class="btn btn-dark show-condos" data-id="<?php echo $item['id'] ?>">Condos</button></td>
-                                        <td><button class="btn btn-dark show-groups" data-id="<?php echo $item['id'] ?>">Groups</button></td>
+                                        <td><button class="btn btn-dark" data-id="<?php echo $item['id'] ?>" onclick="showCondoSA(<?php echo $item['id'] ?>)">condos</button></td>
+                                        <td><button class="btn btn-dark" data-id="<?php echo $item['id'] ?>" onclick="showGroup(<?php echo $item['id'] ?>)">groups</button></td>
                                         <td><?php echo $item['family'] ?></td>
                                         <td><?php echo $item['colleagues'] ?></td>
                                         <td><?php echo $item['privilege'] ?></td>
@@ -115,8 +116,8 @@ foreach ($condo as $item) {
                     <input type="password" class="form-control" id="password">
                     <label for=""><span style="color: red">*</span>Address</label>
                     <input type="text" class="form-control" id="address">
-                    <label for=""><span style="color: red">*</span>Condos</label>
-                    <select name="" id="condos" class="selectpicker form-control" data-live-search="true" multiple title="Please Select">
+                    <label for=""><span style="color: red">*</span>Condo</label>
+                    <select name="" id="condo" class="form-control">
                         <!-- TODO get the condo list -->
                         <?php echo $condoStr; ?>
                     </select>
@@ -142,7 +143,7 @@ foreach ($condo as $item) {
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="submitMember()">Save</button>
+                <button class="btn btn-primary" onclick="submitMemberBySA()">Save</button>
             </div>
         </div>
     </div>
@@ -168,8 +169,8 @@ foreach ($condo as $item) {
                     <input type="password" class="form-control" id="password_edit">
                     <label for=""><span style="color: red">*</span>Address</label>
                     <input type="text" class="form-control" id="address_edit">
-                    <label for=""><span style="color: red">*</span>Condos</label>
-                    <select name="" id="condos_edit" class="selectpicker form-control" data-live-search="true" multiple title="Please Select">
+                    <label for="">Condo</label>
+                    <select name="" id="condos_edit" class="form-control">
                         <?php echo $condoStr; ?>
                     </select>
                     <label for=""><span style="color: red">*</span>Email</label>
@@ -194,13 +195,13 @@ foreach ($condo as $item) {
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="submitMemberEdit()">Save</button>
+                <button class="btn btn-primary" onclick="submitMemberEditBySA()">Save</button>
             </div>
         </div>
     </div>
 </div>
 
-
+<!-- popup form for display the condo list of the member -->
 <div class="modal fade" id="modal-condos">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -222,8 +223,3 @@ foreach ($condo as $item) {
     </div>
 </div>
 <?php require_once "../common/footer.php";?>
-<script>
-    $(function () {
-        $('.selectpicker').selectpicker()
-    })
-</script>

@@ -1,25 +1,29 @@
-<?php 
+<?php
 require_once "../func/func.php";
 
 if (checkUserLogin() == false) {
-    header("Location:/owner/login.php");
+    header("Location:/admin/login.php");
 }
+
 if (isset($_GET['id'])) {
     $info = getPostingInfo($_GET['id']);
     $comment = getPostingComment($_GET['id']);
 } else {
     $info = [];
 }
-$groupInfo = getMemberGroupInfo();
-require_once "../common/header.php";
 ?>
+<!-- This file is completed by shijun DENG-40084956 refers to /owner/posting_template.php -->
+
 <!-- all required js files here -->
 <script src="../static/ajaxfileupload.js"></script>
 <script src="../static/functions.js"></script>
-<!-- This file is completed by saebom SHIN-40054234 individually -->
+
+<!-- all required php files here -->
+<?php require_once "../common/header.php"; ?>
+
 <div class="wrapper">
     <!-- navbar -->
-    <?php require_once "nav.php";?>
+    <?php require_once "navbar.php" ?>
     <!-- main table of the condo tab -->
     <section class="content">
         <div class="container-fluid">
@@ -50,11 +54,23 @@ require_once "../common/header.php";
                                     </div>
                                     <div class="row">
                                         <select id="status" class="form-control">
-                                            <option value="<?php echo $info['status']?>"><?php echo $info['status']?></option>
+                                            <option value="public">public</option>
+                                            <?php
+                                            foreach ($groupInfo as $item) {
+                                                ?>
+                                                <option value="<?php echo $item['group_name']?>" <?php
+                                                if(strcmp($item['group_name'],$info['status'])==0)
+                                                    echo "selected"?>>
+                                                    <?php echo $item['group_name']?>
+                                                </option>
+                                                <?php
+                                            }
+                                            ?>
                                         </select>
                                     </div>
                                     <div class="row m-t-10">
                                         <label for="">Content</label>
+                                        <!--                                        change title to content-->
                                         <textarea name="" id="content" cols="30" rows="10" class="form-control" value=""><?php echo $info['content'] ?></textarea>
                                     </div>
                                     <div class="row m-t-10">
@@ -79,10 +95,25 @@ require_once "../common/header.php";
                                     } ?>
                                 </div>
                             <?php
-                            }
+                            } else {
                                 ?>
-
-
+                                <div>
+                                    <div class="row">
+                                        <label for="">Title</label>
+                                        <input type="text" class="form-control" id="title">
+                                    </div>
+                                    <div class="row">
+                                        <label for="">Image</label>
+                                        <input type="file" id="fileToUpload" name="fileToUpload" value="" accept="image/jpeg,image/jpg,image/png"></td>
+                                    </div>
+                                    <div class="row m-t-10">
+                                        <textarea name="" id="content" cols="30" rows="10" class="form-control"></textarea>
+                                        <button class="btn btn-primary save" onclick="savePosting('add_posting')">Save</button>
+                                    </div>
+                                </div>
+                            <?php
+                            }
+                            ?>
                         </div>
                     </div>
 
@@ -100,7 +131,7 @@ require_once "../common/header.php";
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">Ã—</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">

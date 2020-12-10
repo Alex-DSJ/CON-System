@@ -1,10 +1,4 @@
-<!-- This file is completed by saebom SHIN-40054234 individually -->
-
-<!-- all required js files here -->
-<script src="../static/functions.js"></script>
-
-<!-- all required php files here -->
-<?php require_once "../common/header.php";
+<?php
 require_once "../func/func.php";
 
 if (checkUserLogin() == false) {
@@ -12,26 +6,14 @@ if (checkUserLogin() == false) {
 }
 $dataList = getCondoList();
 $buildingInfo = getBuildingInfo();
+ require_once "../common/header.php";
+?><!-- This file is completed by saebom SHIN-40054234 individually -->
 
-?>
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
 <div class="wrapper">
     <!-- navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
-        <ul class="navbar-nav" id="my-nav">
-            <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Member</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="group.php" class="nav-link">Group</a></li>
-            <li class="nav-item d-none d-sm-inline-block active"><a href="condo.php" class="nav-link">CONDO</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">Posting</a></li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-sign-out" class="logout" onclick="logout()">logout</i>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <?php require_once "nav.php";?>
     <!-- main table of the condo tab -->
     <section class="content">
         <div class="container-fluid">
@@ -111,15 +93,15 @@ $buildingInfo = getBuildingInfo();
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"><?php echo $buildingInfo['building_name'] ?></strong></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">Ã—</span></button>
+                    <span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
                     <label for="">Condo Name</label>
                     <input type="text" class="form-control" id="name">
-                    <label for="">Condo Area/mÂ²</label>
+                    <label for="">Condo Area/m²</label>
                     <input type="number" class="form-control" id="area">
-                    <label for="">Property Costs/mÂ²</label>
+                    <label for="">Property Costs/m²</label>
                     <input type="number" class="form-control" id="cost">
                 </div>
             </div>
@@ -140,7 +122,7 @@ $buildingInfo = getBuildingInfo();
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"><?php echo $buildingInfo['building_name'] ?></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">Ã—</span></button>
+                    <span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="modal-body" style="margin: 20px">
@@ -148,9 +130,9 @@ $buildingInfo = getBuildingInfo();
                         <input type="hidden" id="id_edit">
                         <label for="">Condo Name</label>
                         <input type="text" class="form-control" id="name_edit">
-                        <label for="">Condo Area/mÂ²</label>
+                        <label for="">Condo Area/m²</label>
                         <input type="number" class="form-control" id="area_edit">
-                        <label for="">Property Costs/mÂ²</label>
+                        <label for="">Property Costs/m²</label>
                         <input type="number" class="form-control" id="cost_edit">
                     </div>
                 </div>

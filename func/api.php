@@ -30,6 +30,9 @@ if (isset($inputs['act'])) {
         case 'member_condos' : memberCondosHandler();break;
         case 'member_groups' : getMemberGroupInfo();break;
         case 'handle_group_apply' : groupApplyHandler();break;
+        case 'member_within_groups' : getMemberWithinGroupInfo();break;
+        case 'delete_member_groups' : delMemberGroupHandle();break;
+
 
         // member & owner related APIs
         case 'add_posting' : addPostingHandler();break;
@@ -65,6 +68,15 @@ if (isset($inputs['act'])) {
         case 'update_contract' : updateContractHandler();break;
         case 'del_contract' : delContractHandler();break;
         case 'edit_contract' : editContractHandler();break;
+        case 'sadmin_add_member' : addMemberHandler1();break;
+        case 'sadmin_edit_member' : editMemberHandler1();break;
+        case 'del_member_condo' : delMemberCondoHandler();break;
+        case 'sadmin_member_group' : getMemberGroupInfo1();break;
+        case 'sadmin_edit_group' : editGroupHandler1();break;
+        case 'sadmin_handle_group_apply' : groupApplyHandler1();break;
+        case 'sadmin_add_email' : addEmailHandler1();break;
+        case 'sadmin_edit_email' : editEmailHandler1();break;
+        case 'sadmin_del_email' : delEmailHandler1();break;
 
         case 'withdraw_group': withdrawGroupHandler();break;
         case 'unfriend': unfriendHandle();break;

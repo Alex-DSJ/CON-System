@@ -1,41 +1,25 @@
-<!-- This file is completed by saebom SHIN-40054234 individually -->
-
-<!-- all required js files here -->
-<script src="../static/functions.js"></script>
-<link href="https://cdn.bootcss.com/bootstrap-select/1.13.10/css/bootstrap-select.min.css" rel="stylesheet">
-<script src="https://cdn.bootcss.com/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
-
-<!-- all required php files here -->
-<?php require_once "../common/header.php";
+<?php
 require_once "../func/func.php";
 if (checkUserLogin() == false) {
     header("Location:./login.php");
 }
-$dataList = getMemberList();
+$dataList = getMemberListAdmin();
 $condo = getCondoList();
 $condoStr = '';
 foreach ($condo as $item) {
     $condoStr .= "<option value='{$item['id']}'>{$item['name']}</option>";
 }
+require_once "../common/header.php";
 ?>
+<!-- This file is completed by saebom SHIN-40054234 individually -->
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
+<link href="https://cdn.bootcss.com/bootstrap-select/1.13.10/css/bootstrap-select.min.css" rel="stylesheet">
+<script src="https://cdn.bootcss.com/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
+<!-- all required php files here -->
 <div class="wrapper">
     <!-- navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
-        <ul class="navbar-nav" id="my-nav">
-            <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
-            <li class="nav-item d-none d-sm-inline-block active"><a href="index.php" class="nav-link">Member</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="group.php" class="nav-link">Group</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="condo.php" class="nav-link">CONDO</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">Posting</a></li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-sign-out" class="logout" onclick="logout()">logout</i>
-                </a>
-            </li>
-        </ul>
-    </nav>
+    <?php require_once "nav.php";?>
     <!-- main table of the condo tab -->
     <section class="content">
         <div class="container-fluid">
@@ -59,8 +43,8 @@ foreach ($condo as $item) {
                                     <th>name</th>
                                     <th>address</th>
                                     <th>email</th>
-                                    <th>groups</th>
                                     <th>condos</th>
+                                    <th>groups</th>
                                     <th>family</th>
                                     <th>colleagues</th>
                                     <th>privilege</th>
@@ -78,8 +62,8 @@ foreach ($condo as $item) {
                                         <td><?php echo $item['name'] ?></td>
                                         <td><?php echo $item['address'] ?></td>
                                         <td><?php echo $item['email'] ?></td>
-                                        <td><button class="btn btn-dark show-condos" data-id="<?php echo $item['id'] ?>">condos</button></td>
-                                        <td><button class="btn btn-dark show-groups" data-id="<?php echo $item['id'] ?>">groups</button></td>
+                                        <td><button class="btn btn-dark" data-id="<?php echo $item['id'] ?>" onclick="showCondo(<?php echo $item['id'] ?>)">condos</button></td>
+                                        <td><button class="btn btn-dark" data-id="<?php echo $item['id'] ?>" onclick="showGroup(<?php echo $item['id'] ?>)">groups</button></td>
                                         <td><?php echo $item['family'] ?></td>
                                         <td><?php echo $item['colleagues'] ?></td>
                                         <td><?php echo $item['privilege'] ?></td>
@@ -113,7 +97,7 @@ foreach ($condo as $item) {
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">Ã—</span></button>
+                    <span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -124,11 +108,17 @@ foreach ($condo as $item) {
                     <label for=""><span style="color: red">*</span>Address</label>
                     <input type="text" class="form-control" id="address">
                     <label for=""><span style="color: red">*</span>Condos</label>
-                    <select name="" id="condos" class="selectpicker form-control" data-live-search="true" multiple title="please select">
-                        <?php echo $condoStr; ?>
+                    <select name="" id="condos" class="form-control">
+                        <option value="">please select</option>
+                        <?php
+                        foreach ($condo as $item) {
+                        ?>
+                        <option value="<?php echo $item['id']?>">
+                            <?php echo $item['name']?></option>
+                            <?php
+                            }
+                            ?>
                     </select>
-                    <label for=""><span style="color: red">*</span>Email</label>
-                    <input type="email" class="form-control" id="email">
                     <label for="">Family</label>
                     <input type="text" class="form-control" id="family">
                     <label for="">Colleagues</label>
@@ -165,7 +155,7 @@ foreach ($condo as $item) {
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">Ã—</span></button>
+                    <span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -177,11 +167,9 @@ foreach ($condo as $item) {
                     <label for=""><span style="color: red">*</span>Address</label>
                     <input type="text" class="form-control" id="address_edit">
                     <label for=""><span style="color: red">*</span>Condos</label>
-                    <select name="" id="condos_edit" class="selectpicker form-control" data-live-search="true" multiple title="please select">
+                    <select name="" id="condos_edit" class="form-control" title="please select">
                         <?php echo $condoStr; ?>
                     </select>
-                    <label for=""><span style="color: red">*</span>Email</label>
-                    <input type="email" class="form-control" id="email_edit">
                     <label for="">Family</label>
                     <input type="text" class="form-control" id="family_edit">
                     <label for="">Colleagues</label>
@@ -219,7 +207,7 @@ foreach ($condo as $item) {
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">Ã—</span></button>
+                    <span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -234,8 +222,3 @@ foreach ($condo as $item) {
     <!-- /.modal-dialog -->
 </div>
 <?php require_once "../common/footer.php";?>
-<script>
-    $(function () {
-        $('.selectpicker').selectpicker()
-    })
-</script>

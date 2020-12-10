@@ -3,7 +3,7 @@ require_once "../func/func.php";
 if (checkUserLogin() == false) {
     header("Location:/owner/login.php");
 }
-$dataList = getPostingAll();
+$dataList = getAllPostings();
 ?>
 
 <!-- This file is completed by shijun DENG-40084956 refers to /owner/posting.php -->
@@ -25,7 +25,7 @@ $dataList = getPostingAll();
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
-                                <h3 class="card-title">My Posting</h3>
+                                <h3 class="card-title">All Postings</h3>
                             </div>
 
                             <div class="card-body">
@@ -36,10 +36,10 @@ $dataList = getPostingAll();
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
-                                        <th>#</th>
-                                        <th>title</th>
-                                        <th>create time</th>
-                                        <th>option</th>
+                                        <th>ID</th>
+                                        <th>Title</th>
+                                        <th>Create Time</th>
+                                        <th>Option</th>
                                     </tr>
                                     </thead>
                                     <tbody id="group-list">
@@ -50,9 +50,9 @@ $dataList = getPostingAll();
                                             <td><?php echo $item['title'] ?></td>
                                             <td><?php echo $item['create_time'] ?></td>
                                             <td data-id="<?php echo $item['id'] ?>">
-                                                <button class="btn btn-danger btn-sm" onclick="delPosting($(this))">del</button>
+                                                <button class="btn btn-danger btn-sm" onclick="delPosting($(this))">Del</button>
 <!--                                                <button class="btn btn-warning btn-sm" onclick="editPosting($(this))">edit</button>-->
-                                                <button class="btn btn-primary btn-sm" onclick="detailPostingOwner($(this))">detail</button>
+                                                <button class="btn btn-primary btn-sm" onclick="detailPostingSA($(this))">Detail</button>
                                             </td>
                                         </tr>
                                         <?php

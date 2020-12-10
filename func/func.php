@@ -7,7 +7,7 @@
 
 session_start();
 
-require_once dirname(__FILE__).'./db.php';
+require_once dirname(__FILE__).'/db.php';
 require_once dirname(__FILE__)."/dbQuerry.php";
 
 define('ADMIN_ID', '1');
@@ -101,23 +101,24 @@ function addAdminHandler() {
     if ($count['count(1)'] > 0) {
         formatOutput(false, 'The username exists, please change another one');
     }
-
-    $adminId = insert('admin',[
-        'name' => $inputs['admin_username'],
-        'password' => $inputs['admin_password']
-    ]);
-
-    $admin_buildingId = insert('admin_building', [
-       'admin_id' => $adminId,
-       'building_id' => $inputs['admin_building'],
-    ]);
-    formatOutput(true, $adminId . "  **  " . $admin_buildingId);
+    else{
+        $adminId = insert('admin',[
+            'name' => $inputs['admin_username'],
+            'password' => $inputs['admin_password']
+        ]);
+    
+        $admin_buildingId = insert('admin_building', [
+           'admin_id' => $adminId,
+           'building_id' => $inputs['admin_building'],
+        ]);
+        formatOutput(true, 'add success');
+    }
 }
 
 // delete a certain admin from the database
 function delAdminHandler() {
     global $inputs;
-    $sql = "DELETE FROM admin WHERE id = " . $inputs['id'];
+    $sql = "DELETE FROM `admin` WHERE id = " . $inputs['id'];
     execSql($sql);
     formatOutput(true, 'delete success');
 }
@@ -345,7 +346,7 @@ function delContractHandler()
 }
 
 // edit contract within member
-function editContractHandler()
+function editContractHandler1()
 {
     global $inputs;
     updateDb('contract',[
@@ -359,6 +360,188 @@ function editContractHandler()
     formatOutput(true, 'update success');
 }
 
+// add a member to the database by the super admin
+function addMemberHandler1()
+{
+    global $inputs;
+
+    $lastId = insert('member',[
+        'name' => $inputs['name'],
+        'password' => $inputs['password'],
+        'address' => $inputs['address'],
+        'email' => $inputs['email'],
+        'family' => $inputs['family'],
+        'colleagues' => $inputs['colleagues'],
+        'privilege' => $inputs['privilege'],
+        'status' => $inputs['status'],
+    ]);
+
+    $sql = insert('member_condo', [
+        'member_id' => $lastId,
+        'condo_id' => $inputs['condo_id']
+    ]);
+
+    formatOutput(true, 'add success');
+}
+
+// update a member in the database by a super admin
+function editMemberHandler1()
+{
+    global $inputs;
+
+    updateDb('member',[
+        'name' => $inputs['name'],
+        'password' => $inputs['password'],
+        'address' => $inputs['address'],
+        'email' => $inputs['email'],
+        'family' => $inputs['family'],
+        'colleagues' => $inputs['colleagues'],
+        'privilege' => $inputs['privilege'],
+        'status' => $inputs['status'],
+    ],[
+        'id' => $inputs['id']
+    ]);
+
+    if (isset($inputs['condo_id'])) {
+        insert('member_condo', [
+            'member_id' => $inputs['id'],
+            'condo_id' => $inputs['condo_id']
+        ]);
+    }
+
+    formatOutput(true, 'update success');
+}
+
+// delete an associated condo of a member
+function delMemberCondoHandler(){
+    global $inputs;
+
+    $sql = "DELETE FROM `member_condo` WHERE id = " . $inputs['id'];
+
+    execSql($sql);
+
+    formatOutput(true, 'delete success');
+}
+
+// get all postings of the system
+function getAllPostings(){
+    return getAll("select * from posting");
+}
+
+// get all groups of the system by the super admin
+function getAllGroups(){
+    return getAll("SELECT * FROM `group`");
+}
+
+//
+function getMemberGroupInfo1(){
+    global $inputs;
+    $res = getAll('SELECT mg.*,
+	                m.name
+                    FROM member_group mg
+                    JOIN member m
+                        ON m.id = mg.member_id
+                    WHERE group_id = ?' , [$inputs['id']]);
+    formatOutput(true, 'success', $res);
+}
+
+// update group info my the super admin
+function editGroupHandler1()
+{
+    global $inputs;
+
+    updateDb('group',[
+        'group_name' => $inputs['name'],
+        'description' => $inputs['desc'],
+    ], [
+        'id' => $inputs['id'],
+    ]);
+    formatOutput(true, 'update success');
+}
+
+// get all group applies of the system by the super admin
+function getAllGroupApplies(){
+    return getALL('SELECT mga.*,
+                        m.name AS member_name,
+                        g.group_name
+                    FROM member_group_apply mga
+                    JOIN `member` m
+                        ON m.id = mga.member_id
+                    join `group` g
+                        on mga.group_id = g.id');
+}
+
+// handler the group application
+function groupApplyHandler1()
+{
+    global $inputs;
+
+    // update the process status and time
+    updateDb('member_group_apply',[
+        'status' => $inputs['type'],
+        'handle_time' => date('Y-m-d H:i:s'),
+    ], [
+        'id' => $inputs['id']
+    ]);
+
+    // if agree, insert a tuple into member_group
+    if ($inputs['type'] == 'agree') {
+        insert('member_group',[
+            'member_id' => $inputs['member_id'],
+            'group_id' => $inputs['group_id']
+        ]);
+    }
+    formatOutput(true, 'update success');
+}
+
+// get all emails in the system
+function getAllEmails(){
+    return getALL('SELECT * FROM mail');
+}
+
+// add an email to the database
+function addEmailHandler1(){
+    global $inputs;
+
+    // insert a new tuple into the database
+    insert('mail',[
+        'title' => $inputs['title'],
+        'content' => $inputs['content'],
+        'sender_id' => $inputs['sender_id'],
+        'sender' => $inputs['sender_name'],
+        'receiver_id' => $inputs['receiver_id'],
+        'receiver' => $inputs['receiver_name'],
+        'is_read' => 'unread'
+    ]);
+
+    formatOutput(true, 'add success');
+}
+
+// update an email to the database
+function editEmailHandler1(){
+    global $inputs;
+
+    updateDb('mail', [
+        'title' => $inputs['title'],
+        'sender_id' => $inputs['sender_id'],
+        'sender' => $inputs['sender_name'],
+        'receiver_id' => $inputs['receiver_id'],
+        'receiver' => $inputs['receiver_name'],
+        'content' => $inputs['content'],   
+    ], [
+        'id' => $inputs['id']
+    ]);
+
+    formatOutput(true, 'update success');
+}
+
+// delete an email in the database by the super admin
+function delEmailHandler1(){
+    global $inputs;
+    $sql = "DELETE FROM mail WHERE id = " . $inputs['id'];
+    execSql($sql);
+    formatOutput(true, 'delete success');
+}
 // --------********--------********--------********--------********--------********
 // Functions for the Contract page ends here
 // author: Shijun Deng (40084956)
@@ -409,7 +592,12 @@ function getMemberList()
 {
     return getAll("select * from member ");
 }
-
+function getMemberListAdmin()
+{
+    $sql = "select d.*from admin_building a , condo_building b, member_condo c, member d 
+where a.admin_id=? and a.building_id = b.building_id and b.condo_id= c.condo_id and c.member_id = d.id and b.building_id=? order by d.id asc";
+    return getAll($sql, [getLogin()['uid'], getLogin()['bid']]);
+}
 // get the condo list of a certain building from the database
 function getCondoList()
 {
@@ -505,8 +693,35 @@ inner join `group` c on a.group_id = c.id
 where c.admin_id = ?
 ", [getLogin()['uid']]);
 }
+function getGroupName($id=0){
+    return getOne("select group_name from `group` where id = ?",[$id]);
+}
 
-// 
+//get all posting within the group
+function getALlPostByGroup($name)
+{
+    return getAll("select a.* , c.name from posting a , member_posting b, `member` c where a.`status`=? and a.id = b.posting_id and b.member_id = c.id"
+        , [$name]);
+}
+// get all the member from the group
+function getMemberWithinGroupInfo()
+{
+    global $inputs;
+
+    $res = getAll("select a.*, b.id as member_groupId from `member` a, member_group b where b.group_id = ? and b.member_id=a.id", [$inputs['id']]);
+    formatOutput(true, 'success', $res);
+}
+// delete the member from the group
+function delMemberGroupHandle(){
+    global $inputs;
+
+    $sql = "DELETE FROM `member_group` WHERE id = " . $inputs['id'];
+
+    execSql($sql);
+
+    formatOutput(true, 'delete success');
+}
+
 function groupApplyHandler()
 {
     global $inputs;
@@ -581,7 +796,7 @@ function memberCondosHandler()
     formatOutput(true, 'success', $res);
 }
 
-// member (owner)
+
 function editMemberHandler()
 {
     global $inputs;
@@ -589,12 +804,10 @@ function editMemberHandler()
     $sql = "delete from `member_condo` where member_id = " . $inputs['id'];
     execSql($sql);
 
-    foreach ($inputs['condos'] as $condoId) {
-        insert('member_condo', [
-            'member_id' => $inputs['id'],
-            'condo_id' => $condoId
-        ]);
-    }
+    insert('member_condo', [
+        'member_id' => $inputs['id'],
+        'condo_id' => $inputs["condos"]
+    ]);
 
     updateDb('member',[
         'name' => $inputs['name'],
@@ -612,6 +825,7 @@ function editMemberHandler()
 
 }
 
+
 function delMemberHandler()
 {
     global $inputs;
@@ -624,8 +838,6 @@ function addMemberHandler()
 {
     global $inputs;
 
-    $condos = $inputs['condos'];
-
     $lastId = insert('member',[
         'name' => $inputs['name'],
         'password' => $inputs['password'],
@@ -637,12 +849,12 @@ function addMemberHandler()
         'status' => $inputs['status'],
     ]);
 
-    foreach ($condos as $condoId) {
-        insert('member_condo', [
-            'member_id' => $lastId,
-            'condo_id' => $condoId
-        ]);
-    }
+
+    insert('member_condo', [
+        'member_id' => $lastId,
+        'condo_id' => $inputs["condos"]
+    ]);
+
 
     formatOutput(true, 'add success');
 
@@ -681,7 +893,11 @@ function getPublicPost(){
 //
 function getPostingAll()
 {
-    return getAll("select b.* from member_posting a inner join posting b on a.posting_id = b.id ");
+        $sql ="select f.* , i.name from member_posting e , posting f , `member` i where e.member_id= i.id and e.posting_id = f.id and e.member_id in 
+(select d.id from admin_building a , condo_building b, member_condo c, `member` d 
+where a.admin_id=? and a.building_id = b.building_id and b.condo_id= c.condo_id and c.member_id = d.id ) order by i.name asc ";
+        return getAll($sql, [getLogin()['uid']]);
+
 }
 // handle the delete post by specific id
 function delPostingHandler()
@@ -702,6 +918,7 @@ function addPostingHandler()
         'pic' => $src,
         'title' => $inputs['title'],
         'content' => $inputs['content'],
+ 	'status' => $inputs['status']
     ]);
 
     insert('member_posting', [
@@ -793,6 +1010,10 @@ function addCommentHandler()
         'posting_id' => $id
     ]);
     formatOutput(true, 'success');
+}
+function getOtherPublicPosting(){
+    return getAll("select distinct a.* , c.name from posting a , member_posting b , `member` c where a.`status` = 'public' and a.id = b.posting_id and b.member_id <>? and b.member_id =c.id"
+        , [getLogin()['mid']]);
 }
 
 // --------********--------********--------********--------********--------********

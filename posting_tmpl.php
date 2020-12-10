@@ -1,5 +1,3 @@
-<?php require_once "./common/header.php";?>
-<script src="./static/ajaxfileupload.js"></script>
 <?php
 require_once "./func/func.php";
 
@@ -9,7 +7,9 @@ if (isset($_GET['id'])) {
 } else {
     $info = [];
 }
+require_once "./common/header.php";
 ?>
+<script src="./static/ajaxfileupload.js"></script>
 <div class="wrapper">
 
     <section class="content">

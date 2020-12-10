@@ -1,10 +1,4 @@
-<!-- This file is completed by shijun DENG-40084956 individually -->
-
-<!-- all required js files here -->
-<script src="../static/functions.js"></script>
-
-<!-- all required php files here -->
-<?php require_once "../common/header.php";
+<?php
 require_once "../func/func.php";
 
 if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
@@ -18,8 +12,17 @@ foreach ($adminList as $admin) {
 }
 ?>
 
+<!-- This file is completed by shijun DENG-40084956 individually -->
+
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
+
+<!-- all required php files here -->
+<?php require_once "../common/header.php"; ?>
+
 <div class="wrapper">
 
+<!-- navbar here -->
 <?php require_once "navbar.php";?>
 
     <!-- main table of the building tab -->
@@ -58,7 +61,7 @@ foreach ($adminList as $admin) {
                                         <td><?php echo $item['address'] ?></td>
                                         <td><?php echo $item['create_time'] ?></td>
                                         <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
-                                            <button class="btn btn-primary btn-sm" onclick="assignAdmin($(this))">Assign</button>
+                                            <!-- <button class="btn btn-primary btn-sm" onclick="assignAdmin($(this))">Assign</button> -->
                                             <button class="btn btn-danger btn-sm" onclick="delBuilding($(this))">del</button>
                                             <button class="btn btn-warning btn-sm"  onclick="editBuilding($(this))">edit</button>
                                         </td>

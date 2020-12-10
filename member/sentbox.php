@@ -1,21 +1,18 @@
-<!-- This file is completed by kimchhengheng-26809413 individually -->
-<!-- all required php files here -->
-<?php 
-    require_once "../common/header.php";
-    require_once "../func/func.php";
-?>
-<!-- all required js files here -->
-<script src="../static/functions.js"></script>
-
 <?php
+require_once "../func/func.php";
 if (checkMemberLogin() == false) {
     header("Location:./login.php");
 }
 $dataList = getSentboxMessage();
+require_once "../common/header.php";
 ?>
+<!-- This file is completed by kimchhengheng-26809413 individually -->
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
+
     <div class="wrapper">
 
-        <?php require_once "nav.php"?>
+        <?php require_once "nav.php";?>
         <section class="content">
             <div class="container-fluid">
 

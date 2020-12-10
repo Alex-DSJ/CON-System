@@ -1,5 +1,4 @@
 <!-- This file is completed by Yuxin Wang-40024855 individually -->
-
 <!-- all required php files here -->
 <?php require_once "../common/header.php";?>
 <!-- all required js files here -->
@@ -32,8 +31,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-md-6">
-                                        <button type="button" class="btn btn-primary btn-block" onclick="member_login()">Login</button>
-                                        <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='../index.php'">Return Index</button>
+                                        <button type="button" class="btn btn-primary btn-block" onclick="member_login()">Login <i class="fas fa-sign-in-alt"></i></button>
+                                        <button type="button" class="btn btn-primary btn-block" onclick="window.location.href='../main.php'">Return Index <i class="fas fa-arrow-left"></i></button>
                                     </div>
                                 </div>
                             </div>

@@ -1,17 +1,8 @@
-<!-- This file is completed by kimchhengheng-26809413 individually -->
-<!-- all required php files here -->
-<?php 
-    require_once "../common/header.php";
-    require_once "../func/func.php";
-?>
-<!-- all required js files here -->
-<script src="../static/functions.js"></script>
-<script src="../static/ajaxfileupload.js"></script>
 <?php
+require_once "../func/func.php";
 if (checkMemberLogin() == false) {
     header("Location:./login.php");
 }
-
 if (isset($_GET['id'])) {
     $info = getPostingInfo($_GET['id']);
     $comment = getPostingComment($_GET['id']);
@@ -19,10 +10,15 @@ if (isset($_GET['id'])) {
     $info = [];
 }
 $groupInfo = getMemberGroupInfo();
+require_once "../common/header.php";
 ?>
+<!-- This file is completed by kimchhengheng-26809413 individually -->
+<!-- all required js files here -->
+<script src="../static/functions.js"></script>
+<script src="../static/ajaxfileupload.js"></script>
 <div class="wrapper">
 
-    <?php require_once "nav.php"?>
+    <?php require_once "nav.php";?>
     <section class="content">
         <div class="container-fluid">
 
@@ -88,7 +84,7 @@ $groupInfo = getMemberGroupInfo();
                                     <button class="btn btn-primary save" onclick="savePosting('edit_posting')" style="margin-top: 20px">Save</button>
                                     <?php if (isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'view') {
                                         ?>
-                                        <button class="btn btn-primary comment" data-id="<?php echo $_GET['id'] ?>" style="margin-top: 20px">Comment</button>
+                                        <button class="btn btn-primary" data-id="<?php echo $_GET['id'] ?>" style="margin-top: 20px" onclick="comment(<?php echo $_GET['id'] ?>)">Comment</button>
                                         <?php
                                     } ?>
                                 </div>

@@ -1,11 +1,10 @@
-<!-- This file is completed by saebom SHIN-40054234 individually -->
-
-<!-- all required php files here -->
-<?php require_once "./common/header.php";
+<?php 
 require_once "./func/func.php";
-
 $dataList =getPublicPost();
+require_once "./common/header.php";
 ?>
+<!-- This file is completed by saebom SHIN-40054234 individually -->
+<!-- all required php files here -->
     <div class="wrapper">
         <!-- main table of the guest tab -->
         <section class="content">

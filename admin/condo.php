@@ -1,8 +1,4 @@
-<!-- This file is completed by shijun DENG-40084956, refer from .owner/member.php -->
-
-<!-- required php files and necessary data generation here -->
 <?php
-require_once "../common/header.php";
 require_once "../func/func.php";
 if (checkUserLogin() == false) {
     header("Location:/owner/login.php");
@@ -14,9 +10,13 @@ foreach ($building as $item) {
     $buildingStr .= "<option value='{$item['id']}'>{$item['building_name']}</option>";
 }
 ?>
+<!-- This file is completed by shijun DENG-40084956, refer from .owner/member.php -->
 
 <!-- required script and external resource here -->
 <script src="../static/functions.js"></script>
+
+<!-- required php files here -->
+<?php require_once "../common/header.php"; ?>
 
 <!-- page starts here -->
 <div class="wrapper">

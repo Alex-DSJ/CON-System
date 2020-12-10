@@ -1,37 +1,21 @@
+<?php
+require_once "../func/func.php";
+if (checkUserLogin() == false) {
+    header("Location:./login.php");
+}
+$dataList = getGroupList();
+$applyList = getGroupApplyList();
+require_once "../common/header.php";
+?>
 <!-- This file is completed by saebom SHIN-40054234 individually -->
 
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
-<!-- all required php files here -->
 
-<?php require_once "../common/header.php";
-require_once "../func/func.php";
-if (checkUserLogin() == false) {
-    header("Location:/owner/login.php");
-}
-$dataList = getGroupList();
-$applyList = getGroupApplyList();
-
-?>
 <div class="wrapper">
-    <!-- navbar -->
-    <nav class="main-header navbar navbar-expand navbar-white navbar-light" style="margin-left:0px;!important;">
-        <ul class="navbar-nav" id="my-nav">
-            <li class="nav-item"><a class="nav-link" href="#" role="button"><i class="fas fa-bars"></i></a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="index.php" class="nav-link">Member</a></li>
-            <li class="nav-item d-none d-sm-inline-block active"><a href="group.php" class="nav-link">Group</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="condo.php" class="nav-link">CONDO</a></li>
-            <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">Posting</a></li>
-        </ul>
-        <ul class="navbar-nav ml-auto">
-            <li class="nav-item">
-                <a class="nav-link" data-toggle="dropdown" href="#">
-                    <i class="far fa-sign-out" class="logout" onclick="logout()">logout</i>
-                </a>
-            </li>
-        </ul>
-    </nav>
-    <!-- main table of the condo tab -->
+
+   <?php require_once "nav.php";?>
+
     <section class="content">
         <div class="container-fluid">
 
@@ -69,9 +53,10 @@ $applyList = getGroupApplyList();
                                         <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
                                             <button class="btn btn-danger btn-sm" onclick="delGroup($(this))">del</button>
                                             <button class="btn btn-warning btn-sm" onclick="editGroup($(this))">edit</button>
+                                            <button class="btn btn-primary btn-sm" onclick="detailGroupMember(<?php echo $item['id'] ?>)">detail</button>
                                         </td>
                                     </tr>
-                                <?php
+                                    <?php
                                 } ?>
                                 </tbody>
                             </table>
@@ -111,7 +96,7 @@ $applyList = getGroupApplyList();
                                                 ?>
                                                 <button class="btn btn-danger btn-sm"  onclick="handleApply($(this),'agree')">agree</button>
                                                 <button class="btn btn-warning btn-sm" onclick="handleApply($(this),'disagree')">disagree</button>
-                                            <?php
+                                                <?php
                                             }
                                             ?>
                                         </td>
@@ -138,7 +123,7 @@ $applyList = getGroupApplyList();
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">Ã—</span></button>
+                    <span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -165,7 +150,7 @@ $applyList = getGroupApplyList();
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">Ã—</span></button>
+                    <span aria-hidden="true">×</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="modal-body" style="margin: 20px">
@@ -180,6 +165,28 @@ $applyList = getGroupApplyList();
             </div>
             <div class="modal-footer">
                 <button class="btn btn-primary" onclick="submitGroupEdit()">Save</button>
+            </div>
+        </div>
+        <!-- /.modal-content -->
+    </div>
+    <!-- /.modal-dialog -->
+</div>
+<div class="modal fade" id="modal-GroupMember">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Detail
+                    <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
+                </span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body" style="margin: 20px">
+                <div class="form-group row">
+                    <table class="table table-hover" id="GroupMember-contanier">
+
+                    </table>
+                </div>
             </div>
         </div>
         <!-- /.modal-content -->

@@ -1,7 +1,7 @@
 <?php 
 
 // session_start();
-require_once dirname(__FILE__).'./db.php';
+require_once dirname(__FILE__).'/db.php';
 
 function formatOutput($success = true, $msg = 'option success', $data = [])
 {

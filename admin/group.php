@@ -3,11 +3,9 @@ require_once "../func/func.php";
 if (checkUserLogin() == false) {
     header("Location:/owner/login.php");
 }
-$dataList = getGroupList();
-$applyList = getGroupApplyList();
+$dataList = getAllGroups();
+$applyList = getAllGroupApplies();
 ?>
-<!-- php script here -->
-
 <!-- This file is completed by shijun DENG-40084956 refer to /owner/group.php -->
 
 <!-- all required js files here -->
@@ -42,7 +40,7 @@ $applyList = getGroupApplyList();
                                     <th>Name</th>
                                     <th>Descrption</th>
                                     <th>Create Time</th>
-                                    <th>Update Time</th>
+                                    <th>Members</th>
                                     <th>Option</th>
                                 </tr>
                                 </thead>
@@ -54,7 +52,9 @@ $applyList = getGroupApplyList();
                                         <td><?php echo $item['group_name'] ?></td>
                                         <td><?php echo $item['description'] ?></td>
                                         <td><?php echo $item['create_time'] ?></td>
-                                        <td><?php echo $item['last_update_time'] ?></td>
+                                        <td>
+                                            <button class="btn btn-dark show-members" data-id="<?php echo $item['id'] ?>" onclick="displayMembers($(this))">Members</button>
+                                        </td>
                                         <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
                                             <button class="btn btn-danger btn-sm" onclick="delGroup($(this))">Del</button>
                                             <button class="btn btn-warning btn-sm" onclick="editGroup($(this))">Edit</button>
@@ -98,9 +98,12 @@ $applyList = getGroupApplyList();
                                             <?php
                                             if ($item['status'] == '') {
                                                 ?>
-                                                <button class="btn btn-danger btn-sm"  onclick="handleApply($(this),'agree')">Agree</button>
-                                                <button class="btn btn-warning btn-sm" onclick="handleApply($(this),'disagree')">Disagree</button>
+                                                <button class="btn btn-danger btn-sm"  onclick="handleApplyBySA($(this),'agree')">Agree</button>
+                                                <button class="btn btn-warning btn-sm" onclick="handleApplyBySA($(this),'disagree')">Disagree</button>
                                             <?php
+                                            }
+                                            else{
+                                                echo $item['status'];
                                             }
                                             ?>
                                         </td>
@@ -168,12 +171,34 @@ $applyList = getGroupApplyList();
                 </div>
             </div>
             <div class="modal-footer">
-                <button class="btn btn-primary" onclick="submitGroupEdit()">Save</button>
+                <button class="btn btn-primary" onclick="submitGroupEditBySA()">Save</button>
             </div>
         </div>
         <!-- /.modal-content -->
     </div>
     <!-- /.modal-dialog -->
+</div>
+
+<!-- popup form for display the member list of the group -->
+<div class="modal fade" id="modal-members">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="modal-title" style="font-weight: bold;font-size: 1.2rem">Member List
+                    <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
+                </span>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span></button>
+            </div>
+            <div class="modal-body" style="margin: 20px">
+                <div class="form-group row">
+                    <table class="table table-hover" id="members-container">
+                                
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <?php require_once "../common/footer.php";?>
