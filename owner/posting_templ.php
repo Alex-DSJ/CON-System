@@ -13,17 +13,21 @@ if (isset($_GET['id'])) {
 $groupInfo = getMemberGroupInfo();
 require_once "../common/header.php";
 ?>
+
+<!-- This file is completed by saebom SHIN-40054234 individually -->
+
 <!-- all required js files here -->
 <script src="../static/ajaxfileupload.js"></script>
 <script src="../static/functions.js"></script>
-<!-- This file is completed by saebom SHIN-40054234 individually -->
+
 <div class="wrapper">
-    <!-- navbar -->
+
+    <!-- navbar here -->
     <?php require_once "nav.php";?>
-    <!-- main table of the condo tab -->
+
+    <!-- main table of this page -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-12">
                     <div class="card">
@@ -31,9 +35,7 @@ require_once "../common/header.php";
                             <h3 class="card-title">Posting</h3>
                         </div>
                         <div class="card-body">
-                            <?php
-                            if (isset($_GET['id'])) {
-                                ?>
+                            <?php if (isset($_GET['id'])) { ?>
                                 <div action="">
                                     <input type="hidden" value="<?php echo $info['id'] ?>" id="id_edit">
                                     <div class="row">
@@ -46,7 +48,6 @@ require_once "../common/header.php";
                                     </div>
                                     <div>
                                         <img src="../static/upload/<?php echo $info['pic'] ?>" alt="" width="400px" height="300px">
-
                                     </div>
                                     <div class="row">
                                         <select id="status" class="form-control">
@@ -61,37 +62,28 @@ require_once "../common/header.php";
                                         <label for="">Comment</label>
                                         <ul>
                                             <?php
-                                            foreach ($comment as $item) {
-                                                ?>
+                                            foreach ($comment as $item) { ?>
                                                 <li>
                                                     <?php echo $item['content'] ?>
                                                 </li>
-                                                <?php
-                                            }
-                                            ?>
+                                                <?php } ?>
                                         </ul>
                                     </div>
                                     <button class="btn btn-primary save" onclick="savePosting('edit_posting')">Save</button>
-                                    <?php if (isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'view') {
-                                        ?>
-                                        <button class="btn btn-primary" data-id="<?php echo $_GET['id'] ?>" onclick="comment(<?php echo $_GET['id'] ?>)">Comment</button>
-                                        <?php
-                                    } ?>
+                                    <?php if (isset($_GET['id']) && isset($_GET['act']) && $_GET['act'] == 'view') { ?>
+                                    <button class="btn btn-primary" data-id="<?php echo $_GET['id'] ?>" onclick="comment(<?php echo $_GET['id'] ?>)">Comment</button>
+                                    <?php } ?>
                                 </div>
-                            <?php
-                            }
-                                ?>
-
-
+                            <?php } ?>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
 </div>
 
+<!-- popup form for adding a comment -->
 <div class="modal fade" id="modal-add-comment">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -100,7 +92,7 @@ require_once "../common/header.php";
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">x</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -113,9 +105,7 @@ require_once "../common/header.php";
                 <button class="btn btn-primary" onclick="submitComment()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 <?php require_once "../common/footer.php";?>

@@ -1,32 +1,35 @@
 <?php
 require_once "../func/func.php";
+
 if (checkUserLogin() == false) {
     header("Location:/owner/login.php");
 }
+
 $dataList = getPostingAll();
 $allGroup = getGroupList();
+
 require_once "../common/header.php";
 ?>
+
 <!-- This file is completed by saebom SHIN-40054234 individually -->
 
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
 
-
     <div class="wrapper">
-        <!-- navbar -->
+
+        <!-- navbar here -->
         <?php require_once "nav.php";?>
-        <!-- main table of the condo tab -->
+
+        <!-- main table of this page -->
         <section class="content">
             <div class="container-fluid">
-
                 <div class="row" style="margin-top: 20px">
                     <div class="col-md-12">
                         <div class="card">
                             <div class="card-header">
                                 <h3 class="card-title">All Member Posting </h3>
                             </div>
-
                             <div class="card-body">
                                 <table class="table table-bordered">
                                     <thead>
@@ -40,8 +43,7 @@ require_once "../common/header.php";
                                     </tr>
                                     </thead>
                                     <tbody id="group-list">
-                                    <?php foreach ($dataList as $item) {
-                                        ?>
+                                    <?php foreach ($dataList as $item) { ?>
                                         <tr>
                                             <td><?php echo $item['id'] ?></td>
                                             <td><?php echo $item['title'] ?></td>
@@ -53,8 +55,7 @@ require_once "../common/header.php";
                                                 <button class="btn btn-primary btn-sm" onclick="detailPostingOwner($(this))">detail</button>
                                             </td>
                                         </tr>
-                                        <?php
-                                    } ?>
+                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
@@ -69,20 +70,17 @@ require_once "../common/header.php";
                                             <th>Group Description</th>
                                             <th>Option</th>
                                         </tr>
-                                        <?php foreach ($allGroup as $item){
-                                            ?>
+                                        <?php foreach ($allGroup as $item){ ?>
                                             <tr>
                                                 <td><?php echo $item['group_name']?></td>
                                                 <td><?php echo $item['description']?></td>
                                                 <td data-id="<?php echo $item['union_id'] ?>"><button class="btn btn-danger" onclick="detailGroupPostingOwner(<?php echo $item['id']?>)">All Post</button></td>
                                             </tr>
-                                            <?php
-                                        } ?>
+                                            <?php } ?>
                                     </table>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>

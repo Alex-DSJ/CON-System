@@ -7,6 +7,7 @@ $dataList = getGroupList();
 $applyList = getGroupApplyList();
 require_once "../common/header.php";
 ?>
+
 <!-- This file is completed by saebom SHIN-40054234 individually -->
 
 <!-- all required js files here -->
@@ -14,18 +15,18 @@ require_once "../common/header.php";
 
 <div class="wrapper">
 
-   <?php require_once "nav.php";?>
+    <!-- navbar here -->
+    <?php require_once "nav.php";?>
 
+    <!-- the main table of this page -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-12">
                     <div class="card">
                         <div class="card-header">
                             <h3 class="card-title">Group List</h3>
                         </div>
-
                         <div class="card-body">
                             <div style="margin-bottom: 10px">
                                 <button class="btn btn-primary btn-sm" onclick="addGroup()">Add</button>
@@ -42,8 +43,7 @@ require_once "../common/header.php";
                                 </tr>
                                 </thead>
                                 <tbody id="group-list">
-                                <?php foreach ($dataList as $item) {
-                                    ?>
+                                <?php foreach ($dataList as $item) { ?>
                                     <tr>
                                         <td><?php echo $item['id'] ?></td>
                                         <td><?php echo $item['group_name'] ?></td>
@@ -56,8 +56,7 @@ require_once "../common/header.php";
                                             <button class="btn btn-primary btn-sm" onclick="detailGroupMember(<?php echo $item['id'] ?>)">detail</button>
                                         </td>
                                     </tr>
-                                    <?php
-                                } ?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -68,7 +67,6 @@ require_once "../common/header.php";
                         <div class="card-header">
                             <h3 class="card-title">Group Apply</h3>
                         </div>
-
                         <div class="card-body">
                             <table class="table table-bordered">
                                 <thead>
@@ -82,8 +80,7 @@ require_once "../common/header.php";
                                 </tr>
                                 </thead>
                                 <tbody id="group-list">
-                                <?php foreach ($applyList as $item) {
-                                    ?>
+                                <?php foreach ($applyList as $item) { ?>
                                     <tr>
                                         <td><?php echo $item['id'] ?></td>
                                         <td><?php echo $item['group_name'] ?></td>
@@ -97,12 +94,10 @@ require_once "../common/header.php";
                                                 <button class="btn btn-danger btn-sm"  onclick="handleApply($(this),'agree')">agree</button>
                                                 <button class="btn btn-warning btn-sm" onclick="handleApply($(this),'disagree')">disagree</button>
                                                 <?php
-                                            }
-                                            ?>
+                                            } ?>
                                         </td>
                                     </tr>
-                                    <?php
-                                } ?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -115,6 +110,7 @@ require_once "../common/header.php";
     </section>
 </div>
 
+<!-- popup fprm for adding a group -->
 <div class="modal fade" id="modal-add-group">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -123,7 +119,7 @@ require_once "../common/header.php";
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">x</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -137,11 +133,10 @@ require_once "../common/header.php";
                 <button class="btn btn-primary" onclick="submitGroup()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
+<!-- popup form for editing a group -->
 <div class="modal fade" id="modal-edit-group">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -150,7 +145,7 @@ require_once "../common/header.php";
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">ï¿½</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="modal-body" style="margin: 20px">
@@ -167,10 +162,10 @@ require_once "../common/header.php";
                 <button class="btn btn-primary" onclick="submitGroupEdit()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
+
+<!-- popup form for displaying the member list of a group -->
 <div class="modal fade" id="modal-GroupMember">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -179,7 +174,7 @@ require_once "../common/header.php";
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">x</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -189,9 +184,7 @@ require_once "../common/header.php";
                 </div>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 <?php require_once "../common/footer.php";?>
