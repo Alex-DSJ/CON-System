@@ -14,7 +14,7 @@ $dataList = getAllPostings();
 <?php require_once "../common/header.php"; ?>
     <div class="wrapper">
     
-        <!-- navbar -->
+        <!-- navbar here -->
         <?php require_once "navbar.php"; ?>
 
         <!-- main table of the condo tab -->
@@ -27,12 +27,7 @@ $dataList = getAllPostings();
                             <div class="card-header">
                                 <h3 class="card-title">All Postings</h3>
                             </div>
-
                             <div class="card-body">
-<!--                                <div style="margin-bottom: 10px">-->
-<!--                                    <button class="btn btn-primary btn-sm" onclick="window.location.href='posting_tmpl.php'">Add</button>-->
-<!--                                </div>-->
-
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
@@ -51,7 +46,6 @@ $dataList = getAllPostings();
                                             <td><?php echo $item['create_time'] ?></td>
                                             <td data-id="<?php echo $item['id'] ?>">
                                                 <button class="btn btn-danger btn-sm" onclick="delPosting($(this))">Del</button>
-<!--                                                <button class="btn btn-warning btn-sm" onclick="editPosting($(this))">edit</button>-->
                                                 <button class="btn btn-primary btn-sm" onclick="detailPostingSA($(this))">Detail</button>
                                             </td>
                                         </tr>

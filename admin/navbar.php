@@ -10,7 +10,6 @@
             <li class="nav-item d-none d-sm-inline-block"><a href="contract.php" class="nav-link">Contracts</a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="posting.php" class="nav-link">Postings</a></li>
             <li class="nav-item d-none d-sm-inline-block"><a href="email.php" class="nav-link">Emails</a></li>
-            <!-- <li class="nav-item d-none d-sm-inline-block"><a href="meeting.php" class="nav-link">Meetings</a></li> -->
         </ul>
         <ul class="navbar-nav ml-auto">
             <li class="nav-item">

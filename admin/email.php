@@ -15,18 +15,17 @@ foreach ($memberList as $member) {
 <!-- all required php files here -->
 <?php require_once "../common/header.php"; ?>
 
-
 <!-- all required js here -->
 <script src="https://cdn.bootcdn.net/ajax/libs/bootstrap-select/2.0.0-beta1/js/bootstrap-select.js"></script>
 <script src="../static/functions.js"></script>
 <link href="https://cdn.bootcdn.net/ajax/libs/bootstrap-select/2.0.0-beta1/css/bootstrap-select.min.css" rel="stylesheet">
 
-
 <div class="wrapper">
 
+    <!-- navbar here -->
     <?php require_once "navbar.php"?>
 
-    <!-- newly added -->
+    <!-- the main table of this page -->
         <section class="content">
         <div class="container-fluid">
             <div class="row" style="margin-top: 20px">

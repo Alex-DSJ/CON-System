@@ -6,8 +6,8 @@ if (checkUserLogin() == false) {
 }
 $contractList = getContractList();  //get all contracts from the database
 $userContractRelList = getContractRelList();    //get all user_contract relations from the database
-$adminList = getAllAdmins();
-$memberList = getMemberList();
+$adminList = getAllAdmins();    // get all admins from the database
+$memberList = getMemberList();  // get all members from the database
 
 $nameOptions = '<optgroup label="Admin">';
 foreach ($adminList as $admin) {
@@ -30,9 +30,9 @@ $nameOptions .= '</optgroup>';
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
 
-
     <div class="wrapper">
 
+    <!-- narbar here -->
     <?php require_once "navbar.php";?>
 
         <!-- the main table for the contract tab -->
@@ -87,9 +87,7 @@ $nameOptions .= '</optgroup>';
                                                     }
                                                 }
                                             }
-                                        }
-
-                                        
+                                        }                                        
                                         ?>
                                         <tr>
                                             <td><?php echo $contract['id'] ?></td>
@@ -192,12 +190,11 @@ $nameOptions .= '</optgroup>';
                     <button class="btn btn-primary" onclick="updateContractBySA()">Save</button>
                 </div>
             </div>
-            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
     </div>
 
 <?php require_once "../common/footer.php";?>
+
 <script>
     $('body').on('click','.edit-contract',function () {
         let id = $(this).data('id');

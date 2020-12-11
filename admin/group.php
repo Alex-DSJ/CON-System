@@ -15,7 +15,7 @@ $applyList = getAllGroupApplies();
 
 <div class="wrapper">
 
-    <!-- navbar -->
+    <!-- navbar here -->
     <?php require_once "navbar.php" ?>
 
     <!-- main table of the condo tab -->
@@ -122,6 +122,7 @@ $applyList = getAllGroupApplies();
     </section>
 </div>
 
+<!-- the popup form for adding a group -->
 <div class="modal fade" id="modal-add-group">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -144,11 +145,10 @@ $applyList = getAllGroupApplies();
                 <button class="btn btn-primary" onclick="submitGroup()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
+<!-- the popup form for editing a group -->
 <div class="modal fade" id="modal-edit-group">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -174,9 +174,7 @@ $applyList = getAllGroupApplies();
                 <button class="btn btn-primary" onclick="submitGroupEditBySA()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 <!-- popup form for display the member list of the group -->
@@ -193,7 +191,7 @@ $applyList = getAllGroupApplies();
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
                     <table class="table table-hover" id="members-container">
-                                
+                        <!-- member list here -->
                     </table>
                 </div>
             </div>
