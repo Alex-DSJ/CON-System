@@ -2196,7 +2196,7 @@ function agreeFriend(e){
 // reject a friend apply
 function disagreeFriend(e){
   let id = e.parent().data("id");
-  
+
   $.ajax({
     url: COMMON_API,
     data: {
@@ -2214,6 +2214,7 @@ function disagreeFriend(e){
     }
   });
 }
+
 /* --------********--------********--------********--------********--------********
 Functions for the BASE_INFO start here
 author: Yuxin Wang-40024855
