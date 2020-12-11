@@ -1,27 +1,35 @@
 <?php
 require_once "../func/func.php";
+
 if (checkMemberLogin() == false) {
     header("Location:./login.php");
 }
+
 if (isset($_GET['id'])) {
     $info = getPostingInfo($_GET['id']);
     $comment = getPostingComment($_GET['id']);
 } else {
     $info = [];
 }
+
 $groupInfo = getMemberGroupInfo();
+
 require_once "../common/header.php";
 ?>
+
 <!-- This file is completed by kimchhengheng-26809413 individually -->
+
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
 <script src="../static/ajaxfileupload.js"></script>
 <div class="wrapper">
 
+    <!-- navbar here -->
     <?php require_once "nav.php";?>
+
+    <!-- main table of this page -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-12">
                     <div class="card">
@@ -64,7 +72,6 @@ require_once "../common/header.php";
                                     </div>
                                     <div class="row m-t-10">
                                         <label for="">Content</label>
-                                        <!--                                        change title to content-->
                                         <textarea name="" id="content" cols="30" rows="10" class="form-control" value=""><?php echo $info['content'] ?></textarea>
                                     </div>
                                     <div class="row m-t-10">
@@ -88,9 +95,7 @@ require_once "../common/header.php";
                                         <?php
                                     } ?>
                                 </div>
-                                <?php
-                            } else {
-                                ?>
+                                <?php } else { ?>
                                 <div>
                                     <div class="row">
                                         <label for="">Title</label>
@@ -109,8 +114,7 @@ require_once "../common/header.php";
                                             <option value="<?php echo $item['group_name']?>">
                                                 <?php echo $item['group_name']?>
                                                 <?php
-                                                }
-                                                ?>
+                                                } ?>
                                         </select>
                                     </div>
                                     <div class="row m-t-10">
@@ -118,18 +122,16 @@ require_once "../common/header.php";
                                         <button class="btn btn-primary save" onclick="savePosting('add_posting')">Save</button>
                                     </div>
                                 </div>
-                                <?php
-                            }
-                            ?>
+                                <?php } ?>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
 </div>
 
+<!-- popup form for adding a comment -->
 <div class="modal fade" id="modal-add-comment">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -151,9 +153,7 @@ require_once "../common/header.php";
                 <button class="btn btn-primary" onclick="submitComment()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 <?php require_once "../common/footer.php";?>

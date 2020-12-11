@@ -8,14 +8,20 @@ $condoInfo = getMemberCondoInfo();
 $groupInfo = getMemberGroupInfo();
 $friendInfo = getMemberFriendInfo();
 ?>
+
 <!-- This file is completed by Yuxin Wang-40024855 individually -->
+
 <!-- all required php files here -->
 <?php require_once "../common/header.php";?>
+
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
+
 <div class="wrapper">
-    <!-- Header for the Member -->
+
+    <!-- nav for the Member -->
     <?php require_once "nav.php";?>
+
     <!-- Content of the Base info Page -->
     <section class="content">
         <div class="container-fluid">
@@ -106,4 +112,5 @@ $friendInfo = getMemberFriendInfo();
         </div>
     </section>
 </div>
+
 <?php require_once "../common/footer.php";?>
