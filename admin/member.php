@@ -24,7 +24,7 @@ foreach ($condoList as $item) {
 <!-- page starts here -->
 <div class="wrapper">
 
-    <!-- NAVBAR HERE -->
+    <!-- navbar here -->
     <?php require_once "navbar.php"; ?>
 
     <!-- main table of the member tab -->
@@ -118,11 +118,8 @@ foreach ($condoList as $item) {
                     <input type="text" class="form-control" id="address">
                     <label for=""><span style="color: red">*</span>Condo</label>
                     <select name="" id="condo" class="form-control">
-                        <!-- TODO get the condo list -->
                         <?php echo $condoStr; ?>
                     </select>
-                    <label for=""><span style="color: red">*</span>Email</label>
-                    <input type="email" class="form-control" id="email">
                     <label for="">Family</label>
                     <input type="text" class="form-control" id="family">
                     <label for="">Colleagues</label>
@@ -173,8 +170,6 @@ foreach ($condoList as $item) {
                     <select name="" id="condos_edit" class="form-control">
                         <?php echo $condoStr; ?>
                     </select>
-                    <label for=""><span style="color: red">*</span>Email</label>
-                    <input type="email" class="form-control" id="email_edit">
                     <label for="">Family</label>
                     <input type="text" class="form-control" id="family_edit">
                     <label for="">Colleagues</label>
@@ -215,7 +210,7 @@ foreach ($condoList as $item) {
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
                     <table class="table table-hover" id="condos-contanier">
-                                <!-- TODO get the condo list of the member -->
+                        <!-- member list here -->
                     </table>
                 </div>
             </div>

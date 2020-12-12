@@ -6,11 +6,18 @@ if (checkMemberLogin() == false) {
 $dataList = getInboxMessage();
 require_once "../common/header.php";
 ?>
+
 <!-- This file is completed by kimchhengheng-26809413 individually -->
+
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
+
 <div class="wrapper">
+
+    <!-- nav here -->
     <?php require_once "nav.php";?>
+
+    <!-- the main table of this page -->
     <section class="content">
         <div class="container-fluid">
             <div class="row" style="margin-top: 20px">
@@ -55,4 +62,5 @@ require_once "../common/header.php";
         </div>
     </section>
 </div>
+
 <?php require_once "../common/footer.php";?>

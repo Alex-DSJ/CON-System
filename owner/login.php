@@ -5,8 +5,10 @@
 
 <!-- all required php files here -->
 <?php require_once "../common/header.php";?>
+
 <div class="wrapper" style="margin-top: 5%">
-    <!-- main table of the condo tab -->
+
+    <!-- main table of this page -->
     <section class="content">
         <div class="container-fluid">
             <div class="row m-auto">
@@ -14,7 +16,6 @@
                     <div class="card">
                         <div class="card-body ">
                             <p class="login-box-msg">Login</p>
-
                             <div action="" method="post">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control" placeholder="Username" required autocomplete="false" name="username" id="username">
@@ -40,7 +41,6 @@
                                     </div>
                                 </div>
                             </div>
-
                         </div>
                     </div>
                 </div>
@@ -48,4 +48,5 @@
         </div>
     </section>
 </div>
+
 <?php require_once "../common/footer.php";?>

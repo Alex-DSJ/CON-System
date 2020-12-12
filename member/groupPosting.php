@@ -10,17 +10,23 @@ if (isset($_GET['id'])) {
     $info = [];
 }
 ?>
+
 <!-- This file is completed by kimchhengheng 26809413 individually -->
+
 <!-- all required php files here -->
 <?php require_once "../common/header.php";?>
+
+<!-- all required scripts here -->
 <script src="../static/functions.js"></script>
+
 <div class="wrapper">
+
     <!-- Header for the Member -->
     <?php require_once "nav.php";?>
+
     <!-- content of the Friend Hot Posts Page -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-12">
                     <div class="card m-t-10">
@@ -63,4 +69,5 @@ if (isset($_GET['id'])) {
         </div>
     </section>
 </div>
+
 <?php require_once "../common/footer.php";?>

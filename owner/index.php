@@ -3,27 +3,32 @@ require_once "../func/func.php";
 if (checkUserLogin() == false) {
     header("Location:./login.php");
 }
+
 $dataList = getMemberListAdmin();
 $condo = getCondoList();
 $condoStr = '';
 foreach ($condo as $item) {
     $condoStr .= "<option value='{$item['id']}'>{$item['name']}</option>";
 }
+
 require_once "../common/header.php";
 ?>
+
 <!-- This file is completed by saebom SHIN-40054234 individually -->
+
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
 <link href="https://cdn.bootcss.com/bootstrap-select/1.13.10/css/bootstrap-select.min.css" rel="stylesheet">
 <script src="https://cdn.bootcss.com/bootstrap-select/1.13.10/js/bootstrap-select.min.js"></script>
-<!-- all required php files here -->
+
 <div class="wrapper">
-    <!-- navbar -->
+
+    <!-- navbar here -->
     <?php require_once "nav.php";?>
+
     <!-- main table of the condo tab -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-12">
                     <div class="card">
@@ -31,11 +36,9 @@ require_once "../common/header.php";
                             <h3 class="card-title">Member List</h3>
                         </div>
                         <div class="card-body">
-
                             <div style="margin-bottom: 10px">
                                 <button class="btn btn-primary btn-sm" onclick="addMember()">Add</button>
                             </div>
-
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
@@ -55,8 +58,7 @@ require_once "../common/header.php";
                                 </tr>
                                 </thead>
                                 <tbody id="group-list">
-                                <?php foreach ($dataList as $item) {
-                                    ?>
+                                <?php foreach ($dataList as $item) { ?>
                                     <tr>
                                         <td><?php echo $item['id'] ?></td>
                                         <td><?php echo $item['name'] ?></td>
@@ -75,8 +77,7 @@ require_once "../common/header.php";
                                             <button class="btn btn-warning btn-sm" onclick="editMember($(this))">Edit</button>
                                         </td>
                                     </tr>
-                                <?php
-                                } ?>
+                                <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -89,6 +90,7 @@ require_once "../common/header.php";
     </section>
 </div>
 
+<!-- popup form for adding a member -->
 <div class="modal fade" id="modal-add-member">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -97,7 +99,7 @@ require_once "../common/header.php";
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">�</span></button>
+                    <span aria-hidden="true">x</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -110,14 +112,10 @@ require_once "../common/header.php";
                     <label for=""><span style="color: red">*</span>Condos</label>
                     <select name="" id="condos" class="form-control">
                         <option value="">please select</option>
-                        <?php
-                        foreach ($condo as $item) {
-                        ?>
+                        <?php foreach ($condo as $item) {  ?>
                         <option value="<?php echo $item['id']?>">
                             <?php echo $item['name']?></option>
-                            <?php
-                            }
-                            ?>
+                            <?php } ?>
                     </select>
                     <label for="">Family</label>
                     <input type="text" class="form-control" id="family">
@@ -142,11 +140,10 @@ require_once "../common/header.php";
                 <button class="btn btn-primary" onclick="submitMember()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
+<!-- popup from for editing a member -->
 <div class="modal fade" id="modal-edit-member">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -155,7 +152,7 @@ require_once "../common/header.php";
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">�</span></button>
+                    <span aria-hidden="true">x</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -193,12 +190,10 @@ require_once "../common/header.php";
                 <button class="btn btn-primary" onclick="submitMemberEdit()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
-
+<!-- popup form for the condo list of a member -->
 <div class="modal fade" id="modal-condos">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -207,7 +202,7 @@ require_once "../common/header.php";
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">�</span></button>
+                    <span aria-hidden="true">x</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -217,8 +212,7 @@ require_once "../common/header.php";
                 </div>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
+
 <?php require_once "../common/footer.php";?>

@@ -3,8 +3,9 @@ require_once "./func/func.php";
 $dataList =getPublicPost();
 require_once "./common/header.php";
 ?>
+
 <!-- This file is completed by saebom SHIN-40054234 individually -->
-<!-- all required php files here -->
+
     <div class="wrapper">
         <!-- main table of the guest tab -->
         <section class="content">
@@ -18,9 +19,7 @@ require_once "./common/header.php";
                             <div class="card-header">
                                 <h3 class="card-title">Posting</h3>
                             </div>
-
                             <div class="card-body">
-
                                 <table class="table table-bordered">
                                     <thead>
                                     <tr>
@@ -31,24 +30,20 @@ require_once "./common/header.php";
                                     </tr>
                                     </thead>
                                     <tbody id="group-list">
-                                    <?php foreach ($dataList as $item) {
-                                        ?>
+                                    <?php foreach ($dataList as $item) { ?>
                                         <tr>
                                             <td><?php echo $item['id'] ?></td>
                                             <td><?php echo $item['title'] ?></td>
                                             <td><?php echo $item['create_time'] ?></td>
                                             <td data-id="<?php echo $item['id'] ?>">
-                                                <!-- check the detailPosting .js and .php for guest -->
                                                 <button class="btn btn-primary btn-sm" onclick="detailPostingGuest($(this))">detail</button>
                                             </td>
                                         </tr>
-                                        <?php
-                                    } ?>
+                                        <?php } ?>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -56,6 +51,7 @@ require_once "./common/header.php";
     </div>
 
 <?php require_once "./common/footer.php";?>
+
 <script>
     //show all the information of the public posting from guest.php
     function detailPostingGuest(e) {

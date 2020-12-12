@@ -9,9 +9,11 @@ if (isset($_GET['id'])) {
 }
 require_once "./common/header.php";
 ?>
-<script src="./static/ajaxfileupload.js"></script>
-<div class="wrapper">
 
+<!-- This file is completed by kim chheng HENG-26809413 individually -->
+<script src="./static/ajaxfileupload.js"></script>
+
+<div class="wrapper">
     <section class="content">
         <div class="container-fluid">
             <nav>
@@ -24,9 +26,7 @@ require_once "./common/header.php";
                             <h3 class="card-title">Posting</h3>
                         </div>
                         <div class="card-body">
-                            <?php
-                            if (isset($_GET['id'])) {
-                                ?>
+                            <?php if (isset($_GET['id'])) { ?>
                                 <div>
                                     <div>
                                         <label for="">Title</label> <br/>
@@ -37,36 +37,26 @@ require_once "./common/header.php";
                                     </div>
                                     <div>
                                         <label for="">Content</label><br/>
-<!--                                        change title to content-->
                                         <p class="border-bottom"><?php echo $info['content'] ?></p>
                                     </div>
                                     <div>
                                         <label for="">Comment</label>
                                         <ul>
-                                            <?php
-                                            foreach ($comment as $item) {
-                                                ?>
+                                            <?php foreach ($comment as $item) { ?>
                                                 <li class="border-bottom">
                                                     <?php echo $item['content'] ?>
                                                 </li>
-                                                <?php
-                                            }
-                                            ?>
+                                                <?php } ?>
                                         </ul>
                                     </div>
                                 </div>
-                            <?php
-                            }
-                            ?>
+                            <?php } ?>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
     </section>
 </div>
-
-
 
 <?php require_once "./common/footer.php";?>

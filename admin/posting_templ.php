@@ -22,8 +22,10 @@ if (isset($_GET['id'])) {
 <?php require_once "../common/header.php"; ?>
 
 <div class="wrapper">
-    <!-- navbar -->
+
+    <!-- navbar here -->
     <?php require_once "navbar.php" ?>
+
     <!-- main table of the condo tab -->
     <section class="content">
         <div class="container-fluid">
@@ -50,7 +52,6 @@ if (isset($_GET['id'])) {
                                     </div>
                                     <div>
                                         <img src="../static/upload/<?php echo $info['pic'] ?>" alt="" width="400px" height="300px">
-
                                     </div>
                                     <div class="row">
                                         <select id="status" class="form-control">
@@ -70,7 +71,6 @@ if (isset($_GET['id'])) {
                                     </div>
                                     <div class="row m-t-10">
                                         <label for="">Content</label>
-                                        <!--                                        change title to content-->
                                         <textarea name="" id="content" cols="30" rows="10" class="form-control" value=""><?php echo $info['content'] ?></textarea>
                                     </div>
                                     <div class="row m-t-10">
@@ -123,6 +123,7 @@ if (isset($_GET['id'])) {
     </section>
 </div>
 
+<!-- popup form for adding a comment to a posting -->
 <div class="modal fade" id="modal-add-comment">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -131,7 +132,8 @@ if (isset($_GET['id'])) {
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">×</span>
+                </button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
@@ -144,9 +146,7 @@ if (isset($_GET['id'])) {
                 <button class="btn btn-primary" onclick="submitComment()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 <?php require_once "../common/footer.php";?>

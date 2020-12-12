@@ -7,17 +7,21 @@ if (checkUserLogin() == false) {
 $dataList = getCondoList();
 $buildingInfo = getBuildingInfo();
  require_once "../common/header.php";
-?><!-- This file is completed by saebom SHIN-40054234 individually -->
+?>
+
+<!-- This file is completed by saebom SHIN-40054234 individually -->
 
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
+
 <div class="wrapper">
+
     <!-- navbar -->
     <?php require_once "nav.php";?>
+
     <!-- main table of the condo tab -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-12">
                     <div class="card">
@@ -45,19 +49,18 @@ $buildingInfo = getBuildingInfo();
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>name</th>
-                                    <th>area</th>
-                                    <th>cost</th>
-                                    <th>building Name</th>
-                                    <th>create time</th>
-                                    <th>update time</th>
-                                    <th>option</th>
+                                    <th>ID</th>
+                                    <th>Name</th>
+                                    <th>Area</th>
+                                    <th>Cost</th>
+                                    <th>Building Name</th>
+                                    <th>Create Time</th>
+                                    <th>Update Time</th>
+                                    <th>Option</th>
                                 </tr>
                                 </thead>
                                 <tbody id="group-list">
-                                <?php foreach ($dataList as $item) {
-                                    ?>
+                                <?php foreach ($dataList as $item) { ?>
                                     <tr>
                                         <td><?php echo $item['id'] ?></td>
                                         <td><?php echo $item['name'] ?></td>
@@ -67,12 +70,11 @@ $buildingInfo = getBuildingInfo();
                                         <td><?php echo $item['create_time'] ?></td>
                                         <td><?php echo $item['last_update_time'] ?></td>
                                         <td data-id="<?php echo $item['id'] ?>" data-info="<?php echo rawurlencode(json_encode($item)) ?>">
-                                            <button class="btn btn-danger btn-sm" onclick="delCondo($(this))">del</button>
-                                            <button class="btn btn-warning btn-sm" onclick="editCondo($(this))">edit</button>
+                                            <button class="btn btn-danger btn-sm" onclick="delCondo($(this))">Del</button>
+                                            <button class="btn btn-warning btn-sm" onclick="editCondo($(this))">Edit</button>
                                         </td>
                                     </tr>
-                                <?php
-                                } ?>
+                                <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -85,6 +87,7 @@ $buildingInfo = getBuildingInfo();
     </section>
 </div>
 
+<!-- popup from for adding a condo -->
 <div class="modal fade" id="modal-add-condo">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -93,15 +96,15 @@ $buildingInfo = getBuildingInfo();
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"><?php echo $buildingInfo['building_name'] ?></strong></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">x</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="form-group row">
                     <label for="">Condo Name</label>
                     <input type="text" class="form-control" id="name">
-                    <label for="">Condo Area/m²</label>
+                    <label for="">Condo Area/&#13217;</label>
                     <input type="number" class="form-control" id="area">
-                    <label for="">Property Costs/m²</label>
+                    <label for="">Property Costs/&#13217;</label>
                     <input type="number" class="form-control" id="cost">
                 </div>
             </div>
@@ -109,11 +112,10 @@ $buildingInfo = getBuildingInfo();
                 <button class="btn btn-primary" onclick="submitCondo()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
+<!-- popup form for editing a condo -->
 <div class="modal fade" id="modal-edit-condo">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -122,7 +124,7 @@ $buildingInfo = getBuildingInfo();
                     <p style="font-size: 1rem;font-weight: normal" id="route-title"><?php echo $buildingInfo['building_name'] ?></p>
                 </span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span></button>
+                    <span aria-hidden="true">x</span></button>
             </div>
             <div class="modal-body" style="margin: 20px">
                 <div class="modal-body" style="margin: 20px">
@@ -130,9 +132,9 @@ $buildingInfo = getBuildingInfo();
                         <input type="hidden" id="id_edit">
                         <label for="">Condo Name</label>
                         <input type="text" class="form-control" id="name_edit">
-                        <label for="">Condo Area/m²</label>
+                        <label for="">Condo Area/&#13217;</label>
                         <input type="number" class="form-control" id="area_edit">
-                        <label for="">Property Costs/m²</label>
+                        <label for="">Property Costs/&#13217;</label>
                         <input type="number" class="form-control" id="cost_edit">
                     </div>
                 </div>
@@ -141,9 +143,7 @@ $buildingInfo = getBuildingInfo();
                 <button class="btn btn-primary" onclick="submitCondoEdit()">Save</button>
             </div>
         </div>
-        <!-- /.modal-content -->
     </div>
-    <!-- /.modal-dialog -->
 </div>
 
 <?php require_once "../common/footer.php";?>

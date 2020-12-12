@@ -1,8 +1,10 @@
 <?php
 require_once "../func/func.php";
+
 if (checkUserLogin() == false) {
     header("Location:./login.php");
 }
+
 if (isset($_GET['id'])) {
     $groupName=getGroupName($_GET['id']);
     $allPostInGroup= getALlPostByGroup($groupName['group_name']);
@@ -10,17 +12,21 @@ if (isset($_GET['id'])) {
     $info = [];
 }
 ?>
+
 <!-- This file is completed by saebom SHIN-40054234 individually -->
+
 <!-- all required php files here -->
 <?php require_once "../common/header.php";?>
 <script src="../static/functions.js"></script>
+
 <div class="wrapper">
-    <!-- Header for the Member -->
+
+    <!-- navbar here -->
     <?php require_once "nav.php";?>
+
     <!-- content of the Friend Hot Posts Page -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-12">
                     <div class="card m-t-10">
@@ -40,8 +46,7 @@ if (isset($_GET['id'])) {
                                 </thead>
                                 <tbody id="group-list">
                                 <?php
-                                foreach ($allPostInGroup as $item) {
-                                    ?>
+                                foreach ($allPostInGroup as $item) { ?>
                                     <tr>
                                         <td><?php echo $item['id']; ?></td>
                                         <td><?php echo $item['title']; ?></td>
@@ -51,8 +56,7 @@ if (isset($_GET['id'])) {
                                             <button class="btn btn-primary btn-sm" onclick="detailPostingOwner($(this))"><i class="fas fa-info-circle"></i></button>
                                         </td>
                                     </tr>
-                                    <?php
-                                } ?>
+                                    <?php } ?>
                                 </tbody>
                             </table>
                         </div>
@@ -64,4 +68,5 @@ if (isset($_GET['id'])) {
         </div>
     </section>
 </div>
+
 <?php require_once "../common/footer.php";?>

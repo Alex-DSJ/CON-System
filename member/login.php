@@ -1,8 +1,10 @@
-<!-- This file is completed by Yuxin Wang-40024855 individually -->
-<!-- all required php files here -->
 <?php require_once "../common/header.php";?>
+
+<!-- This file is completed by Yuxin Wang-40024855 individually -->
+
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
+
 <div class="wrapper" style="margin-top: 5%">
     <section class="content">
         <div class="container-fluid">
@@ -11,7 +13,6 @@
                     <div class="card">
                         <div class="card-body ">
                             <p class="login-box-msg">Login:-)</p>
-
                             <div action="" method="post">
                                 <div class="input-group mb-3">
                                     <input type="text" class="form-control" placeholder="Username" required autocomplete="false" name="username" id="username">
@@ -44,4 +45,5 @@
         </div>
     </section>
 </div>
+
 <?php require_once "../common/footer.php";?>

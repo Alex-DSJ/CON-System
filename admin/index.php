@@ -4,6 +4,7 @@ require_once "../func/func.php";
 if (checkUserLogin() == false || getLogin()['uid'] !== ADMIN_ID) {
     header("Location:login.php");
 }
+
 $dataList = getAdminList();
 $building = getBuildingList();
 $buildingStr = '<option value="">please select</option>';
@@ -21,12 +22,12 @@ foreach ($building as $item) {
 
 <div class="wrapper">
 
+    <!-- navbar here -->
     <?php require_once "navbar.php";?>
 
     <!-- the main table of the admin tab -->
     <section class="content">
         <div class="container-fluid">
-
             <div class="row" style="margin-top: 20px">
                 <div class="col-md-12">
                     <div class="card">
@@ -34,11 +35,9 @@ foreach ($building as $item) {
                             <h3 class="card-title">Admin List</h3>
                         </div>
                         <div class="card-body">
-
                             <div style="margin-bottom: 10px">
                                 <button class="btn btn-primary btn-sm" onclick="addAdmin()">Add</button>
                             </div>
-
                             <table class="table table-bordered">
                                 <thead>
                                 <tr>

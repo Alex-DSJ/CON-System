@@ -1,6 +1,5 @@
 <?php 
 
-// session_start();
 require_once dirname(__FILE__).'/db.php';
 
 function formatOutput($success = true, $msg = 'option success', $data = [])
@@ -14,6 +13,7 @@ function formatOutput($success = true, $msg = 'option success', $data = [])
     exit;
 }
 
+// get the first instance of the query
 function getOne($sql = '', $data = [])
 {
     global $db;
@@ -22,6 +22,7 @@ function getOne($sql = '', $data = [])
     return $stmt->fetch(PDO::FETCH_ASSOC);
 }
 
+// get all instances of the query
 function getAll($sql = '', $data = [])
 {
     global $db;
@@ -30,6 +31,7 @@ function getAll($sql = '', $data = [])
     return $stmt->fetchAll(PDO::FETCH_ASSOC);
 }
 
+// execute the query
 function execSql($sql = '')
 {
     global $db;
@@ -37,6 +39,7 @@ function execSql($sql = '')
     return $db->lastInsertId();
 }
 
+// update a table with parameters of certain condition
 function updateDb($table, $parameters=[], $condition=[])
 {
     $sql = "UPDATE `$table` SET ";
@@ -68,6 +71,7 @@ function updateDb($table, $parameters=[], $condition=[])
     return $stmt->execute($pdo_parameters);
 }
 
+// insert parameters to a table
 function insert($table, $parameters=[])
 {
     $sql = "INSERT INTO `$table`";

@@ -5,14 +5,20 @@ if (checkMemberLogin() == false) {
 }
 $dataList = getMemberContractList();
 ?>
+
 <!-- This file is completed by Yuxin Wang-40024855 individually -->
+
 <!-- all required php files here -->
 <?php require_once "../common/header.php";?>
+
 <!-- all required js files here -->
 <script src="../static/functions.js"></script>
+
     <div class="wrapper">
+
         <!-- Header for the Member -->
         <?php require_once "nav.php";?>
+
         <!-- Content of the Contract Page -->
         <section class="content">
             <div class="container-fluid">
@@ -22,7 +28,6 @@ $dataList = getMemberContractList();
                             <div class="card-header">
                                 <h3 class="card-title">Contract Message</h3>
                             </div>
-
                             <div class="card-body">
                                 <div style="margin-bottom: 10px">
                                     <button class="btn btn-primary btn-sm" onclick="addContract()"><i class="far fa-plus-square"></i></button>
@@ -56,13 +61,13 @@ $dataList = getMemberContractList();
                                 </table>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
         </section>
     </div>
-    <!-- Pop out windows for add-->
+
+    <!-- Popup form for adding a contract -->
     <div class="modal fade" id="modal-add-contract">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -90,11 +95,10 @@ $dataList = getMemberContractList();
                     <button class="btn btn-primary" onclick="submitContract()">Save</button>
                 </div>
             </div>
-            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
     </div>
-<!-- Pop out windows for edit -->
+
+<!-- Popup form for editing a contract -->
     <div class="modal fade" id="modal-edit-contract">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -123,8 +127,7 @@ $dataList = getMemberContractList();
                     <button class="btn btn-primary" onclick="submitContractEdit()">Save</button>
                 </div>
             </div>
-            <!-- /.modal-content -->
         </div>
-        <!-- /.modal-dialog -->
     </div>
+    
 <?php require_once "../common/footer.php";?>
