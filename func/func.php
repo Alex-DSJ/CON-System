@@ -343,7 +343,7 @@ function editContractHandler1() {
 function addMemberHandler1() {
     global $inputs;
 
-    if (emailRepeated($inputs['email'])) {
+    if (numberOfSameEmailAddress($inputs['email']) > 0) {
         formatOutput(false, "ERROR! The email address " . $inputs['email'] ." already existed, please choose another one.");
     }
 
@@ -370,8 +370,23 @@ function addMemberHandler1() {
 function editMemberHandler1() {
     global $inputs;
 
-    if (emailRepeated($inputs['email'])) {
-        formatOutput(false, 'ERROR! The email address already existed, please choose another one.');
+    $sqlThisEmail = "SELECT email FROM member WHERE id = " . $inputs['id'];
+    $thisEmailAddress = getAll($sqlThisEmail);
+
+
+
+    // if the email address is changed
+    if ($inputs['email'] != $thisEmailAddress[0]['email']) {
+        $sqlOtherEmails = "SELECT email FROM member WHERE id <> " . $inputs['id'];
+        $OtherEmailAddresses = getAll($sqlOtherEmails);
+
+    
+        foreach ($OtherEmailAddresses as $email) {
+            if ($inputs['email'] == $email['email']) {
+                $outputString = $inputs['email'] . ' == ' . $email['email'];
+                formatOutput(false, "ERROR! The email address " . $inputs['email'] ." already existed, please choose another one.");
+            }
+        }
     }
 
     updateDb('member',[
@@ -529,16 +544,11 @@ function delEmailHandler1() {
 }
 
 // check if the email address is repeated
-function emailRepeated($email) {
+function numberOfSameEmailAddress($email) {
     $sql = "SELECT * FROM member WHERE email = '" . $email . "'";
     $result = getAll($sql);
 
-    if (empty($result)) {
-        return false;
-    }
-    else {
-        return true;
-    }
+    return count($result);
 }
 
 

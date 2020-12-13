@@ -2,8 +2,7 @@
 
 require_once dirname(__FILE__).'/db.php';
 
-function formatOutput($success = true, $msg = 'option success', $data = [])
-{
+function formatOutput($success = true, $msg = 'option success', $data = []) {
     header('Content-Type:application/json');
     echo json_encode([
         'success' => $success,
@@ -14,8 +13,7 @@ function formatOutput($success = true, $msg = 'option success', $data = [])
 }
 
 // get the first instance of the query
-function getOne($sql = '', $data = [])
-{
+function getOne($sql = '', $data = []) {
     global $db;
     $stmt = $db->prepare($sql);
     $stmt->execute($data);
@@ -23,8 +21,7 @@ function getOne($sql = '', $data = [])
 }
 
 // get all instances of the query
-function getAll($sql = '', $data = [])
-{
+function getAll($sql = '', $data = []) {
     global $db;
     $stmt = $db->prepare($sql);
     $stmt->execute($data);
@@ -32,16 +29,14 @@ function getAll($sql = '', $data = [])
 }
 
 // execute the query
-function execSql($sql = '')
-{
+function execSql($sql = '') {
     global $db;
     $db->exec($sql);
     return $db->lastInsertId();
 }
 
 // update a table with parameters of certain condition
-function updateDb($table, $parameters=[], $condition=[])
-{
+function updateDb($table, $parameters=[], $condition=[]) {
     $sql = "UPDATE `$table` SET ";
     $fields = [];
     $pdo_parameters = [];
@@ -72,8 +67,7 @@ function updateDb($table, $parameters=[], $condition=[])
 }
 
 // insert parameters to a table
-function insert($table, $parameters=[])
-{
+function insert($table, $parameters=[]) {
     $sql = "INSERT INTO `$table`";
     $fields = [];
     $placeholder = [];
