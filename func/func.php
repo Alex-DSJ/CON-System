@@ -373,13 +373,10 @@ function editMemberHandler1() {
     $sqlThisEmail = "SELECT email FROM member WHERE id = " . $inputs['id'];
     $thisEmailAddress = getAll($sqlThisEmail);
 
-
-
     // if the email address is changed
     if ($inputs['email'] != $thisEmailAddress[0]['email']) {
         $sqlOtherEmails = "SELECT email FROM member WHERE id <> " . $inputs['id'];
         $OtherEmailAddresses = getAll($sqlOtherEmails);
-
     
         foreach ($OtherEmailAddresses as $email) {
             if ($inputs['email'] == $email['email']) {
@@ -825,8 +822,21 @@ function memberCondosHandler() {
 function editMemberHandler() {
     global $inputs;
 
-    if (emailRepeated($inputs['email'])) {
-        formatOutput(false, 'ERROR! The auto-generated email address already existed, please choose another one.');
+
+    $sqlThisEmail = "SELECT email FROM member WHERE id = " . $inputs['id'];
+    $thisEmailAddress = getAll($sqlThisEmail);
+
+    // if the email address is changed
+    if ($inputs['email'] != $thisEmailAddress[0]['email']) {
+        $sqlOtherEmails = "SELECT email FROM member WHERE id <> " . $inputs['id'];
+        $OtherEmailAddresses = getAll($sqlOtherEmails);
+    
+        foreach ($OtherEmailAddresses as $email) {
+            if ($inputs['email'] == $email['email']) {
+                $outputString = $inputs['email'] . ' == ' . $email['email'];
+                formatOutput(false, "ERROR! The email address " . $inputs['email'] ." already existed, please choose another one.");
+            }
+        }
     }
 
     $sql = "DELETE FROM `member_condo` WHERE member_id = " . $inputs['id'];
@@ -867,8 +877,8 @@ function delMemberHandler() {
 function addMemberHandler() {
     global $inputs;
 
-    if (emailRepeated($inputs['email'])) {
-        formatOutput(false, 'ERROR! The auto-generated email address already existed, please choose another one.');
+    if (numberOfSameEmailAddress($inputs['email']) > 0) {
+        formatOutput(false, "ERROR! The email address " . $inputs['email'] ." already existed, please choose another one.");
     }
 
     $lastId = insert('member',[
