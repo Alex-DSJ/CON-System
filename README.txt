@@ -1,15 +1,22 @@
 Course: COMP 353 H
+
 Professor: Dr. bipin c DESAI
+
 Group: 12
+
 Team members:
    ID		first name	LAST NAME	ENCS account
 40084956	shijun		DENG		d_shijun@encs.concordia.ca
 26809413	kim chheng	HENG		ki_hen@encs.concordia.ca
 40024855	yuxin		WANG		w_yuxi@encs.concordia.ca
 40054234	saebom		SHIN		sa_hin@encs.concordia.ca
+
 Group Account: lac353_2
+
 Group Account Password: Q39qNn
+
 URL for the Project: https://lac353.encs.concordia.ca/
+
 Folders and Files
 Foleder Name		Files in this Foleder
 Project1		index.php
@@ -73,6 +80,7 @@ static			ajaxfileupload.js
 			upload(folder)
 upload			(all picture resources for this project)
 
+Roles, Usernames and Passwords for Testing
 User level		Username		Password
 super admin		admin			admin
 admins			alex			alex123
@@ -84,3 +92,18 @@ members			member1			111111
 			member3			333333
 			member4			444444
 			memeber5		555555
+
+Installation instruction
+1. connect the ENCS SQL database by MySQL Workbench with the following configuration
+Connection Method: Standard TCP/IP over SSH
+SSH Hostname: login.encs.concordia.ca
+SSH Username: your_encs_username
+SSH Password: your_encs_password
+MySQL Hostname: lac353.encs.concordia.ca
+MySQL Server Port: 3306
+Username: lac353_2
+Password: Q39qNn
+Default Schema: lac353_2
+2. run the SQL script "schema_creation.sql" in the folder Project1
+3. run the SQL script "data_creation.sql" in the folder Project1
+4. The database now is ready, go to the URL given bellow and start using our CON System.
